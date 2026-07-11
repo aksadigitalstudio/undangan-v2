@@ -16,9 +16,16 @@ export default function EditInvitationPage({ params }: Props) {
   const [id, setId] = useState("");
 
   const [groomName, setGroomName] = useState("");
-  const [brideName, setBrideName] = useState("");
-  const [status, setStatus] = useState("Draft");
+const [brideName, setBrideName] = useState("");
 
+const [weddingDate, setWeddingDate] = useState("");
+const [weddingTime, setWeddingTime] = useState("");
+const [venue, setVenue] = useState("");
+
+const [address, setAddress] = useState("");
+const [story, setStory] = useState("");
+
+const [status, setStatus] = useState("Draft");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -42,8 +49,16 @@ export default function EditInvitationPage({ params }: Props) {
     }
 
     setGroomName(data.groom_name ?? "");
-    setBrideName(data.bride_name ?? "");
-    setStatus(data.status ?? "Draft");
+setBrideName(data.bride_name ?? "");
+
+setWeddingDate(data.wedding_date ?? "");
+setWeddingTime(data.wedding_time ?? "");
+setVenue(data.venue ?? "");
+
+setAddress(data.address ?? "");
+setStory(data.story ?? "");
+
+setStatus(data.status ?? "Draft");
 
     setLoading(false);
   }
@@ -54,10 +69,18 @@ export default function EditInvitationPage({ params }: Props) {
     const { error } = await supabase
       .from("invitations")
       .update({
-        groom_name: groomName,
-        bride_name: brideName,
-        status: status,
-      })
+  groom_name: groomName,
+  bride_name: brideName,
+
+  wedding_date: weddingDate,
+  wedding_time: weddingTime,
+ venue: venue,
+
+address: address,
+story: story,
+
+status: status,
+})
       .eq("id", id);
 
     setSaving(false);
@@ -105,21 +128,84 @@ export default function EditInvitationPage({ params }: Props) {
         <div className="mb-6">
           <label className="block text-black font-semibold mb-2">
             Nama Mempelai Wanita
-          </label>
+            </label>
+  <input
+  type="text"
+  value={brideName}
+  onChange={(e) => setBrideName(e.target.value)}
+  className="w-full border rounded-lg p-3 text-black"
+/>
 
-          <input
-            type="text"
-            value={brideName}
-            onChange={(e) => setBrideName(e.target.value)}
-            className="w-full border rounded-lg p-3 text-black"
-          />
-        </div>
+</div>
 
-        <div className="mb-8">
-          <label className="block text-black font-semibold mb-2">
-            Status
-          </label>
+<div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Tanggal Pernikahan
+  </label>
 
+  <input
+    type="date"
+    value={weddingDate}
+    onChange={(e) => setWeddingDate(e.target.value)}
+    className="w-full border rounded-lg p-3 text-black"
+  />
+</div>        
+
+<div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Jam Pernikahan
+  </label>
+
+  <input
+    type="time"
+    value={weddingTime}
+    onChange={(e) => setWeddingTime(e.target.value)}
+    className="w-full border rounded-lg p-3 text-black"
+  />
+</div>
+
+<div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Venue
+  </label>
+
+  <input
+    type="text"
+    value={venue}
+    onChange={(e) => setVenue(e.target.value)}
+    className="w-full border rounded-lg p-3 text-black"
+    placeholder="Contoh: Gedung Graha Sabha"
+  />
+</div>
+          <div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Alamat
+  </label>
+
+  <textarea
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+    className="w-full border rounded-lg p-3 text-black"
+    rows={4}
+  />
+</div>
+
+<div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Story
+  </label>
+
+  <textarea
+    value={story}
+    onChange={(e) => setStory(e.target.value)}
+    className="w-full border rounded-lg p-3 text-black"
+    rows={6}
+  />
+</div>  
+<div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Status
+  </label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
