@@ -156,23 +156,31 @@ export default function InvitationsPage() {
 
                 <td className="p-4">
 
-                  <div className="flex gap-5">
+                 <div className="flex gap-5">
 
-                    <Link
-                      href={`/dashboard/invitations/${item.id}/edit`}
-                      className="text-blue-600 hover:underline font-medium"
-                    >
-                      Edit
-                    </Link>
+  <Link
+    href={`/${item.slug}`}
+    target="_blank"
+    className="text-green-600 hover:underline font-medium"
+  >
+    Lihat
+  </Link>
 
-                    <button
-                      onClick={() => deleteInvitation(item.id)}
-                      className="text-red-600 hover:underline font-medium"
-                    >
-                      Hapus
-                    </button>
+  <Link
+    href={`/dashboard/invitations/${item.id}/edit`}
+    className="text-blue-600 hover:underline font-medium"
+  >
+    Edit
+  </Link>
 
-                  </div>
+  <button
+    onClick={() => deleteInvitation(item.id)}
+    className="text-red-600 hover:underline font-medium"
+  >
+    Hapus
+  </button>
+
+</div>
 
                 </td>
 

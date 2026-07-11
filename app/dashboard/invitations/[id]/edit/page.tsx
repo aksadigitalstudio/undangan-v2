@@ -24,7 +24,7 @@ const [venue, setVenue] = useState("");
 
 const [address, setAddress] = useState("");
 const [story, setStory] = useState("");
-
+const [gallery, setGallery] = useState("");
 const [status, setStatus] = useState("Draft");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -57,7 +57,7 @@ setVenue(data.venue ?? "");
 
 setAddress(data.address ?? "");
 setStory(data.story ?? "");
-
+setGallery(data.gallery ?? "");
 setStatus(data.status ?? "Draft");
 
     setLoading(false);
@@ -78,7 +78,7 @@ setStatus(data.status ?? "Draft");
 
 address: address,
 story: story,
-
+gallery: gallery,
 status: status,
 })
       .eq("id", id);
@@ -201,7 +201,20 @@ status: status,
     className="w-full border rounded-lg p-3 text-black"
     rows={6}
   />
-</div>  
+</div> 
+ <div className="mb-6">
+  <label className="block text-black font-semibold mb-2">
+    Gallery
+  </label>
+
+  <textarea
+    value={gallery}
+    onChange={(e) => setGallery(e.target.value)}
+    rows={6}
+    placeholder="Pisahkan setiap URL gambar dengan enter"
+    className="w-full border rounded-lg p-3 text-black"
+  />
+</div>
 <div className="mb-6">
   <label className="block text-black font-semibold mb-2">
     Status
