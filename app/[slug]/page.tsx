@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import WeddingCountdown from "@/components/WeddingCountdown";
 import InvitationCover from "@/components/InvitationCover";
 interface Props {
   params: Promise<{
@@ -24,7 +25,27 @@ export default async function InvitationPage({ params }: Props) {
       </div>
     );
   }
+const targetDate = new Date(data.wedding_date).getTime();
+const now = Date.now();
 
+const distance = Math.max(targetDate - now, 0);
+
+const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+const hours = Math.floor(
+  (distance % (1000 * 60 * 60 * 24)) /
+  (1000 * 60 * 60)
+);
+
+const minutes = Math.floor(
+  (distance % (1000 * 60 * 60)) /
+  (1000 * 60)
+);
+
+const seconds = Math.floor(
+  (distance % (1000 * 60)) /
+  1000
+);
   return (
     <main className="min-h-screen bg-white p-10">
        <InvitationCover
@@ -103,29 +124,25 @@ export default async function InvitationPage({ params }: Props) {
     <div className="grid grid-cols-4 gap-5">
 
       <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold text-gray-800">00</p>
-        <p className="mt-3 text-gray-500 uppercase text-sm">
+<p className="text-5xl font-bold text-gray-800">{days}</p>        <p className="mt-3 text-gray-500 uppercase text-sm">
           Days
         </p>
       </div>
 
       <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold text-gray-800">00</p>
-        <p className="mt-3 text-gray-500 uppercase text-sm">
+<p className="text-5xl font-bold text-gray-800">{hours}</p>        <p className="mt-3 text-gray-500 uppercase text-sm">
           Hours
         </p>
       </div>
 
       <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold text-gray-800">00</p>
-        <p className="mt-3 text-gray-500 uppercase text-sm">
+<p className="text-5xl font-bold text-gray-800">{minutes}</p>        <p className="mt-3 text-gray-500 uppercase text-sm">
           Minutes
         </p>
       </div>
 
       <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold text-gray-800">00</p>
-        <p className="mt-3 text-gray-500 uppercase text-sm">
+<p className="text-5xl font-bold text-gray-800">{seconds}</p>        <p className="mt-3 text-gray-500 uppercase text-sm">
           Seconds
         </p>
       </div>
@@ -422,6 +439,42 @@ export default async function InvitationPage({ params }: Props) {
       >
         Kirim Ucapan
       </button>
+
+    </div>
+
+  </div>
+
+</section>
+<section className="py-24 px-6 bg-[#f8f5f2]">
+
+  <div className="max-w-4xl mx-auto text-center">
+
+    <p className="uppercase tracking-[0.3em] text-gray-500 mb-3">
+      Wedding Gift
+    </p>
+
+    <h2 className="text-4xl font-serif text-gray-800 mb-8">
+      Gift for the Couple
+    </h2>
+
+    <p className="text-gray-600 mb-12">
+      Kehadiran dan doa restu Anda sudah menjadi hadiah terindah bagi kami.
+      Namun apabila ingin memberikan tanda kasih, dapat melalui rekening berikut.
+    </p>
+
+    <div className="bg-white rounded-3xl shadow-lg p-10">
+
+      <h3 className="text-2xl font-semibold mb-4">
+        Bank BCA
+      </h3>
+
+      <p className="text-3xl font-bold tracking-wider mb-3">
+        1234567890
+      </p>
+
+      <p className="text-gray-600">
+        a.n. Handi Hermanto
+      </p>
 
     </div>
 
