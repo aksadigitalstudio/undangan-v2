@@ -1,3 +1,4 @@
+
 type Props = {
   params: Promise<{
     slug: string;

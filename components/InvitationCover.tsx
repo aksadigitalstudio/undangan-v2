@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 interface InvitationCoverProps {
   groomName: string;
   brideName: string;
@@ -11,8 +10,16 @@ export default function InvitationCover({
   groomName,
   brideName,
 }: InvitationCoverProps) {
-  
+  const [opened, setOpened] = useState(false);
 
+useEffect(() => {
+  const isOpened = sessionStorage.getItem("invitation-opened");
+
+  if (isOpened === "true") {
+    setOpened(true);
+  }
+}, []);
+if (opened) return null;
   return (
     <div className="fixed inset-0 z-50 bg-[#0f172a] flex items-center justify-center">
 
@@ -39,6 +46,10 @@ export default function InvitationCover({
         </div>
 
         <button
+  onClick={() => {
+    sessionStorage.setItem("invitation-opened", "true");
+    setOpened(true);
+  }}
   className="bg-white text-black px-8 py-4 rounded-full font-medium hover:bg-gray-200"
 >
   Buka Undangan

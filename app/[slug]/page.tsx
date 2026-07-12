@@ -53,39 +53,7 @@ const seconds = Math.floor(
   brideName={data.bride_name}
 
 />
-        <div className="fixed inset-0 z-50 bg-[#0f172a] flex items-center justify-center">
-
-  <div className="text-center text-white px-8">
-
-    <p className="uppercase tracking-[0.35em] text-sm mb-6">
-      THE WEDDING OF
-    </p>
-
-    <h1 className="text-6xl font-serif leading-tight mb-8">
-      {data.groom_name}
-      <br />
-      &
-      <br />
-      {data.bride_name}
-    </h1>
-
-    <p className="uppercase tracking-[0.3em] text-sm text-gray-300 mb-4">
-      Kepada Yth.
-    </p>
-
-    <div className="text-2xl font-medium mb-10">
-      Bapak / Ibu / Saudara
-    </div>
-
-    <button
-      className="bg-white text-black px-8 py-4 rounded-full font-medium hover:bg-gray-200"
-    >
-      Buka Undangan
-    </button>
-
-  </div>
-
-</div>
+        
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
 
   <p className="text-gray-500 tracking-[0.3em] uppercase mb-4">
