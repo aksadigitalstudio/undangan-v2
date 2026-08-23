@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-
+import TemplatePicker from "@/components/dashboard/TemplatePicker";
 export default function NewInvitationPage() {
   const router = useRouter();
 
   const [groomName, setGroomName] = useState("");
   const [brideName, setBrideName] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [templateId, setTemplateId] = useState("template-001");
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -21,12 +21,25 @@ export default function NewInvitationPage() {
       "-" +
       brideName.toLowerCase().replace(/\s+/g, "-");
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      setLoading(false);
+      alert("Sesi admin berakhir. Silakan masuk kembali.");
+      router.replace("/login");
+      return;
+    }
+
     const { error } = await supabase.from("invitations").insert([
       {
         groom_name: groomName,
         bride_name: brideName,
         slug,
         status: "Draft",
+        template_id: templateId,
+        user_id: user.id,
       },
     ]);
 
@@ -81,7 +94,10 @@ export default function NewInvitationPage() {
             required
           />
         </div>
-
+        <TemplatePicker
+          value={templateId}
+          onChange={setTemplateId}
+        />
         <button
           type="submit"
           disabled={loading}

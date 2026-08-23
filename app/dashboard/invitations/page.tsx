@@ -156,7 +156,7 @@ export default function InvitationsPage() {
 
                 <td className="p-4">
 
-                 <div className="flex gap-5">
+<div className="flex gap-5">
 
   <Link
     href={`/${item.slug}`}
@@ -173,6 +173,13 @@ export default function InvitationsPage() {
     Edit
   </Link>
 
+  <Link
+    href={`/dashboard/invitations/${item.id}/guests`}
+    className="text-purple-600 hover:underline font-medium"
+  >
+    Tamu
+  </Link>
+
   <button
     onClick={() => deleteInvitation(item.id)}
     className="text-red-600 hover:underline font-medium"
@@ -181,7 +188,6 @@ export default function InvitationsPage() {
   </button>
 
 </div>
-
                 </td>
 
               </tr>

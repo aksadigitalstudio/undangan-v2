@@ -4,9 +4,19 @@ import { useEffect, useState } from "react";
 
 interface Props {
   targetDate: string;
+  theme: {
+    accent: string;
+    background: string;
+    text: string;
+    card: string;
+    divider: string;
+  };
 }
 
-export default function WeddingCountdown({ targetDate }: Props) {
+export default function WeddingCountdown({
+  targetDate,
+  theme,
+}: Props) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -45,29 +55,71 @@ export default function WeddingCountdown({ targetDate }: Props) {
     return () => clearInterval(interval);
   }, [targetDate]);
 
-  return (
-    <div className="grid grid-cols-4 gap-5">
+return (
+  <div className="grid grid-cols-4 gap-2 md:gap-6">
 
-      <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold">{timeLeft.days}</p>
-        <p className="mt-3 uppercase text-sm">Days</p>
+    {[
+      { value: timeLeft.days, label: "DAYS" },
+      { value: timeLeft.hours, label: "HOURS" },
+      { value: timeLeft.minutes, label: "MINUTES" },
+      { value: timeLeft.seconds, label: "SECONDS" },
+    ].map((item) => (
+
+<div
+  key={item.label}
+  className="bg-white rounded-2xl md:rounded-3xl shadow-lg
+        py-5 md:py-8
+        px-2 md:px-6
+        text-center"
+  style={{
+    border: `1px solid ${theme.divider}`,
+  }}
+>
+
+<p
+  className="font-serif text-3xl md:text-6xl leading-none"
+  style={{
+    color: "#1B2437",
+  }}
+>
+  {item.value}
+</p>
+
+<div
+  className="w-8 md:w-12 h-px mx-auto my-3 md:my-5"
+  style={{
+    background: theme.accent,
+  }}
+></div>
+
+<p
+  className="uppercase tracking-[0.15em]
+        text-[9px] md:text-xs"
+  style={{
+    color: "#6B7280",
+  }}
+>
+
+          <span className="md:hidden">
+            {item.label === "MINUTES"
+              ? "MIN"
+              : item.label === "SECONDS"
+              ? "SEC"
+              : item.label === "HOURS"
+              ? "HR"
+              : "DAY"}
+          </span>
+
+          <span className="hidden md:inline">
+            {item.label}
+          </span>
+
+        </p>
+
       </div>
 
-      <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold">{timeLeft.hours}</p>
-        <p className="mt-3 uppercase text-sm">Hours</p>
-      </div>
+    ))}
 
-      <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold">{timeLeft.minutes}</p>
-        <p className="mt-3 uppercase text-sm">Minutes</p>
-      </div>
-
-      <div className="bg-[#f8f5f2] rounded-2xl p-8">
-        <p className="text-5xl font-bold">{timeLeft.seconds}</p>
-        <p className="mt-3 uppercase text-sm">Seconds</p>
-      </div>
-
-    </div>
-  );
+  </div>
+);
 }
