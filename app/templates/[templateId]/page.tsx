@@ -36,8 +36,11 @@ const previewData = {
   reception_venue: "The Imperial Garden",
   reception_address: "Jl. Kemang Raya No. 12, Jakarta Selatan",
   reception_maps: "https://maps.google.com/?q=Jakarta+Selatan",
-  groom_photo: "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png",
-  bride_photo: "/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
+  // Reuse the public media already uploaded for the published Ferren & James
+  // invitation. These are the same URLs used by the real invitation route.
+  groom_photo: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786637107271-Groom.png",
+  bride_photo: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786637104113-Bride.png",
+  hero_background: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281189114-Prewed%202.png",
   story: "Dua hati, satu cerita, dan perjalanan yang ingin kami rayakan bersama.",
   story1_year: "2020",
   story1_title: "First chapter",
@@ -52,24 +55,24 @@ const previewData = {
   bank_account: "1234567890",
   account_name: "Aditya & Nara",
   gift_address: "Jl. Kebahagiaan No. 8, Jakarta",
-  gallery: "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
-  live_stream_title: "Saksikan secara online",
-  live_stream_url: "",
-  music: "__aksa_demo_music__",
+  gallery: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281639623-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281646392-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786340480486-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281653621-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786340497085-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786339446121-Prewed%201.png",
+  live_stream_title: "Live Wedding James & Ferren",
+  live_stream_url: "https://youtu.be/nI_8bXgKNWM?si=AC6ZG1Ak1xpWPcv1",
+  music: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/Music/1786281714196-Beautiful%20in%20White%20-%20Westlife.mp3",
 };
 
 const demoByTemplate: Record<string, Partial<typeof previewData>> = {
   "template-001": { groom_name: "Raka", bride_name: "Alya", wedding_date: "2026-11-14", akad_date: "2026-11-14", reception_date: "2026-11-14", account_name: "Raka & Alya" },
   "template-002": { groom_name: "Bima", bride_name: "Sekar", wedding_date: "2026-10-24", akad_date: "2026-10-24", reception_date: "2026-10-24", account_name: "Bima & Sekar" },
   "template-003": { groom_name: "Rendra", bride_name: "Puspa", wedding_date: "2026-09-19", akad_date: "2026-09-19", reception_date: "2026-09-19", account_name: "Rendra & Puspa" },
-  "template-004": { groom_name: "Ferren", bride_name: "James", wedding_date: "2026-12-12", akad_date: "2026-12-12", reception_date: "2026-12-12", account_name: "Ferren & James" },
+  "template-004": { groom_name: "James Lou", bride_name: "Ferren Cung", wedding_date: "2026-10-31", akad_date: "2026-10-31", reception_date: "2026-10-31", account_name: "James Lou & Ferren Cung" },
 };
 
 const galleryByTemplate: Record<string, string> = {
-  "template-001": "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/elegant-gold/background/luxury-paper.webp",
-  "template-002": "/decor/sekar-sogan/background/sekar-sogan-background-v1.png,/decor/sekar-sogan/foreground/sekar-sogan-ornament.png",
-  "template-003": "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
-  "template-004": "/decor/chinese-imperial/background/chinese-imperial-cover-v1.png,/decor/chinese-imperial/background/chinese-imperial-opening-v2.png",
+  "template-001": previewData.gallery,
+  "template-002": previewData.gallery,
+  "template-003": previewData.gallery,
+  "template-004": previewData.gallery,
 };
 
 export default async function TemplatePreviewPage({ params }: Props) {
@@ -88,11 +91,11 @@ export default async function TemplatePreviewPage({ params }: Props) {
     hero_background: templateId === "template-003"
       ? "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png"
       : templateId === "template-004"
-        ? "/decor/chinese-imperial/background/chinese-imperial-cover-v1.webp"
+        ? previewData.hero_background
         : templateId === "template-002"
           ? "/decor/sekar-sogan/background/sekar-sogan-background-v1.png"
           : "/decor/elegant-gold/background/luxury-paper.webp",
-    sections: { ...defaultSections, live_stream: false },
+    sections: { ...defaultSections, live_stream: true },
     gallery: galleryByTemplate[templateId] ?? previewData.gallery,
   };
   const currentTheme = themes[theme as keyof typeof themes] ?? themes["elegant-gold"];

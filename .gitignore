@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .npm-cache/
+
+# Temporary demo files are not part of the public template assets.
+/public/demo/
