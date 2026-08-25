@@ -19,13 +19,25 @@ export function generateStaticParams() {
 }
 
 const previewData = {
-  groom_name: "Ferren",
-  bride_name: "James",
+  groom_name: "Aditya",
+  bride_name: "Nara",
   guest_name: "Bapak / Ibu / Saudara",
-  wedding_date: "12 Agustus 2026",
+  wedding_date: "2026-12-12",
   wedding_time: "10.00 WIB",
   venue: "The Imperial Garden",
   address: "Jakarta Selatan",
+  akad_date: "2026-12-12",
+  akad_time: "08.00 WIB",
+  akad_venue: "The Garden Chapel",
+  akad_address: "Jl. Kemang Raya No. 12, Jakarta Selatan",
+  akad_maps: "https://maps.google.com/?q=Jakarta+Selatan",
+  reception_date: "2026-12-12",
+  reception_time: "18.30 WIB",
+  reception_venue: "The Imperial Garden",
+  reception_address: "Jl. Kemang Raya No. 12, Jakarta Selatan",
+  reception_maps: "https://maps.google.com/?q=Jakarta+Selatan",
+  groom_photo: "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png",
+  bride_photo: "/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
   story: "Dua hati, satu cerita, dan perjalanan yang ingin kami rayakan bersama.",
   story1_year: "2020",
   story1_title: "First chapter",
@@ -38,12 +50,19 @@ const previewData = {
   story3_description: "Kini saatnya merayakan hari yang kami impikan.",
   bank_name: "Bank AKSA",
   bank_account: "1234567890",
-  account_name: "Ferren & James",
+  account_name: "Aditya & Nara",
   gift_address: "Jl. Kebahagiaan No. 8, Jakarta",
   gallery: "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
   live_stream_title: "Saksikan secara online",
   live_stream_url: "",
   music: "__aksa_demo_music__",
+};
+
+const demoByTemplate: Record<string, Partial<typeof previewData>> = {
+  "template-001": { groom_name: "Raka", bride_name: "Alya", wedding_date: "2026-11-14", akad_date: "2026-11-14", reception_date: "2026-11-14", account_name: "Raka & Alya" },
+  "template-002": { groom_name: "Bima", bride_name: "Sekar", wedding_date: "2026-10-24", akad_date: "2026-10-24", reception_date: "2026-10-24", account_name: "Bima & Sekar" },
+  "template-003": { groom_name: "Rendra", bride_name: "Puspa", wedding_date: "2026-09-19", akad_date: "2026-09-19", reception_date: "2026-09-19", account_name: "Rendra & Puspa" },
+  "template-004": { groom_name: "Ferren", bride_name: "James", wedding_date: "2026-12-12", akad_date: "2026-12-12", reception_date: "2026-12-12", account_name: "Ferren & James" },
 };
 
 const galleryByTemplate: Record<string, string> = {
@@ -62,10 +81,17 @@ export default async function TemplatePreviewPage({ params }: Props) {
   const theme = templateId === "template-003" ? "forest-green" : templateId === "template-004" ? "luxury-black" : "elegant-gold";
   const invitation = {
     ...previewData,
+    ...demoByTemplate[templateId],
     id: 0,
     template_id: templateId,
     theme,
-    hero_background: templateId === "template-002" ? "/decor/sekar-sogan/background/sekar-sogan-background-v1.png" : "",
+    hero_background: templateId === "template-003"
+      ? "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png"
+      : templateId === "template-004"
+        ? "/decor/chinese-imperial/background/chinese-imperial-cover-v1.webp"
+        : templateId === "template-002"
+          ? "/decor/sekar-sogan/background/sekar-sogan-background-v1.png"
+          : "/decor/elegant-gold/background/luxury-paper.webp",
     sections: { ...defaultSections, live_stream: false },
     gallery: galleryByTemplate[templateId] ?? previewData.gallery,
   };
