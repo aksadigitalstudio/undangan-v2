@@ -40,9 +40,17 @@ const previewData = {
   bank_account: "1234567890",
   account_name: "Ferren & James",
   gift_address: "Jl. Kebahagiaan No. 8, Jakarta",
-  gallery: "/decor/chinese-imperial/background/chinese-imperial-cover-v1.png,/decor/elegant-gold/background/luxury-paper.webp",
+  gallery: "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
   live_stream_title: "Saksikan secara online",
   live_stream_url: "",
+  music: "__aksa_demo_music__",
+};
+
+const galleryByTemplate: Record<string, string> = {
+  "template-001": "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/elegant-gold/background/luxury-paper.webp",
+  "template-002": "/decor/sekar-sogan/background/sekar-sogan-background-v1.png,/decor/sekar-sogan/foreground/sekar-sogan-ornament.png",
+  "template-003": "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png,/decor/puspa-priangan/background/puspa-priangan-couple-scene.png",
+  "template-004": "/decor/chinese-imperial/background/chinese-imperial-cover-v1.png,/decor/chinese-imperial/background/chinese-imperial-opening-v2.png",
 };
 
 export default async function TemplatePreviewPage({ params }: Props) {
@@ -59,6 +67,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     theme,
     hero_background: templateId === "template-002" ? "/decor/sekar-sogan/background/sekar-sogan-background-v1.png" : "",
     sections: { ...defaultSections, live_stream: false },
+    gallery: galleryByTemplate[templateId] ?? previewData.gallery,
   };
   const currentTheme = themes[theme as keyof typeof themes] ?? themes["elegant-gold"];
   const backgroundStyle = templateId === "template-003"

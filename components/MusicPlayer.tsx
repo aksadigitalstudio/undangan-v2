@@ -10,15 +10,53 @@ export default function MusicPlayer({
   musicUrl,
 }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const demoContextRef = useRef<AudioContext | null>(null);
+  const demoTimerRef = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
+  const isDemo = musicUrl === "__aksa_demo_music__";
 
 useEffect(() => {
+  if (isDemo) {
+    if (!playing) {
+      if (demoTimerRef.current) window.clearInterval(demoTimerRef.current);
+      demoTimerRef.current = null;
+      demoContextRef.current?.suspend();
+      return;
+    }
+
+    const context = demoContextRef.current ?? new AudioContext();
+    demoContextRef.current = context;
+    void context.resume();
+
+    const playChord = () => {
+      [261.63, 329.63, 392, 523.25].forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(0, context.currentTime);
+        gain.gain.linearRampToValueAtTime(0.045, context.currentTime + 0.08 + index * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 1.8);
+        oscillator.connect(gain).connect(context.destination);
+        oscillator.start();
+        oscillator.stop(context.currentTime + 1.9);
+      });
+    };
+
+    playChord();
+    demoTimerRef.current = window.setInterval(playChord, 3200);
+    return () => {
+      if (demoTimerRef.current) window.clearInterval(demoTimerRef.current);
+      demoTimerRef.current = null;
+    };
+  }
+
   if (playing) {
     audioRef.current?.play().catch(() => {});
   } else {
     audioRef.current?.pause();
   }
-}, [playing]);
+}, [isDemo, playing]);
 useEffect(() => {
   function handleInvitationOpened() {
     setPlaying(true);
@@ -57,12 +95,12 @@ function handleVisibilityChange() {
 
   return (
     <>
-<audio
+{!isDemo && <audio
   ref={audioRef}
   src={musicUrl}
   preload="metadata"
   loop
-/>
+/>}
 
 <button
   type="button"
