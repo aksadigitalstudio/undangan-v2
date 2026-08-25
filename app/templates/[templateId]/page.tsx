@@ -7,6 +7,17 @@ import { templateCatalog } from "@/components/TemplateGallery";
 
 type Props = { params: Promise<{ templateId: string }> };
 
+export const dynamic = "force-static";
+
+export function generateStaticParams() {
+  return [
+    { templateId: "template-001" },
+    { templateId: "template-002" },
+    { templateId: "template-003" },
+    { templateId: "template-004" },
+  ];
+}
+
 const previewData = {
   groom_name: "Ferren",
   bride_name: "James",
