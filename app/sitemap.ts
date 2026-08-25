@@ -2,6 +2,12 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://aksadigitalstudio.com";
+  const templateUrls = ["template-001", "template-002", "template-003", "template-004"].map((templateId) => ({
+    url: `${baseUrl}/templates/${templateId}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
   return [
     {
@@ -16,5 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    ...templateUrls,
   ];
 }
