@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -31,18 +32,18 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-6">
+    <main className="flex min-h-screen items-center justify-center bg-[#f8f5ef] px-6 py-12">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md space-y-6 rounded-3xl bg-white p-8 shadow-2xl"
+        className="w-full max-w-md space-y-6 rounded-[2rem] border border-[#182235]/10 bg-white p-8 shadow-xl shadow-[#182235]/10 sm:p-10"
       >
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c94d43]">
             AKSA Digital Studio
           </p>
-          <h1 className="mt-3 text-3xl font-bold text-slate-900">Masuk Admin</h1>
+          <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em] text-[#182235]">Selamat datang kembali</h1>
           <p className="mt-2 text-sm text-slate-600">
-            Gunakan akun Supabase Auth yang telah dibuat untuk mengelola undangan.
+            Masuk untuk melanjutkan mengelola undanganmu.
           </p>
         </div>
 
@@ -58,7 +59,7 @@ export default function LoginPage() {
             onChange={(event) => setEmail(event.target.value)}
             autoComplete="email"
             required
-            className="w-full rounded-lg border border-slate-300 p-3 text-slate-900"
+            className="w-full rounded-xl border border-[#182235]/15 bg-[#fbfaf8] p-3.5 text-[#182235] outline-none focus:border-[#e65d51] focus:ring-4 focus:ring-[#e65d51]/10"
           />
         </label>
 
@@ -70,17 +71,18 @@ export default function LoginPage() {
             onChange={(event) => setPassword(event.target.value)}
             autoComplete="current-password"
             required
-            className="w-full rounded-lg border border-slate-300 p-3 text-slate-900"
+            className="w-full rounded-xl border border-[#182235]/15 bg-[#fbfaf8] p-3.5 text-[#182235] outline-none focus:border-[#e65d51] focus:ring-4 focus:ring-[#e65d51]/10"
           />
         </label>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+          className="w-full rounded-xl bg-[#182235] px-5 py-3.5 font-semibold text-white hover:bg-[#263653] disabled:opacity-60"
         >
           {loading ? "Memproses..." : "Masuk"}
         </button>
+        <p className="text-center text-sm text-slate-600">Belum punya akun? <Link href="/signup" className="font-semibold text-[#c94d43] hover:underline">Daftar gratis</Link></p>
       </form>
     </main>
   );
