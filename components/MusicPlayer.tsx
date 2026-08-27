@@ -59,6 +59,11 @@ useEffect(() => {
 }, [isDemo, playing]);
 useEffect(() => {
   function handleInvitationOpened() {
+    // Play immediately inside the visitor's click event. Calling play only
+    // after React renders can be treated as autoplay and blocked on mobile.
+    if (!isDemo) {
+      void audioRef.current?.play().catch(() => {});
+    }
     setPlaying(true);
   }
 
@@ -91,7 +96,7 @@ function handleVisibilityChange() {
       handleVisibilityChange
     );
   };
-}, [playing]);
+}, [isDemo, playing]);
 
   return (
     <>

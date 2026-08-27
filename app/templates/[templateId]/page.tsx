@@ -61,7 +61,9 @@ const previewData = {
   gallery: "",
   live_stream_title: "",
   live_stream_url: "",
-  music: "__aksa_demo_music__",
+  // The public previews use the same uploaded music asset used by the live
+  // invitation demo, so visitors hear a real invitation experience.
+  music: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/Music/1786281714196-Beautiful%20in%20White%20-%20Westlife.mp3",
 };
 
 const demoByTemplate: Record<string, Partial<typeof previewData>> = {
