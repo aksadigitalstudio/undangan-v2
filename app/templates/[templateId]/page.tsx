@@ -61,7 +61,7 @@ const previewData = {
   gallery: "",
   live_stream_title: "",
   live_stream_url: "",
-  music: "",
+  music: "__aksa_demo_music__",
 };
 
 const demoByTemplate: Record<string, Partial<typeof previewData>> = {
