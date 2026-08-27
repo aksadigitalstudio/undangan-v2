@@ -36,11 +36,14 @@ const previewData = {
   reception_venue: "The Imperial Garden",
   reception_address: "Jl. Kemang Raya No. 12, Jakarta Selatan",
   reception_maps: "https://maps.google.com/?q=Jakarta+Selatan",
-  // Reuse the public media already uploaded for the published Ferren & James
-  // invitation. These are the same URLs used by the real invitation route.
-  groom_photo: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786637107271-Groom.png",
-  bride_photo: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786637104113-Bride.png",
-  hero_background: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281189114-Prewed%202.png",
+  // Media is deliberately empty here. A catalog card must never borrow the
+  // photos/music of another template; those values come from its own
+  // published invitation below.
+  groom_photo: "",
+  bride_photo: "",
+  groom_cutout: "",
+  bride_cutout: "",
+  hero_background: "",
   story: "Dua hati, satu cerita, dan perjalanan yang ingin kami rayakan bersama.",
   story1_year: "2020",
   story1_title: "First chapter",
@@ -55,24 +58,52 @@ const previewData = {
   bank_account: "1234567890",
   account_name: "Aditya & Nara",
   gift_address: "Jl. Kebahagiaan No. 8, Jakarta",
-  gallery: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281639623-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281646392-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786340480486-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786281653621-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786340497085-Prewed%201.png,https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/photos2/1786339446121-Prewed%201.png",
-  live_stream_title: "Live Wedding James & Ferren",
-  live_stream_url: "https://youtu.be/nI_8bXgKNWM?si=AC6ZG1Ak1xpWPcv1",
-  music: "https://mgddtwnezrnigxrwbliw.supabase.co/storage/v1/object/public/Music/1786281714196-Beautiful%20in%20White%20-%20Westlife.mp3",
+  gallery: "",
+  live_stream_title: "",
+  live_stream_url: "",
+  music: "",
 };
 
 const demoByTemplate: Record<string, Partial<typeof previewData>> = {
-  "template-001": { groom_name: "Raka", bride_name: "Alya", wedding_date: "2026-11-14", akad_date: "2026-11-14", reception_date: "2026-11-14", account_name: "Raka & Alya" },
-  "template-002": { groom_name: "Bima", bride_name: "Sekar", wedding_date: "2026-10-24", akad_date: "2026-10-24", reception_date: "2026-10-24", account_name: "Bima & Sekar" },
+  "template-001": { groom_name: "Aditya", bride_name: "Nara", wedding_date: "2026-11-14", akad_date: "2026-11-14", reception_date: "2026-11-14", account_name: "Aditya & Nara" },
+  "template-002": { groom_name: "Agus", bride_name: "Jenny", wedding_date: "2026-10-24", akad_date: "2026-10-24", reception_date: "2026-10-24", account_name: "Agus & Jenny" },
   "template-003": { groom_name: "Rendra", bride_name: "Puspa", wedding_date: "2026-09-19", akad_date: "2026-09-19", reception_date: "2026-09-19", account_name: "Rendra & Puspa" },
   "template-004": { groom_name: "James Lou", bride_name: "Ferren Cung", wedding_date: "2026-10-31", akad_date: "2026-10-31", reception_date: "2026-10-31", account_name: "James Lou & Ferren Cung" },
 };
 
-const galleryByTemplate: Record<string, string> = {
-  "template-001": previewData.gallery,
-  "template-002": previewData.gallery,
-  "template-003": previewData.gallery,
-  "template-004": previewData.gallery,
+// Curated marketing examples. They are deliberately separate from customer
+// invitation records so no template can borrow media from another one.
+const demoMediaByTemplate: Record<string, Partial<typeof previewData>> = {
+  "template-001": {
+    groom_photo: "/template-demos/template-001/groom.png",
+    bride_photo: "/template-demos/template-001/bride.png",
+    hero_background: "/template-demos/template-001/bride.png",
+    gallery: "/template-demos/template-001/groom.png,/template-demos/template-001/bride.png",
+  },
+  "template-002": {
+    groom_photo: "/template-demos/template-002/groom-portrait.png",
+    bride_photo: "/template-demos/template-002/bride-portrait.png",
+    groom_cutout: "/template-demos/template-002/groom-cutout.png",
+    bride_cutout: "/template-demos/template-002/bride-cutout.png",
+    hero_background: "/decor/sekar-sogan/background/sekar-sogan-background-v1.png",
+    gallery: "/template-demos/template-002/gallery-1.png,/template-demos/template-002/gallery-2.png,/template-demos/template-002/gallery-3.png,/template-demos/template-002/gallery-4.png,/template-demos/template-002/gallery-5.png",
+  },
+  "template-003": {
+    groom_photo: "/template-demos/template-003/groom-portrait.png",
+    bride_photo: "/template-demos/template-003/bride-portrait.png",
+    groom_cutout: "/template-demos/template-003/groom-cutout.png",
+    bride_cutout: "/template-demos/template-003/bride-cutout.png",
+    hero_background: "/template-demos/template-003/hero.png",
+    gallery: "/template-demos/template-003/gallery-1.png,/template-demos/template-003/gallery-2.png,/template-demos/template-003/gallery-3.png,/template-demos/template-003/gallery-4.png,/template-demos/template-003/gallery-5.png,/template-demos/template-003/gallery-6.png",
+  },
+  "template-004": {
+    groom_photo: "/template-demos/template-004/groom.png",
+    bride_photo: "/template-demos/template-004/bride.png",
+    hero_background: "/template-demos/template-004/hero.png",
+    gallery: "/template-demos/template-004/gallery-1.png,/template-demos/template-004/gallery-2.png,/template-demos/template-004/gallery-3.png",
+    live_stream_title: "Live Wedding James & Ferren",
+    live_stream_url: "https://youtu.be/nI_8bXgKNWM?si=AC6ZG1Ak1xpWPcv1",
+  },
 };
 
 export default async function TemplatePreviewPage({ params }: Props) {
@@ -85,18 +116,11 @@ export default async function TemplatePreviewPage({ params }: Props) {
   const invitation = {
     ...previewData,
     ...demoByTemplate[templateId],
+    ...demoMediaByTemplate[templateId],
     id: 0,
     template_id: templateId,
     theme,
-    hero_background: templateId === "template-003"
-      ? "/decor/puspa-priangan/background/puspa-priangan-couple-landscape-v2.png"
-      : templateId === "template-004"
-        ? previewData.hero_background
-        : templateId === "template-002"
-          ? "/decor/sekar-sogan/background/sekar-sogan-background-v1.png"
-          : "/decor/elegant-gold/background/luxury-paper.webp",
-    sections: { ...defaultSections, live_stream: true },
-    gallery: galleryByTemplate[templateId] ?? previewData.gallery,
+    sections: { ...defaultSections, live_stream: templateId === "template-004" },
   };
   const currentTheme = themes[theme as keyof typeof themes] ?? themes["elegant-gold"];
   const backgroundStyle = templateId === "template-003"

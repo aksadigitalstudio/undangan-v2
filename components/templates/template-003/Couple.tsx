@@ -24,7 +24,7 @@ export default function Couple({ invitation }: TemplateProps) {
     {
       role: "Panganten Pria",
       name: data.groom_name ?? "Nama Mempelai Pria",
-      photo: data.groom_cutout ?? data.groom_photo,
+      photo: data.groom_cutout || data.groom_photo,
       father: data.groom_father,
       mother: data.groom_mother,
       photoPosition: "right-[-16%]",
@@ -32,7 +32,7 @@ export default function Couple({ invitation }: TemplateProps) {
     {
       role: "Panganten Wanita",
       name: data.bride_name ?? "Nama Mempelai Wanita",
-      photo: data.bride_cutout ?? data.bride_photo,
+      photo: data.bride_cutout || data.bride_photo,
       father: data.bride_father,
       mother: data.bride_mother,
       photoPosition: "left-[-16%]",
@@ -96,6 +96,7 @@ export default function Couple({ invitation }: TemplateProps) {
                           src={person.photo}
                           alt={person.name}
                           fill
+                          unoptimized
                           sizes="(max-width: 768px) 100vw, 768px"
                           className="object-contain object-bottom drop-shadow-[0_18px_20px_rgba(30,61,46,0.16)] [mask-image:linear-gradient(to_bottom,black_0%,black_72%,transparent_94%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_72%,transparent_94%)]"
                         />

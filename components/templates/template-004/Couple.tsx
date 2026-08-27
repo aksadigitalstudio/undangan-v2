@@ -136,6 +136,7 @@ export default function Couple({ invitation }: TemplateProps) {
                             src={person.photo}
                             alt={person.name}
                             fill
+                            unoptimized
                             sizes="(max-width: 620px) 100vw, 620px"
                             className="object-contain object-bottom drop-shadow-[0_16px_22px_rgba(80,10,10,0.20)]"
                           />

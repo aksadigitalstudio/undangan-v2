@@ -118,6 +118,7 @@ useEffect(() => {
                 alt={`${groomName} dan ${brideName}`}
                 fill
                 priority
+                unoptimized
                 sizes="(max-width: 768px) 100vw, 448px"
                 className="object-cover"
               />

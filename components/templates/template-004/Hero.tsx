@@ -109,6 +109,7 @@ className="relative z-10 overflow-hidden px-6 pb-10 pt-20 text-center md:pt-28"
               alt={`Foto ${groomName} dan ${brideName}`}
               fill
               priority
+              unoptimized
               sizes="(max-width: 768px) 288px, 384px"
               className="object-cover"
             />

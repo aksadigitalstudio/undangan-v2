@@ -1,4 +1,5 @@
 import type { TemplateProps } from "../types";
+import Image from "next/image";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import MotionGroup from "@/components/motion/MotionGroup";
@@ -76,6 +77,35 @@ export default function Hero({ invitation }: TemplateProps) {
                     {brideName}
                   </h1>
                 </MotionItem>
+
+                {data.groom_photo && data.bride_photo && (
+                  <MotionItem>
+                    <div className="mx-auto mt-9 flex max-w-sm justify-center -space-x-7">
+                      <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white shadow-xl md:h-40 md:w-40">
+                        <Image
+                          src={data.groom_photo}
+                          alt={groomName}
+                          fill
+                          priority
+                          unoptimized
+                          sizes="160px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                      <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white shadow-xl md:h-40 md:w-40">
+                        <Image
+                          src={data.bride_photo}
+                          alt={brideName}
+                          fill
+                          priority
+                          unoptimized
+                          sizes="160px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    </div>
+                  </MotionItem>
+                )}
 
                 <MotionItem>
                   <div

@@ -109,6 +109,7 @@ export default function Gallery({ invitation }: TemplateProps) {
                   src={selectedImage}
                   alt={`Gallery photo ${selectedIndex + 1}`}
                   fill
+                  unoptimized
                   sizes="(max-width: 620px) 100vw, 620px"
                   className="object-cover"
                 />
@@ -157,6 +158,7 @@ export default function Gallery({ invitation }: TemplateProps) {
                       src={image}
                       alt={`Thumbnail ${index + 1}`}
                       fill
+                      unoptimized
                       sizes="96px"
                       className="object-cover"
                     />

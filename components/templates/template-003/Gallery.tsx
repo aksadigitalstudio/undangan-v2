@@ -125,6 +125,7 @@ useEffect(() => {
                   src={image}
                   alt={`Kenangan ${(index % images.length) + 1}`}
                   fill
+                  unoptimized
                   sizes="(max-width: 768px) 72vw, 360px"
                   className="object-cover"
                 />

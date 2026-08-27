@@ -91,6 +91,7 @@ export default function Couple({ invitation }: TemplateProps) {
     src={person.photo}
     alt={person.name}
     fill
+    unoptimized
     sizes="176px"
 className="object-cover object-top"
   />
