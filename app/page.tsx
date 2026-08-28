@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Check,
   ChevronRight,
-  Heart,
   Play,
   Sparkles,
 } from "lucide-react";
@@ -55,8 +54,6 @@ export default function Home() {
             </div>
           </div>
           <div className="relative mx-auto w-full max-w-md lg:mr-4">
-            <div className="absolute -left-8 top-14 hidden rounded-2xl border border-white/70 bg-white/80 p-4 shadow-xl backdrop-blur md:block"><Heart size={18} className="text-[#e65d51]" fill="currentColor" /><p className="mt-2 text-xs font-semibold text-[#182235]">Made with love</p></div>
-            <div className="absolute -right-8 bottom-16 hidden rounded-2xl border border-white/70 bg-[#182235] p-4 text-white shadow-xl md:block"><p className="text-xs text-white/60">RSVP online</p><p className="mt-1 font-serif text-xl">87 guests</p></div>
             <div className="relative overflow-hidden rounded-[2.5rem] border-[10px] border-[#182235] bg-[#19253b] shadow-2xl shadow-[#182235]/30">
               <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-4 text-[10px] font-bold tracking-[0.2em] text-white/70"><span>AKSA</span><span>LOVE STORY</span></div>
               <div className="flex aspect-[0.78] flex-col justify-end bg-cover bg-center p-7 text-white" style={{ backgroundImage: "linear-gradient(180deg, rgba(9,16,28,0.08), rgba(9,16,28,0.88)), url('/decor/chinese-imperial/background/chinese-imperial-cover-v1.webp')" }}><p className="text-xs uppercase tracking-[0.35em] text-[#f3c777]">The wedding of</p><h2 className="mt-3 font-serif text-5xl leading-none">Ferren<br />&amp; James</h2><div className="mt-6 flex items-center gap-3 text-xs text-white/75"><span className="h-px w-8 bg-[#f3c777]" /> 12 . 08 . 26</div></div>
