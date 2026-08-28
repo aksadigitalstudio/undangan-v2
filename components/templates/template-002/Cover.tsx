@@ -28,7 +28,13 @@ const [previousImage, setPreviousImage] = useState(0);
 const [isTransitioning, setIsTransitioning] = useState(false);
 
 useEffect(() => {
-  const isOpened = sessionStorage.getItem("invitation-opened");
+  // A marketing preview must always start on its cover. On a real invitation,
+  // retain state only for the current URL instead of every template globally.
+  if (window.location.pathname.startsWith("/templates/")) return;
+
+  const isOpened = sessionStorage.getItem(
+    `invitation-opened:${window.location.pathname}`
+  );
 
   if (isOpened === "true") {
     setOpened(true);
@@ -212,14 +218,17 @@ shadow-[0_20px_60px_rgba(43,26,18,0.35)]
 
 <motion.button
 onClick={() => {
+  // This runs inside the user gesture, so mobile browsers allow the music.
+  window.dispatchEvent(new CustomEvent("invitation-opened"));
   setIsClosing(true);
 
   setTimeout(() => {
-    sessionStorage.setItem("invitation-opened", "true");
-
-    window.dispatchEvent(
-      new CustomEvent("invitation-opened")
-    );
+    if (!window.location.pathname.startsWith("/templates/")) {
+      sessionStorage.setItem(
+        `invitation-opened:${window.location.pathname}`,
+        "true"
+      );
+    }
 
     setOpened(true);
   }, 500);
