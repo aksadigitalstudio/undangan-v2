@@ -11,6 +11,7 @@ import {
   Play,
   Sparkles,
 } from "lucide-react";
+import HeroTemplateCarousel from "@/components/HeroTemplateCarousel";
 import TemplateGallery from "@/components/TemplateGallery";
 
 const invitationFeatures = [
@@ -131,36 +132,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mx-auto w-full max-w-md">
-            <Link
-              href="/templates/template-004"
-              className="group relative block rounded-[3rem] bg-[#f7dfe1] p-3 shadow-[0_30px_70px_rgba(34,30,45,0.16)] transition duration-300 hover:-translate-y-2"
-              aria-label="Open the Chinese Imperial live demo"
-            >
-              <div className="relative overflow-hidden rounded-[2.45rem] border-[9px] border-[#19243a] bg-[#19243a] shadow-2xl">
-                <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-4 text-[10px] font-bold tracking-[0.2em] text-white/75">
-                  <span>AKSA</span>
-                  <span>LIVE DEMO</span>
-                </div>
-                <div
-                  className="flex aspect-[0.78] flex-col justify-end bg-cover bg-center p-7 text-white transition duration-700 group-hover:scale-105"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(180deg, rgba(12,19,32,0.04), rgba(12,19,32,0.9)), url('/decor/chinese-imperial/background/chinese-imperial-cover-v1.webp')",
-                  }}
-                >
-                  <p className="text-xs uppercase tracking-[0.32em] text-[#f4c979]">The wedding of</p>
-                  <h2 className="mt-3 font-serif text-5xl leading-none">Ferren<br />&amp; James</h2>
-                  <div className="mt-6 flex items-center gap-3 text-xs text-white/75">
-                    <span className="h-px w-8 bg-[#f4c979]" /> 12 . 08 . 26
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -bottom-5 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-white px-5 py-3 text-xs font-bold text-[#19243a] shadow-lg shadow-[#19243a]/10">
-                <Play size={13} fill="currentColor" /> View live invitation
-              </div>
-            </Link>
-          </div>
+          <HeroTemplateCarousel />
         </div>
       </section>
 
