@@ -365,16 +365,15 @@ max_guest: maxGuest,
   value={bridePhoto}
   onChange={setBridePhoto}
 />
-{templateId === "template-002" ||
-templateId === "template-003" && (
+{["template-002", "template-003", "template-005"].includes(templateId) && (
   <div className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-5">
     <h3 className="mb-2 text-lg font-bold text-black">
-      Ornamen Mempelai Bergerak
+      Foto Mempelai Full Body
     </h3>
 
     <p className="mb-5 text-sm text-gray-600">
-      Opsional untuk Template Javanese. Gunakan PNG atau WebP dengan
-      latar transparan agar tidak muncul kotak pada undangan.
+      Direkomendasikan untuk template yang menampilkan portrait editorial.
+      Gunakan PNG atau WebP dengan latar transparan untuk hasil terbaik.
     </p>
 
     <ImageUpload

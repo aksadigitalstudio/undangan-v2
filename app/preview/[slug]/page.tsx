@@ -56,7 +56,9 @@ export default async function TemplatePreviewPage({ params }: Props) {
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }
-        : { background: currentTheme.background };
+        : data.template_id === "template-005"
+          ? { background: "#f5f2ed" }
+          : { background: currentTheme.background };
 
   const overlayStyle =
     data.template_id === "template-003"

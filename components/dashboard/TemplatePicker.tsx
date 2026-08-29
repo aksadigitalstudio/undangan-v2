@@ -31,6 +31,12 @@ const templates = [
       "Chinese wedding dengan panorama istana merah yang meriah.",
     available: true,
   },
+  {
+    id: "template-005",
+    name: "The Edit",
+    description: "Modern monochrome editorial wedding invitation.",
+    available: true,
+  },
 ];
 
 export default function TemplatePicker({
@@ -49,7 +55,7 @@ export default function TemplatePicker({
         </p>
       </div>
 
-<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {templates.map((template) => {
           const isSelected = value === template.id;
 
