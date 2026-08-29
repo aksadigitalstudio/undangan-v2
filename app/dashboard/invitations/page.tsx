@@ -174,6 +174,13 @@ export default function InvitationsPage() {
   </Link>
 
   <Link
+    href={`/dashboard/invitations/${item.id}/studio`}
+    className="text-slate-800 hover:underline font-medium"
+  >
+    Studio
+  </Link>
+
+  <Link
     href={`/dashboard/invitations/${item.id}/guests`}
     className="text-purple-600 hover:underline font-medium"
   >

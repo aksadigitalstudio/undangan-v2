@@ -1,8 +1,12 @@
+"use client";
+
 import { templateRegistry } from "./registry";
-import { TemplateProps } from "./types";
+import type { TemplateProps } from "./types";
 import MusicPlayer from "@/components/MusicPlayer";
 interface TemplateRendererProps extends TemplateProps {
   templateId: string;
+  showCover?: boolean;
+  showMusic?: boolean;
 }
 
 export default function TemplateRenderer({
@@ -10,6 +14,8 @@ export default function TemplateRenderer({
   invitation,
   guest,
   sections,
+  showCover = true,
+  showMusic = true,
 }: TemplateRendererProps) {
   const template = templateRegistry[templateId];
 
@@ -25,7 +31,7 @@ export default function TemplateRenderer({
 
 return (
   <>
-    <template.Cover invitation={invitation} />
+    {showCover && <template.Cover invitation={invitation} />}
 
 {sections?.hero !== false && (
   <template.Hero invitation={invitation} />
@@ -63,7 +69,7 @@ return (
     )}
 
     <template.Footer invitation={invitation} />
-     {sections?.music !== false && invitation.music && (
+     {showMusic && sections?.music !== false && invitation.music && (
       <MusicPlayer musicUrl={invitation.music} />
     )}   
   </>
