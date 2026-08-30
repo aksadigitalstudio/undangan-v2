@@ -130,3 +130,9 @@ body {
 .animate-gallery-6 {
   animation: galleryZoom6 23s ease-in-out infinite;
 }
+
+/* The Studio canvas is narrower than the browser viewport. Keep the Imperial
+   monogram refined inside that canvas without changing the public invitation. */
+.studio-template-preview .imperial-blessing-monogram {
+  font-size: 4.5rem !important;
+}
