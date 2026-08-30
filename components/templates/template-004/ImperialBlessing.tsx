@@ -40,7 +40,7 @@ export default function ImperialBlessing({
         </div>
 
 <div className="absolute inset-x-0 top-[73%] text-center md:top-[76%] md:-translate-y-1/2">
-  <p className="font-serif text-6xl italic leading-none text-[#B20F1C] drop-shadow-[0_2px_2px_rgba(255,247,226,0.95)] md:text-[12rem]">
+  <p className="font-serif text-5xl italic leading-none text-[#B20F1C] drop-shadow-[0_2px_2px_rgba(255,247,226,0.95)] sm:text-6xl">
     {groomInitial}
     <span className="mx-1 text-[#C89B3C]">&</span>
     {brideInitial}
