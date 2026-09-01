@@ -13,7 +13,7 @@ export interface TemplateProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   guest?: any;
 
-  sections?: Record<string, boolean>;
+  sections?: Record<string, unknown>;
 }
 
 /**

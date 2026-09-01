@@ -136,3 +136,68 @@ body {
 .studio-template-preview .imperial-blessing-monogram {
   font-size: 4.5rem !important;
 }
+
+.studio-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid #dbe1ea;
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #334155;
+  transition: 160ms ease;
+}
+
+.studio-tool:hover:not(:disabled) {
+  border-color: #19243a;
+  background: #f8fafc;
+}
+
+.studio-tool:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.studio-input {
+  width: 100%;
+  border: 1px solid #dbe1ea;
+  border-radius: 0.65rem;
+  background: #fff;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.8rem;
+  color: #1e293b;
+  outline: none;
+}
+
+.studio-input:focus {
+  border-color: #19243a;
+  box-shadow: 0 0 0 3px rgb(25 36 58 / 10%);
+}
+
+@keyframes studioCanvasFloat {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -7px; }
+}
+
+@keyframes studioCanvasFade {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+@keyframes studioCanvasZoom {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.025; }
+}
+
+.studio-canvas-float { animation: studioCanvasFloat 5s ease-in-out infinite; }
+.studio-canvas-fade { animation: studioCanvasFade 900ms ease-out both; }
+.studio-canvas-zoom { animation: studioCanvasZoom 8s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-canvas-float,
+  .studio-canvas-fade,
+  .studio-canvas-zoom { animation: none; }
+}

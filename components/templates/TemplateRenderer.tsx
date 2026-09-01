@@ -3,6 +3,8 @@
 import { templateRegistry } from "./registry";
 import type { TemplateProps } from "./types";
 import MusicPlayer from "@/components/MusicPlayer";
+import InvitationCanvasCover from "@/components/studio/InvitationCanvasCover";
+import { isCanvasDocument } from "@/components/studio/canvasTypes";
 interface TemplateRendererProps extends TemplateProps {
   templateId: string;
   showCover?: boolean;
@@ -18,6 +20,7 @@ export default function TemplateRenderer({
   showMusic = true,
 }: TemplateRendererProps) {
   const template = templateRegistry[templateId];
+  const canvasDocument = isCanvasDocument(sections?.studio_canvas) ? sections.studio_canvas : null;
 
   if (!template) {
     return (
@@ -31,7 +34,7 @@ export default function TemplateRenderer({
 
 return (
   <>
-    {showCover && <template.Cover invitation={invitation} />}
+    {showCover && (canvasDocument ? <InvitationCanvasCover document={canvasDocument} /> : <template.Cover invitation={invitation} />)}
 
 {sections?.hero !== false && (
   <template.Hero invitation={invitation} />
