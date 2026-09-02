@@ -5,7 +5,7 @@ import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { templateCatalog } from "@/components/TemplateGallery";
 import { createClient } from "@/lib/supabase/server";
-import { template005Demo } from "@/lib/templateDemoData";
+import { template005Demo, template006Demo } from "@/lib/templateDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
@@ -30,7 +30,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     .limit(1)
     .maybeSingle();
 
-  const data = publishedInvitation ?? (templateId === "template-005" ? template005Demo : null);
+  const data = publishedInvitation ?? (templateId === "template-005" ? template005Demo : templateId === "template-006" ? template006Demo : null);
 
   if (error || !data) {
     notFound();
@@ -62,6 +62,8 @@ export default async function TemplatePreviewPage({ params }: Props) {
           }
         : data.template_id === "template-005"
           ? { background: "#f5f2ed" }
+          : data.template_id === "template-006"
+            ? { background: "#fff9eb" }
           : { background: currentTheme.background };
 
   const overlayStyle =

@@ -37,6 +37,12 @@ const templates = [
     description: "Modern monochrome editorial wedding invitation.",
     available: true,
   },
+  {
+    id: "template-006",
+    name: "Amalfi Afterglow",
+    description: "Italian Riviera wedding dengan cobalt tiles, lemon, dan suasana golden hour.",
+    available: true,
+  },
 ];
 
 export default function TemplatePicker({
@@ -55,7 +61,7 @@ export default function TemplatePicker({
         </p>
       </div>
 
-<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {templates.map((template) => {
           const isSelected = value === template.id;
 

@@ -1,4 +1,5 @@
 import { editorialMedia } from "@/components/templates/template-005/shared";
+import { amalfiMedia } from "@/components/templates/template-006/shared";
 
 export const template005Demo = {
   id: "demo-template-005",
@@ -48,4 +49,42 @@ export const template005Demo = {
     gift: false,
     music: true,
   },
+};
+
+export const template006Demo = {
+  id: "demo-template-006",
+  is_demo: true,
+  slug: "amalfi-afterglow-demo",
+  status: "Published",
+  template_id: "template-006",
+  theme: "elegant-gold",
+  groom_name: "Matteo Romano",
+  bride_name: "Sofia Bellini",
+  wedding_date: "2027-06-18",
+  hero_background: amalfiMedia.hero,
+  groom_cutout: amalfiMedia.groom,
+  bride_cutout: amalfiMedia.bride,
+  gallery: "",
+  story1_year: "2021",
+  story1_title: "A chance summer",
+  story1_description: "One long walk, one shared espresso, and a conversation neither of us wanted to end.",
+  story2_year: "2025",
+  story2_title: "The question",
+  story2_description: "With the coast glowing behind us, a simple question became our favourite answer.",
+  story3_year: "2027",
+  story3_title: "Our golden hour",
+  story3_description: "Now we are gathering the people we love for a celebration under the Amalfi sky.",
+  akad_date: "2027-06-18",
+  akad_time: "16:30",
+  akad_venue: "Villa Limonaia",
+  akad_address: "Amalfi Coast, Italy\nAmong the lemon trees and blue sea.",
+  akad_maps: "",
+  reception_date: "2027-06-18",
+  reception_time: "18:30",
+  reception_venue: "Terrazza al Tramonto",
+  reception_address: "Dinner, dancing, and a sunset toast by the water.",
+  reception_maps: "",
+  live_stream_title: "",
+  live_stream_url: "",
+  sections: { hero: true, countdown: true, couple: true, story: true, event: true, live_stream: false, gallery: true, rsvp: true, gift: false, music: false },
 };

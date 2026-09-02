@@ -5,6 +5,7 @@ import { template002 } from "./template-002/index";
 import { template003 } from "./template-003/index";
 import { template004 } from "./template-004/index";
 import { template005 } from "./template-005/index";
+import { template006 } from "./template-006/index";
 
 export const templateRegistry: Partial<
   Record<string, InvitationTemplate>
@@ -14,4 +15,5 @@ export const templateRegistry: Partial<
   [template003.id]: template003,
   [template004.id]: template004,
   [template005.id]: template005,
+  [template006.id]: template006,
 };
