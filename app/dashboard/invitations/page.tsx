@@ -159,7 +159,7 @@ export default function InvitationsPage() {
 <div className="flex gap-5">
 
   <Link
-    href={`/${item.slug}`}
+    href={`/${item.slug}?return=dashboard`}
     target="_blank"
     className="text-green-600 hover:underline font-medium"
   >

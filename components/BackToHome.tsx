@@ -2,16 +2,22 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function BackToHome() {
   const pathname = usePathname();
+  const [fromDashboard, setFromDashboard] = useState(false);
+
+  useEffect(() => {
+    setFromDashboard(new URLSearchParams(window.location.search).get("return") === "dashboard");
+  }, []);
 
   if (pathname === "/") return null;
 
   const isTemplatePreview = pathname.startsWith("/templates/");
-  const href = isTemplatePreview ? "/templates" : "/";
-  const label = isTemplatePreview ? "Semua template" : "Kembali ke awal";
+  const href = fromDashboard ? "/dashboard/invitations" : isTemplatePreview ? "/templates" : "/";
+  const label = fromDashboard ? "Kembali ke Dashboard" : isTemplatePreview ? "Semua template" : "Kembali ke awal";
 
   return (
     <Link
