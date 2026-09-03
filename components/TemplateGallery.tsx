@@ -10,6 +10,8 @@ export const templateCatalog = [
   { id: "template-006", name: "Amalfi Afterglow", label: "Riviera · Joyful", description: "Cobalt tiles, lemon groves, and golden-hour romance for a destination celebration.", image: "/template-demos/template-006/amalfi-hero.png", accent: "#f5cc43" },
   { id: "template-007", name: "Lisbon Letters", label: "Azulejo · Graphic", description: "Cobalt ceramic tiles and graphic Portuguese architecture for a modern European love story.", image: "/template-demos/template-007/lisbon-hero.png", accent: "#80b5e3" },
   { id: "template-008", name: "Château de Lune", label: "French · Old Money", description: "Moonlit château romance in eggshell, dusty blue, and formal garden elegance.", image: "/template-demos/template-008/chateau-hero.png", accent: "#a9b8c8" },
+  { id: "template-009", name: "Midnight Cinema", label: "Cinema · Premiere", description: "A film-poster invitation with red velvet romance and after-dark celebration.", image: "/template-demos/template-009/cinema-hero.png", accent: "#d1a55d" },
+  { id: "template-010", name: "Atelier No. 27", label: "Couture · Editorial", description: "A fashion atelier invitation with sketchbook textures, couture portraits, and a private-dinner finish.", image: "/template-demos/template-010/atelier-hero.png", accent: "#ad806a" },
 ];
 
 export default function TemplateGallery() {

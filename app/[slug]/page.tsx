@@ -76,6 +76,8 @@ export default async function InvitationPage({ params, searchParams }: Props) {
               ? { background: "#f9f7f0" }
               : data.template_id === "template-008"
                 ? { background: "#fbfaf6" }
+                : data.template_id === "template-010"
+                  ? { background: "#f8f5ef" }
           : { background: currentTheme.background };
 
   const overlayStyle =

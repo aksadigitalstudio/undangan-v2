@@ -50,6 +50,8 @@ const templates = [
     available: true,
   },
   { id: "template-008", name: "Château de Lune", description: "French château old-money dengan dusty blue, monogram, dan garden formal.", available: true },
+  { id: "template-009", name: "Midnight Cinema", description: "Film-poster wedding dengan ticket stub, red velvet, dan suasana premiere malam.", available: true },
+  { id: "template-010", name: "Atelier No. 27", description: "Fashion atelier dengan couture sketchbook, kartu editorial, dan suasana private dinner yang mewah.", available: true },
 ];
 
 export default function TemplatePicker({
