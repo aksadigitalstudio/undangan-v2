@@ -1,0 +1,1 @@
+export const chateauMedia = { hero: "/template-demos/template-008/chateau-hero.png", groom: "/template-demos/template-008/groom.png", bride: "/template-demos/template-008/bride.png", gallerySheet: "/template-demos/template-008/gallery-contact-sheet.png" };

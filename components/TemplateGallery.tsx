@@ -9,6 +9,7 @@ export const templateCatalog = [
   { id: "template-005", name: "The Edit", label: "Editorial · Modern", description: "Monochrome photography and magazine-inspired composition for a black-tie celebration.", image: "/template-demos/template-005/gallery-1.png", accent: "#d6c1a3" },
   { id: "template-006", name: "Amalfi Afterglow", label: "Riviera · Joyful", description: "Cobalt tiles, lemon groves, and golden-hour romance for a destination celebration.", image: "/template-demos/template-006/amalfi-hero.png", accent: "#f5cc43" },
   { id: "template-007", name: "Lisbon Letters", label: "Azulejo · Graphic", description: "Cobalt ceramic tiles and graphic Portuguese architecture for a modern European love story.", image: "/template-demos/template-007/lisbon-hero.png", accent: "#80b5e3" },
+  { id: "template-008", name: "Château de Lune", label: "French · Old Money", description: "Moonlit château romance in eggshell, dusty blue, and formal garden elegance.", image: "/template-demos/template-008/chateau-hero.png", accent: "#a9b8c8" },
 ];
 
 export default function TemplateGallery() {

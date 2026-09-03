@@ -1,6 +1,7 @@
 import { editorialMedia } from "@/components/templates/template-005/shared";
 import { amalfiMedia } from "@/components/templates/template-006/shared";
 import { lisbonMedia } from "@/components/templates/template-007/shared";
+import { chateauMedia } from "@/components/templates/template-008/shared";
 
 export const template005Demo = {
   id: "demo-template-005",
@@ -127,3 +128,4 @@ export const template007Demo = {
   live_stream_url: "",
   sections: { hero: true, countdown: true, couple: true, story: true, event: true, live_stream: false, gallery: true, rsvp: true, gift: false, music: false },
 };
+export const template008Demo = { id:"demo-template-008",is_demo:true,slug:"chateau-de-lune-demo",status:"Published",template_id:"template-008",theme:"elegant-gold",groom_name:"Étienne Laurent",bride_name:"Camille Moreau",wedding_date:"2027-10-16",hero_background:chateauMedia.hero,groom_cutout:chateauMedia.groom,bride_cutout:chateauMedia.bride,gallery:"",story1_year:"2022",story1_title:"A first dance",story1_description:"A quiet beginning became our favourite tradition.",story2_year:"2026",story2_title:"The promise",story2_description:"Under a pale moon, we chose forever.",story3_year:"2027",story3_title:"Château de Lune",story3_description:"Now we gather our dearest people for one luminous evening.",akad_date:"2027-10-16",akad_time:"16:00",akad_venue:"Château de Lune",akad_address:"A formal garden celebration.",reception_date:"2027-10-16",reception_time:"18:30",reception_venue:"The Orangerie",reception_address:"Dinner and dancing by candlelight.",live_stream_title:"The ceremony, live.",live_stream_url:"",sections:{hero:true,countdown:true,couple:true,story:true,event:true,live_stream:true,gallery:true,rsvp:true,gift:false,music:false}};

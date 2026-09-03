@@ -49,6 +49,7 @@ const templates = [
     description: "Azulejo biru-putih dan arsitektur Lisbon untuk tampilan Eropa yang graphic-modern.",
     available: true,
   },
+  { id: "template-008", name: "Château de Lune", description: "French château old-money dengan dusty blue, monogram, dan garden formal.", available: true },
 ];
 
 export default function TemplatePicker({
