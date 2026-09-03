@@ -147,7 +147,7 @@ export default function InvitationStudio({ invitationId }: { invitationId: strin
   function setCanvasDocument(document: CanvasDocument) {
     setField("sections", { ...storedSections, studio_canvas: document });
   }
-  const showPortraitUpload = ["template-002", "template-003", "template-005", "template-006", "template-007", "template-008", "template-009", "template-010", "template-011"].includes(textValue(draft, "template_id"));
+  const showPortraitUpload = ["template-002", "template-003", "template-005", "template-006", "template-007", "template-008", "template-009", "template-010", "template-011", "template-012"].includes(textValue(draft, "template_id"));
 
   return (
     <div className="-m-8 min-h-[calc(100vh-4rem)] bg-[#eff1f5] text-[#19243a]">

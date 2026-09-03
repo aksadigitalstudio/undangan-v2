@@ -5,7 +5,7 @@ import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { templateCatalog } from "@/components/TemplateGallery";
 import { createClient } from "@/lib/supabase/server";
-import { template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo } from "@/lib/templateDemoData";
+import { template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo } from "@/lib/templateDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
@@ -30,7 +30,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     .limit(1)
     .maybeSingle();
 
-  const data = publishedInvitation ?? (templateId === "template-005" ? template005Demo : templateId === "template-006" ? template006Demo : templateId === "template-007" ? template007Demo : templateId === "template-008" ? template008Demo : templateId === "template-009" ? template009Demo : templateId === "template-010" ? template010Demo : templateId === "template-011" ? template011Demo : null);
+  const data = publishedInvitation ?? (templateId === "template-005" ? template005Demo : templateId === "template-006" ? template006Demo : templateId === "template-007" ? template007Demo : templateId === "template-008" ? template008Demo : templateId === "template-009" ? template009Demo : templateId === "template-010" ? template010Demo : templateId === "template-011" ? template011Demo : templateId === "template-012" ? template012Demo : null);
 
   if (error || !data) {
     notFound();
@@ -72,6 +72,8 @@ export default async function TemplatePreviewPage({ params }: Props) {
                   ? { background: "#f8f5ef" }
                   : data.template_id === "template-011"
                     ? { background: "#061b35" }
+                    : data.template_id === "template-012"
+                      ? { background: "#faf4e7" }
           : { background: currentTheme.background };
 
   const overlayStyle =
