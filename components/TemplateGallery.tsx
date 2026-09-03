@@ -12,6 +12,7 @@ export const templateCatalog = [
   { id: "template-008", name: "Château de Lune", label: "French · Old Money", description: "Moonlit château romance in eggshell, dusty blue, and formal garden elegance.", image: "/template-demos/template-008/chateau-hero.png", accent: "#a9b8c8" },
   { id: "template-009", name: "Midnight Cinema", label: "Cinema · Premiere", description: "A film-poster invitation with red velvet romance and after-dark celebration.", image: "/template-demos/template-009/cinema-hero.png", accent: "#d1a55d" },
   { id: "template-010", name: "Atelier No. 27", label: "Couture · Editorial", description: "A fashion atelier invitation with sketchbook textures, couture portraits, and a private-dinner finish.", image: "/template-demos/template-010/atelier-hero.png", accent: "#ad806a" },
+  { id: "template-011", name: "Underwater Vows", label: "Ocean · Resort", description: "A deep-sea invitation with aqua light, pearl details, and a serene shore-side celebration.", image: "/template-demos/template-011/underwater-hero.png", accent: "#7ce1e7" },
 ];
 
 export default function TemplateGallery() {

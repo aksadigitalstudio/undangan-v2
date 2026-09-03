@@ -365,7 +365,7 @@ max_guest: maxGuest,
   value={bridePhoto}
   onChange={setBridePhoto}
 />
-{["template-002", "template-003", "template-005", "template-006", "template-007", "template-008", "template-009", "template-010"].includes(templateId) && (
+{["template-002", "template-003", "template-005", "template-006", "template-007", "template-008", "template-009", "template-010", "template-011"].includes(templateId) && (
   <div className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-5">
     <h3 className="mb-2 text-lg font-bold text-black">
       Foto Mempelai Full Body
