@@ -1,5 +1,6 @@
 import { editorialMedia } from "@/components/templates/template-005/shared";
 import { amalfiMedia } from "@/components/templates/template-006/shared";
+import { lisbonMedia } from "@/components/templates/template-007/shared";
 
 export const template005Demo = {
   id: "demo-template-005",
@@ -83,6 +84,44 @@ export const template006Demo = {
   reception_time: "18:30",
   reception_venue: "Terrazza al Tramonto",
   reception_address: "Dinner, dancing, and a sunset toast by the water.",
+  reception_maps: "",
+  live_stream_title: "",
+  live_stream_url: "",
+  sections: { hero: true, countdown: true, couple: true, story: true, event: true, live_stream: false, gallery: true, rsvp: true, gift: false, music: false },
+};
+
+export const template007Demo = {
+  id: "demo-template-007",
+  is_demo: true,
+  slug: "lisbon-letters-demo",
+  status: "Published",
+  template_id: "template-007",
+  theme: "royal-blue",
+  groom_name: "Leon Duarte",
+  bride_name: "Mira Santos",
+  wedding_date: "2027-09-25",
+  hero_background: lisbonMedia.hero,
+  groom_cutout: lisbonMedia.groom,
+  bride_cutout: lisbonMedia.bride,
+  gallery: "",
+  story1_year: "2022",
+  story1_title: "The first postcard",
+  story1_description: "A handwritten note arrived at exactly the right time, inviting us to see the city and each other differently.",
+  story2_year: "2026",
+  story2_title: "The promise",
+  story2_description: "Between blue tile walls and bright afternoon light, we promised to keep choosing one another.",
+  story3_year: "2027",
+  story3_title: "The celebration",
+  story3_description: "Now we invite our favourite people to add their own beautiful line to our story.",
+  akad_date: "2027-09-25",
+  akad_time: "15:00",
+  akad_venue: "Pátio Azul",
+  akad_address: "Lisbon, Portugal\nA courtyard tiled in cobalt blue.",
+  akad_maps: "",
+  reception_date: "2027-09-25",
+  reception_time: "18:00",
+  reception_venue: "Miradouro Terrace",
+  reception_address: "An evening toast above the city rooftops.",
   reception_maps: "",
   live_stream_title: "",
   live_stream_url: "",

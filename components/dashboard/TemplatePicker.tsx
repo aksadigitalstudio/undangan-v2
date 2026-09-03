@@ -43,6 +43,12 @@ const templates = [
     description: "Italian Riviera wedding dengan cobalt tiles, lemon, dan suasana golden hour.",
     available: true,
   },
+  {
+    id: "template-007",
+    name: "Lisbon Letters",
+    description: "Azulejo biru-putih dan arsitektur Lisbon untuk tampilan Eropa yang graphic-modern.",
+    available: true,
+  },
 ];
 
 export default function TemplatePicker({
