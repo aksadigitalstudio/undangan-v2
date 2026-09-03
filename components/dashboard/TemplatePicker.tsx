@@ -54,6 +54,7 @@ const templates = [
   { id: "template-010", name: "Atelier No. 27", description: "Fashion atelier dengan couture sketchbook, kartu editorial, dan suasana private dinner yang mewah.", available: true },
   { id: "template-011", name: "Underwater Vows", description: "Undangan laut dalam dengan navy–aqua, pearl, motion gelembung, dan suasana beach-resort yang elegan.", available: true },
   { id: "template-012", name: "The Grand Tour", description: "Travel journal Eropa dengan paspor, kartu pos, peta kereta, koper vintage, dan RSVP boarding pass.", available: true },
+  { id: "template-013", name: "Celestial Observatory", description: "Deep navy dan silver dengan peta bintang, fase bulan, konstelasi pasangan, dan observatory clock.", available: true },
 ];
 
 export default function TemplatePicker({

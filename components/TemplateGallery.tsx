@@ -14,6 +14,7 @@ export const templateCatalog = [
   { id: "template-010", name: "Atelier No. 27", label: "Couture · Editorial", description: "A fashion atelier invitation with sketchbook textures, couture portraits, and a private-dinner finish.", image: "/template-demos/template-010/atelier-hero.png", accent: "#ad806a" },
   { id: "template-011", name: "Underwater Vows", label: "Ocean · Resort", description: "A deep-sea invitation with aqua light, pearl details, and a serene shore-side celebration.", image: "/template-demos/template-011/underwater-hero.png", accent: "#7ce1e7" },
   { id: "template-012", name: "The Grand Tour", label: "Travel · Destination", description: "A European travel journal with vintage luggage, postcards, railway maps, and a boarding-pass RSVP.", image: "/template-demos/template-012/grand-tour-hero.png", accent: "#a33d35" },
+  { id: "template-013", name: "Celestial Observatory", label: "Astronomy · Night", description: "A deep navy and silver star-map invitation for an unforgettable night under the same sky.", image: "/template-demos/template-013/celestial-hero.png", accent: "#c6d8fc" },
 ];
 
 export default function TemplateGallery() {

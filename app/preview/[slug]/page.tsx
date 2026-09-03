@@ -70,6 +70,8 @@ export default async function TemplatePreviewPage({ params }: Props) {
                     ? { background: "#061b35" }
                     : data.template_id === "template-012"
                       ? { background: "#faf4e7" }
+                      : data.template_id === "template-013"
+                        ? { background: "#050b21" }
           : { background: currentTheme.background };
 
   const overlayStyle =
