@@ -16,7 +16,7 @@ export default function BackToHome() {
   // Marketing and account pages already have a complete header with the AKSA
   // mark linking home. A second floating button there competes with that
   // navigation and makes the layout feel unfinished.
-  const hasPrimaryNavigation = ["/", "/templates", "/pricing", "/login", "/signup"].includes(pathname);
+  const hasPrimaryNavigation = ["/", "/templates", "/pricing", "/login", "/signup"].includes(pathname) || pathname.startsWith("/dashboard");
   if (hasPrimaryNavigation) return null;
 
   const isTemplatePreview = pathname.startsWith("/templates/");
