@@ -22,7 +22,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (error) {
-      setErrorMessage("Email atau password tidak valid.");
+      setErrorMessage("Your email or password is incorrect.");
       return;
     }
 
@@ -41,9 +41,9 @@ export default function LoginPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c94d43]">
             AKSA Digital Studio
           </p>
-          <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em] text-[#182235]">Selamat datang kembali</h1>
+          <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em] text-[#182235]">Welcome back</h1>
           <p className="mt-2 text-sm text-slate-600">
-            Masuk untuk melanjutkan mengelola undanganmu.
+            Sign in to continue shaping your invitation.
           </p>
         </div>
 
@@ -80,9 +80,9 @@ export default function LoginPage() {
           disabled={loading}
           className="w-full rounded-xl bg-[#182235] px-5 py-3.5 font-semibold text-white hover:bg-[#263653] disabled:opacity-60"
         >
-          {loading ? "Memproses..." : "Masuk"}
+          {loading ? "Signing in..." : "Log in"}
         </button>
-        <p className="text-center text-sm text-slate-600">Belum punya akun? <Link href="/signup" className="font-semibold text-[#c94d43] hover:underline">Daftar gratis</Link></p>
+        <p className="text-center text-sm text-slate-600">New to AKSA? <Link href="/signup" className="font-semibold text-[#c94d43] hover:underline">Create an account</Link></p>
       </form>
     </main>
   );
