@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LayoutDashboard, MailPlus } from "lucide-react";
 import { usePathname } from "next/navigation";
+import AksaBrand from "@/components/AksaBrand";
 
 const navigation = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -14,10 +15,7 @@ export default function Sidebar() {
 
   return (
     <aside className="hidden min-h-screen w-64 shrink-0 flex-col bg-[#182235] p-5 text-white lg:flex">
-      <Link href="/dashboard" className="flex items-center gap-3 px-3 py-3" aria-label="AKSA dashboard">
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-[#f3c777] font-serif text-base font-bold text-[#182235]">A</span>
-        <span className="font-serif text-xl font-semibold tracking-tight">AKSA</span>
-      </Link>
+      <Link href="/dashboard" className="px-3 py-3" aria-label="AKSA dashboard"><AksaBrand darkSurface /></Link>
 
       <p className="mt-10 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Workspace</p>
       <nav className="mt-3 space-y-1">

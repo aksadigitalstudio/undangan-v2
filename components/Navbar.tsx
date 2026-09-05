@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, LogOut, MailPlus } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import AksaBrand from "@/components/AksaBrand";
 
 const mobileNavigation = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -31,10 +32,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-40 border-b border-[#182235]/10 bg-white/95 backdrop-blur-xl">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-        <Link href="/dashboard" className="flex items-center gap-2 lg:hidden" aria-label="AKSA dashboard">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[#182235] font-serif text-sm font-bold text-[#f3c777]">A</span>
-          <span className="font-serif text-lg font-semibold text-[#182235]">AKSA</span>
-        </Link>
+        <Link href="/dashboard" className="lg:hidden" aria-label="AKSA dashboard"><AksaBrand /></Link>
         <p className="hidden text-sm font-medium text-[#687184] lg:block">Your invitation workspace</p>
 
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
@@ -45,7 +43,7 @@ export default function Navbar() {
           >
             <LogOut size={15} /> <span className="hidden sm:inline">Sign out</span>
           </button>
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#e65d51] text-sm font-bold text-white">A</div>
+          <AksaBrand monogramOnly className="h-9 w-9 overflow-hidden rounded-full border border-[#182235]/10 bg-[#fcfaf7] p-1" />
         </div>
       </div>
 

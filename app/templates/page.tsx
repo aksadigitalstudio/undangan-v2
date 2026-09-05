@@ -1,16 +1,14 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import TemplateGallery from "@/components/TemplateGallery";
+import AksaBrand from "@/components/AksaBrand";
 
 export default function TemplatesPage() {
   return (
     <main className="min-h-screen bg-[#f8f5ef] text-[#182235]">
       <header className="border-b border-[#182235]/10 bg-[#f8f5ef]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <Link href="/" className="flex items-center gap-3" aria-label="AKSA Digital Studio home">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-[#182235] font-serif text-lg font-bold text-[#f3c777] shadow-lg shadow-[#182235]/10">A</span>
-            <span className="font-serif text-xl font-semibold tracking-tight">AKSA</span>
-          </Link>
+          <Link href="/" aria-label="AKSA Digital Studio home"><AksaBrand /></Link>
           <div className="flex items-center gap-2 sm:gap-3">
             <Link href="/login" className="rounded-full px-3 py-2.5 text-sm font-semibold transition hover:bg-white sm:px-5">Log in</Link>
             <Link href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#e65d51] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#e65d51]/20 transition hover:-translate-y-0.5 hover:bg-[#d94f44] sm:px-5">Get started <ArrowRight size={15} /></Link>

@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   description:
     "Platform undangan digital modern dengan RSVP online, galeri foto, countdown, peta lokasi, dan gift registry.",
 applicationName: "AKSA Digital Studio",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 
 metadataBase: new URL("https://aksadigitalstudio.com"),
   keywords: [

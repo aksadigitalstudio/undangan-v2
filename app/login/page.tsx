@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import AksaBrand from "@/components/AksaBrand";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,9 +39,7 @@ export default function LoginPage() {
         className="w-full max-w-md space-y-6 rounded-[2rem] border border-[#182235]/10 bg-white p-8 shadow-xl shadow-[#182235]/10 sm:p-10"
       >
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c94d43]">
-            AKSA Digital Studio
-          </p>
+          <AksaBrand />
           <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em] text-[#182235]">Welcome back</h1>
           <p className="mt-2 text-sm text-slate-600">
             Sign in to continue shaping your invitation.

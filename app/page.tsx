@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import HeroTemplateCarousel from "@/components/HeroTemplateCarousel";
 import TemplateGallery from "@/components/TemplateGallery";
+import AksaBrand from "@/components/AksaBrand";
 
 const invitationFeatures = [
   {
@@ -64,12 +65,7 @@ export default function Home() {
     <main className="min-h-screen overflow-hidden bg-[#fcfaf7] text-[#19243a]">
       <header className="border-b border-[#19243a]/10 bg-[#fcfaf7]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <Link href="/" className="flex items-center gap-3" aria-label="AKSA Digital Studio home">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-[#19243a] font-serif text-lg font-bold text-[#f4c979] shadow-lg shadow-[#19243a]/10">
-              A
-            </span>
-            <span className="font-serif text-xl font-semibold tracking-tight">AKSA</span>
-          </Link>
+          <Link href="/" aria-label="AKSA Digital Studio home"><AksaBrand /></Link>
 
           <nav className="hidden items-center gap-8 text-sm font-medium text-[#657087] md:flex">
             <a href="#features" className="transition hover:text-[#19243a]">Why AKSA</a>

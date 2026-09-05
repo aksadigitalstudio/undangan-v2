@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import AksaBrand from "@/components/AksaBrand";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -51,10 +52,7 @@ export default function SignupPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#f8f5ef] px-6 py-12 text-[#182235]">
       <div className="w-full max-w-md rounded-[2rem] border border-[#182235]/10 bg-white p-8 shadow-xl shadow-[#182235]/10 sm:p-10">
-        <Link href="/" className="flex items-center gap-3" aria-label="AKSA Digital Studio home">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-[#182235] font-serif text-lg font-bold text-[#f3c777]">A</span>
-          <span className="font-serif text-xl font-semibold">AKSA</span>
-        </Link>
+        <Link href="/" aria-label="AKSA Digital Studio home"><AksaBrand /></Link>
         <div className="mt-9">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c94d43]">Start your story</p>
           <h1 className="mt-3 font-serif text-4xl tracking-[-0.03em]">Create your account</h1>
