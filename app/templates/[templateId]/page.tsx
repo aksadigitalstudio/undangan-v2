@@ -5,7 +5,7 @@ import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { templateCatalog } from "@/components/TemplateGallery";
 import { createClient } from "@/lib/supabase/server";
-import { template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo, template013Demo, template014Demo } from "@/lib/templateDemoData";
+import { template001Demo, template002Demo, template003Demo, template004Demo, template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo, template013Demo, template014Demo } from "@/lib/templateDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
@@ -21,7 +21,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
   }
 
   const supabase = await createClient();
-  const { data: publishedInvitation, error } = await supabase
+  const { data: publishedInvitation } = await supabase
     .from("invitations")
     .select("*")
     .eq("template_id", templateId)
@@ -30,9 +30,26 @@ export default async function TemplatePreviewPage({ params }: Props) {
     .limit(1)
     .maybeSingle();
 
-  const data = publishedInvitation ?? (templateId === "template-005" ? template005Demo : templateId === "template-006" ? template006Demo : templateId === "template-007" ? template007Demo : templateId === "template-008" ? template008Demo : templateId === "template-009" ? template009Demo : templateId === "template-010" ? template010Demo : templateId === "template-011" ? template011Demo : templateId === "template-012" ? template012Demo : templateId === "template-013" ? template013Demo : templateId === "template-014" ? template014Demo : null);
+  const demoByTemplateId = {
+    "template-001": template001Demo,
+    "template-002": template002Demo,
+    "template-003": template003Demo,
+    "template-004": template004Demo,
+    "template-005": template005Demo,
+    "template-006": template006Demo,
+    "template-007": template007Demo,
+    "template-008": template008Demo,
+    "template-009": template009Demo,
+    "template-010": template010Demo,
+    "template-011": template011Demo,
+    "template-012": template012Demo,
+    "template-013": template013Demo,
+    "template-014": template014Demo,
+  };
+  const fallbackDemo = demoByTemplateId[templateId as keyof typeof demoByTemplateId];
+  const data = publishedInvitation ?? fallbackDemo;
 
-  if (error || !data) {
+  if (!data) {
     notFound();
   }
 
