@@ -74,6 +74,7 @@ export default function Home() {
           <nav className="hidden items-center gap-8 text-sm font-medium text-[#657087] md:flex">
             <a href="#features" className="transition hover:text-[#19243a]">Why AKSA</a>
             <Link href="/templates" className="transition hover:text-[#19243a]">Templates</Link>
+            <Link href="/pricing" className="transition hover:text-[#19243a]">Experiences</Link>
             <a href="#how-it-works" className="transition hover:text-[#19243a]">How it works</a>
           </nav>
 
@@ -212,6 +213,7 @@ export default function Home() {
           <p>© 2026 AKSA Digital Studio</p>
           <div className="flex gap-5">
             <Link href="/templates" className="transition hover:text-[#19243a]">Templates</Link>
+            <Link href="/pricing" className="transition hover:text-[#19243a]">Experiences</Link>
             <Link href="/login" className="transition hover:text-[#19243a]">Log in</Link>
             <Link href="/signup" className="transition hover:text-[#19243a]">Create an invitation</Link>
           </div>
