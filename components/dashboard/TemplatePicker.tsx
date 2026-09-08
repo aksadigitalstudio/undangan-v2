@@ -56,6 +56,7 @@ const templates = [
   { id: "template-012", name: "The Grand Tour", description: "Travel journal Eropa dengan paspor, kartu pos, peta kereta, koper vintage, dan RSVP boarding pass.", available: true },
   { id: "template-013", name: "Celestial Observatory", description: "Deep navy dan silver dengan peta bintang, fase bulan, konstelasi pasangan, dan observatory clock.", available: true },
   { id: "template-014", name: "Side A, Side B", description: "Indie vinyl dengan album cover, tracklist cerita, concert ticket, dan RSVP Guest List Pass.", available: true },
+  { id: "template-015", name: "Kintsugi Promise", description: "Keramik Jepang, clay, ivory, dan garis emas untuk intimate wedding yang tenang dan premium.", available: true },
 ];
 
 export default function TemplatePicker({
