@@ -54,7 +54,7 @@ export async function POST(request: Request) {
   const admin = createAdminClient();
   const { data: order, error: readError } = await admin
     .from("payment_orders")
-    .select("amount_idr")
+    .select("id, amount_idr, product_code, user_id")
     .eq("order_code", notification.order_id)
     .maybeSingle();
 
@@ -77,6 +77,28 @@ export async function POST(request: Request) {
   if (updateError) {
     console.error("Unable to update payment order", updateError);
     return NextResponse.json({ message: "Unable to save payment status." }, { status: 500 });
+  }
+
+  // Only a signature-verified paid transaction may create a workspace credit.
+  // `source_order_id` is unique, so Midtrans notification retries cannot grant
+  // multiple invitations for one payment.
+  if (status === "paid" && order.user_id) {
+    const { error: entitlementError } = await admin
+      .from("account_entitlements")
+      .upsert(
+        {
+          user_id: order.user_id,
+          source_order_id: order.id,
+          product_code: order.product_code,
+          status: "active",
+        },
+        { onConflict: "source_order_id", ignoreDuplicates: true }
+      );
+
+    if (entitlementError) {
+      console.error("Unable to grant paid invitation workspace", entitlementError);
+      return NextResponse.json({ message: "Payment was verified but workspace provisioning failed." }, { status: 500 });
+    }
   }
 
   return NextResponse.json({ received: true });

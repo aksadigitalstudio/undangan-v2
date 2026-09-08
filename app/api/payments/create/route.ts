@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { getPaymentProduct } from "@/lib/payments/catalog";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
@@ -39,6 +40,15 @@ export async function POST(request: Request) {
   const customerPhone = cleanText(body.customerPhone, 32);
   const customerNote = cleanText(body.customerNote, 500);
 
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ message: "Please sign in before starting checkout." }, { status: 401 });
+  }
+
   if (!product || !product.priceIdr) {
     return NextResponse.json({ message: "This product is not ready for checkout yet." }, { status: 400 });
   }
@@ -64,6 +74,7 @@ export async function POST(request: Request) {
     customer_email: customerEmail,
     customer_phone: customerPhone || null,
     customer_note: customerNote || null,
+    user_id: user.id,
     provider: "midtrans",
     status: "created",
   });

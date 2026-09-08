@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import AksaBrand from "@/components/AksaBrand";
@@ -14,6 +14,12 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [next, setNext] = useState("/dashboard");
+
+  useEffect(() => {
+    const requestedNext = new URLSearchParams(window.location.search).get("next");
+    setNext(requestedNext?.startsWith("/") ? requestedNext : "/dashboard");
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,7 +39,7 @@ export default function SignupPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+      options: { emailRedirectTo: `${window.location.origin}/login?next=${encodeURIComponent(next)}` },
     });
     setLoading(false);
 
@@ -42,7 +48,7 @@ export default function SignupPage() {
       return;
     }
     if (data.session) {
-      router.replace("/dashboard");
+      router.replace(next);
       router.refresh();
       return;
     }
@@ -77,7 +83,7 @@ export default function SignupPage() {
           </label>
           <button type="submit" disabled={loading} className="w-full rounded-xl bg-[#e65d51] px-5 py-3.5 font-bold text-white transition hover:bg-[#d94f44] disabled:opacity-60">{loading ? "Creating your account..." : "Create account"}</button>
         </form>
-        <p className="mt-7 text-center text-sm text-[#687184]">Already have an account? <Link href="/login" className="font-bold text-[#c94d43] hover:underline">Log in</Link></p>
+        <p className="mt-7 text-center text-sm text-[#687184]">Already have an account? <Link href={`/login?next=${encodeURIComponent(next)}`} className="font-bold text-[#c94d43] hover:underline">Log in</Link></p>
       </div>
     </main>
   );

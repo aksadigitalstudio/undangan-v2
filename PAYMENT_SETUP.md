@@ -4,11 +4,23 @@ This project contains a payment-ready checkout. It does **not** accept a payment
 
 ## 1. Apply the database migration
 
-Open the Supabase SQL Editor, paste the content of:
+Open the Supabase SQL Editor and run these files in order:
 
-`supabase/migrations/20260906_payment_orders.sql`
+1. `supabase/migrations/20260906_payment_orders.sql`
+2. `supabase/migrations/20260908_paid_workspace_access.sql`
 
-and run it once. This creates the private `payment_orders` table. Orders are created and updated only by server routes; users cannot submit a price or mark an order paid from the browser.
+This creates the private `payment_orders` table and paid workspace entitlement system. Orders are created and updated only by server routes; users cannot submit a price, mark an order paid, or create an invitation without an available paid workspace credit.
+
+### Grant your existing admin account one testing workspace
+
+The new gate deliberately locks every account until it has a paid order. For your existing AKSA admin account, you can grant one internal testing workspace once in the SQL Editor (replace the UUID with the user id from **Authentication → Users**):
+
+```sql
+insert into public.account_entitlements (user_id, product_code, status)
+values ('YOUR_AUTH_USER_UUID', 'internal-admin-workspace', 'active');
+```
+
+This is only for AKSA’s own test/admin workspace. Do not use it for paying clients.
 
 ## 2. Configure sandbox keys
 
@@ -48,13 +60,13 @@ The checkout also sends that URL as an `X-Override-Notification` header. Midtran
 
 ## 5. Test in sandbox
 
-After setting the variables, deploy and open:
+After setting the variables, deploy, sign in to an AKSA account, and open:
 
 ```text
 https://aksadigitalstudio.com/checkout?product=digital-invitation
 ```
 
-Use Midtrans Sandbox payment instructions. A successful payment should update `payment_orders.status` to `paid` only after the webhook is received.
+Use Midtrans Sandbox payment instructions. A successful payment should update `payment_orders.status` to `paid` only after the webhook is received, then grant that signed-in account one unused row in `account_entitlements`.
 
 ## 6. Go live
 

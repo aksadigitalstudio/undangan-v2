@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import TemplatePicker from "@/components/dashboard/TemplatePicker";
+import { LockKeyhole } from "lucide-react";
 export default function NewInvitationPage() {
   const router = useRouter();
 
@@ -11,6 +13,33 @@ export default function NewInvitationPage() {
   const [brideName, setBrideName] = useState("");
   const [loading, setLoading] = useState(false);
   const [templateId, setTemplateId] = useState("template-001");
+  const [accessLoading, setAccessLoading] = useState(true);
+  const [canCreateInvitation, setCanCreateInvitation] = useState(false);
+
+  useEffect(() => {
+    async function checkAccess() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.replace("/login?next=/dashboard/invitations/new");
+        return;
+      }
+
+      const { count, error } = await supabase
+        .from("account_entitlements")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("status", "active")
+        .is("used_at", null);
+
+      setCanCreateInvitation(!error && (count ?? 0) > 0);
+      setAccessLoading(false);
+    }
+
+    void checkAccess();
+  }, [router]);
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -61,10 +90,11 @@ export default function NewInvitationPage() {
         Tambah Undangan
       </h1>
 
-      <form
+      {accessLoading ? <div className="rounded-2xl bg-white p-8 text-sm text-slate-600 shadow">Checking your workspace access...</div> : !canCreateInvitation ? <div className="max-w-2xl rounded-2xl border border-[#e65d51]/20 bg-[#fff6f3] p-7 shadow-sm"><LockKeyhole className="text-[#c94d43]" size={26} /><h2 className="mt-4 text-2xl font-bold text-[#182235]">Choose an experience to unlock your workspace.</h2><p className="mt-3 leading-7 text-[#687184]">A new invitation is available only after payment is confirmed. This protects every AKSA workspace from unpaid access.</p><Link href="/pricing" className="mt-6 inline-flex rounded-xl bg-[#182235] px-5 py-3 text-sm font-bold text-white">View experiences</Link></div> : <form
         onSubmit={handleSubmit}
         className="bg-white rounded-xl shadow p-8 space-y-6"
       >
+
         <div>
           <label className="block font-semibold text-black mb-2">
             Nama Mempelai Pria
@@ -105,7 +135,7 @@ export default function NewInvitationPage() {
         >
           {loading ? "Menyimpan..." : "Simpan Undangan"}
         </button>
-      </form>
+      </form>}
     </>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { LockKeyhole } from "lucide-react";
 
 interface Invitation {
   id: number;
@@ -21,6 +22,7 @@ function StatusPill({ status }: { status: string }) {
 export default function InvitationsPage() {
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [canCreateInvitation, setCanCreateInvitation] = useState<boolean | null>(null);
 
   useEffect(() => {
     fetchInvitations();
@@ -28,7 +30,10 @@ export default function InvitationsPage() {
 
   async function fetchInvitations() {
     setLoading(true);
-    const { data, error } = await supabase.from("invitations").select("*").order("created_at", { ascending: false });
+    const [{ data, error }, { data: authData }] = await Promise.all([
+      supabase.from("invitations").select("*").order("created_at", { ascending: false }),
+      supabase.auth.getUser(),
+    ]);
 
     if (error) {
       alert(error.message);
@@ -37,6 +42,18 @@ export default function InvitationsPage() {
     }
 
     setInvitations(data ?? []);
+
+    if (authData.user) {
+      const { count, error: entitlementError } = await supabase
+        .from("account_entitlements")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", authData.user.id)
+        .eq("status", "active")
+        .is("used_at", null);
+      setCanCreateInvitation(!entitlementError && (count ?? 0) > 0);
+    } else {
+      setCanCreateInvitation(false);
+    }
     setLoading(false);
   }
 
@@ -62,8 +79,10 @@ export default function InvitationsPage() {
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e65d51]">Workspace</p>
           <h1 className="mt-1 text-3xl font-bold tracking-tight text-[#182235] sm:text-4xl">Daftar Undangan</h1>
         </div>
-        <Link href="/dashboard/invitations/new" className="inline-flex w-full items-center justify-center rounded-xl bg-[#182235] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-[#182235]/15 transition hover:-translate-y-0.5 hover:bg-[#263653] sm:w-auto">+ Tambah Undangan</Link>
+        {canCreateInvitation ? <Link href="/dashboard/invitations/new" className="inline-flex w-full items-center justify-center rounded-xl bg-[#182235] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-[#182235]/15 transition hover:-translate-y-0.5 hover:bg-[#263653] sm:w-auto">+ Tambah Undangan</Link> : <Link href="/pricing" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#e65d51] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-[#e65d51]/15 transition hover:-translate-y-0.5 hover:bg-[#d64e43] sm:w-auto"><LockKeyhole size={16} /> Unlock workspace</Link>}
       </div>
+
+      {canCreateInvitation === false && <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-[#e65d51]/20 bg-[#fff6f3] p-5 text-[#182235] sm:flex-row sm:items-center sm:justify-between"><div><p className="font-bold">Your account is ready. Your invitation workspace is locked.</p><p className="mt-1 text-sm leading-6 text-[#687184]">Choose an AKSA experience and complete payment to unlock one invitation workspace.</p></div><Link href="/pricing" className="shrink-0 text-sm font-bold text-[#c94d43] hover:underline">View experiences →</Link></div>}
 
       <div className="space-y-3 md:hidden">
         {loading && <div className="rounded-2xl border border-[#182235]/10 bg-white p-6 text-center text-sm text-[#687184]">Loading invitations...</div>}
