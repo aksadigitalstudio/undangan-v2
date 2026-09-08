@@ -58,6 +58,7 @@ const templates = [
   { id: "template-014", name: "Side A, Side B", description: "Indie vinyl dengan album cover, tracklist cerita, concert ticket, dan RSVP Guest List Pass.", available: true },
   { id: "template-015", name: "Kintsugi Promise", description: "Keramik Jepang, clay, ivory, dan garis emas untuk intimate wedding yang tenang dan premium.", available: true },
   { id: "template-016", name: "Riad After Dark", description: "Riad Marrakech dengan zellige emerald, terracotta, brass lantern, dan suasana malam yang mewah.", available: true },
+  { id: "template-017", name: "Copenhagen Quiet", description: "Danish modern dengan batu pucat, walnut, grid editorial, dan suasana hotel yang tenang serta premium.", available: true },
 ];
 
 export default function TemplatePicker({

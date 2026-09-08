@@ -5,7 +5,7 @@ import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { templateCatalog } from "@/components/TemplateGallery";
 import { createClient } from "@/lib/supabase/server";
-import { template001Demo, template002Demo, template003Demo, template004Demo, template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo, template013Demo, template014Demo, template015Demo, template016Demo } from "@/lib/templateDemoData";
+import { template001Demo, template002Demo, template003Demo, template004Demo, template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo, template013Demo, template014Demo, template015Demo, template016Demo, template017Demo } from "@/lib/templateDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
@@ -47,6 +47,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     "template-014": template014Demo,
     "template-015": template015Demo,
     "template-016": template016Demo,
+    "template-017": template017Demo,
   };
   const fallbackDemo = demoByTemplateId[templateId as keyof typeof demoByTemplateId];
   const data = publishedInvitation ?? fallbackDemo;
