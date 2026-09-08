@@ -82,10 +82,10 @@ export default function Home() {
               Log in
             </Link>
             <Link
-              href="/signup"
+              href="/pricing"
               className="inline-flex items-center gap-2 rounded-full bg-[#ed6c62] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#ed6c62]/20 transition hover:-translate-y-0.5 hover:bg-[#db584e] sm:px-5"
             >
-              Get started <ArrowRight size={15} />
+              Explore packages <ArrowRight size={15} />
             </Link>
           </div>
         </div>
@@ -109,10 +109,10 @@ export default function Home() {
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
-                href="/signup"
+                href="/pricing"
                 className="inline-flex items-center gap-3 rounded-full bg-[#19243a] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#19243a]/20 transition hover:-translate-y-1 hover:bg-[#2a3853]"
               >
-                Create your invitation <ArrowRight size={17} />
+                Explore packages <ArrowRight size={17} />
               </Link>
               <Link
                 href="/templates"
@@ -196,10 +196,10 @@ export default function Home() {
             </h2>
           </div>
           <Link
-            href="/signup"
+            href="/pricing"
             className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#19243a] px-6 py-3.5 text-sm font-bold text-white transition hover:-translate-y-1 hover:bg-[#2a3853]"
           >
-            Start creating <ChevronRight size={17} />
+            View packages <ChevronRight size={17} />
           </Link>
         </div>
       </section>
