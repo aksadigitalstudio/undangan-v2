@@ -17,6 +17,7 @@ export const templateCatalog = [
   { id: "template-013", name: "Celestial Observatory", label: "Astronomy · Night", description: "A deep navy and silver star-map invitation for an unforgettable night under the same sky.", image: "/template-demos/template-013/celestial-hero.png", accent: "#c6d8fc" },
   { id: "template-014", name: "Side A, Side B", label: "Music · Vinyl", description: "An indie vinyl invitation with album art, music-track storytelling, and a concert-night finish.", image: "/template-demos/template-014/side-a-hero.png", accent: "#f4d8a4" },
   { id: "template-015", name: "Kintsugi Promise", label: "Ceramic · Intimate", description: "Clay, ivory, and gold seams for a quiet promise made more beautiful together.", image: "/template-demos/template-015/kintsugi-hero.png", accent: "#c99b45" },
+  { id: "template-016", name: "Riad After Dark", label: "Marrakech · Nocturne", description: "Emerald zellige, terracotta, brass lanterns, and a candlelit courtyard made for a destination celebration.", image: "/template-demos/template-016/riad-hero.png", accent: "#c99c52" },
 ];
 
 export default function TemplateGallery() {
