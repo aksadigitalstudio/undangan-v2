@@ -1,220 +1,70 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  CalendarDays,
-  Check,
-  ChevronRight,
-  Gift,
-  Globe2,
-  MessageCircleHeart,
-  Music2,
-  Play,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, Check, ChevronRight, CirclePlay, Film, HeartHandshake, MessageCircle, Music2, Sparkles } from "lucide-react";
 import HeroTemplateCarousel from "@/components/HeroTemplateCarousel";
 import TemplateGallery from "@/components/TemplateGallery";
 import AksaBrand from "@/components/AksaBrand";
 
-const invitationFeatures = [
-  {
-    icon: CalendarDays,
-    title: "Every detail, in one place",
-    description:
-      "Share your date, venue, maps, schedule, and dress code in a calm, beautiful flow.",
-  },
-  {
-    icon: MessageCircleHeart,
-    title: "Made for your guests",
-    description:
-      "Collect RSVP responses and heartfelt wishes without sending guests from one link to another.",
-  },
-  {
-    icon: Gift,
-    title: "Thoughtful gifting",
-    description:
-      "Add gift registry and bank-transfer details elegantly, only when you need them.",
-  },
-  {
-    icon: Music2,
-    title: "A feeling they can hear",
-    description:
-      "Music, photo stories, and live streaming turn a simple link into a complete celebration.",
-  },
+const whatsappNumber = "628133224919";
+const whatsappUrl = (packageName = "an AKSA invitation") => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hello AKSA, I am interested in ${packageName}. I would like to discuss my event invitation.`)}`;
+
+const packages = [
+  { name: "Digital Invitation", label: "The essential edit", price: "Rp199.000", was: "Rp250.000", color: "#f16e61", surface: "bg-[#fff1ec]", items: ["A template of your choice", "RSVP, gallery, map, gift & livestream", "One elegant shareable link"] },
+  { name: "Original Love Song", label: "AKSA signature", price: "Rp499.000", color: "#f4cf6c", surface: "bg-[#16243d] text-white", featured: true, items: ["Everything in Digital Invitation", "Original song concept from your story", "A soundtrack made only for your celebration"] },
+  { name: "AI Love Film", label: "The cinematic commission", price: "From Rp1.499.000", note: "+ negotiable based on treatment", color: "#88b5c8", surface: "bg-[#e8f3f6]", items: ["Everything in Original Love Song", "AI visual storytelling around the couple", "Creative direction and guided review"] },
 ];
 
-const steps = [
-  {
-    number: "01",
-    title: "Choose your atmosphere",
-    description: "Start with a live template and find the visual mood that feels most like you.",
-  },
-  {
-    number: "02",
-    title: "Make it personal",
-    description: "Add your names, story, photos, event details, music, and every little touch.",
-  },
-  {
-    number: "03",
-    title: "Share the moment",
-    description: "Publish one elegant link, then send it to everyone you love from any device.",
-  },
+const reasons = [
+  ["01", "A real invitation, not a landing page", "Guests receive the story, schedule, map, RSVP, gift details, gallery, and livestream in one considered space."],
+  ["02", "A world that belongs to you", "Choose from original AKSA visual worlds, then make the names, images, sound, and details fully yours."],
+  ["03", "A human behind every order", "Start with a direct conversation with AKSA. We confirm the creative direction and timeline together."],
 ];
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#fcfaf7] text-[#19243a]">
-      <header className="border-b border-[#19243a]/10 bg-[#fcfaf7]/95 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
+    <main className="min-h-screen overflow-hidden bg-[#fffaf5] text-[#18243a]">
+      <header className="sticky top-0 z-40 border-b border-[#18243a]/10 bg-[#fffaf5]/90 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-6 lg:px-10">
           <Link href="/" aria-label="AKSA Digital Studio home"><AksaBrand /></Link>
-
-          <nav className="hidden items-center gap-8 text-sm font-medium text-[#657087] md:flex">
-            <a href="#features" className="transition hover:text-[#19243a]">Why AKSA</a>
-            <Link href="/templates" className="transition hover:text-[#19243a]">Templates</Link>
-            <Link href="/pricing" className="transition hover:text-[#19243a]">Experiences</Link>
-            <a href="#how-it-works" className="transition hover:text-[#19243a]">How it works</a>
+          <nav className="hidden items-center gap-7 text-sm font-semibold text-[#5c677d] md:flex">
+            <a href="#how-it-works" className="transition hover:text-[#ef655a]">How it works</a><Link href="/templates" className="transition hover:text-[#ef655a]">Templates</Link><a href="#pricing" className="transition hover:text-[#ef655a]">Packages</a>
           </nav>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              href="/login"
-              className="rounded-full px-3 py-2.5 text-sm font-semibold text-[#19243a] transition hover:bg-white sm:px-5"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 rounded-full bg-[#ed6c62] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#ed6c62]/20 transition hover:-translate-y-0.5 hover:bg-[#db584e] sm:px-5"
-            >
-              Explore packages <ArrowRight size={15} />
-            </Link>
-          </div>
+          <div className="flex items-center gap-1.5 sm:gap-3"><Link href="/login" className="hidden rounded-full px-3 py-2 text-sm font-semibold transition hover:bg-white sm:block sm:px-4">Log in</Link><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#ef655a] px-3.5 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#ef655a]/25 transition hover:-translate-y-0.5 hover:bg-[#da5147] sm:px-5 sm:text-sm"><MessageCircle size={16} /> Chat with AKSA</a></div>
         </div>
       </header>
 
-      <section className="relative isolate mx-auto max-w-7xl px-6 pb-24 pt-16 lg:px-10 lg:pb-32 lg:pt-24">
-        <div className="pointer-events-none absolute -left-28 bottom-0 -z-10 h-72 w-72 rounded-full bg-[#f4c979]/20 blur-3xl" />
-        <div className="pointer-events-none absolute right-0 top-6 -z-10 h-80 w-80 rounded-full bg-[#f4b7aa]/20 blur-3xl" />
-
-        <div className="grid items-center gap-14 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
-          <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-2 rounded-full bg-[#fdebe7] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#d95a50]">
-              <Sparkles size={14} /> Modern wedding invitations
-            </p>
-            <h1 className="mt-7 font-serif text-5xl leading-[0.96] tracking-[-0.045em] text-[#19243a] sm:text-6xl lg:text-8xl">
-              A beautiful beginning for your <span className="text-[#e26257]">forever.</span>
-            </h1>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-[#657087] sm:text-xl">
-              Create a wedding invitation that feels unmistakably yours—thoughtful, effortless to share, and memorable for every guest.
-            </p>
-
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <Link
-                href="/pricing"
-                className="inline-flex items-center gap-3 rounded-full bg-[#19243a] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#19243a]/20 transition hover:-translate-y-1 hover:bg-[#2a3853]"
-              >
-                Explore packages <ArrowRight size={17} />
-              </Link>
-              <Link
-                href="/templates"
-                className="inline-flex items-center gap-2 rounded-full border border-[#19243a]/15 bg-white px-6 py-3.5 text-sm font-bold text-[#19243a] transition hover:-translate-y-1 hover:border-[#19243a]/30"
-              >
-                <Play size={15} fill="currentColor" /> Browse live demos
-              </Link>
-            </div>
-
-            <div className="mt-12 flex flex-wrap gap-x-7 gap-y-3 border-t border-[#19243a]/10 pt-6 text-sm font-medium text-[#657087]">
-              <span className="inline-flex items-center gap-2"><Check size={16} className="text-[#67906f]" /> Four original themes</span>
-              <span className="inline-flex items-center gap-2"><Check size={16} className="text-[#67906f]" /> Built for every screen</span>
-              <span className="inline-flex items-center gap-2"><Check size={16} className="text-[#67906f]" /> Ready to share</span>
-            </div>
+      <section className="relative isolate">
+        <div className="absolute inset-0 -z-10 overflow-hidden bg-[radial-gradient(circle_at_12%_20%,#ffd9c5_0,transparent_26%),radial-gradient(circle_at_83%_14%,#cde7ef_0,transparent_24%),radial-gradient(circle_at_55%_88%,#fde7a9_0,transparent_32%)]" />
+        <div className="aksa-orb absolute -left-28 top-24 -z-10 h-72 w-72 rounded-full bg-[#ffc6b7]/60 blur-3xl" /><div className="aksa-orb-delayed absolute right-0 top-12 -z-10 h-80 w-80 rounded-full bg-[#badfeb]/70 blur-3xl" />
+        <div className="mx-auto grid min-w-0 max-w-7xl gap-12 px-5 pb-20 pt-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,.86fr)] lg:items-center lg:gap-20 lg:px-10 lg:pb-28 lg:pt-20">
+          <div className="aksa-fade-up min-w-0 max-w-2xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-[#ef655a]/20 bg-white/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[.2em] text-[#d95349] shadow-sm"><Sparkles size={14} /> Digital invitations, made personal</p>
+            <h1 className="mt-6 font-serif text-[3.45rem] leading-[.88] tracking-[-.045em] text-[#18243a] sm:text-6xl lg:text-7xl xl:text-[5.25rem]">Your story,<br /><span className="text-[#ed675d]">beautifully</span> invited.</h1>
+            <p className="mt-7 max-w-xl text-base leading-8 text-[#53627a] sm:text-lg">AKSA creates personal digital invitations for weddings, birthdays, intimate gatherings, community events, and meaningful farewells—made to feel like the occasion itself.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap"><a href={whatsappUrl("the Digital Invitation package")} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#18243a] px-5 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#18243a]/20 transition hover:-translate-y-1 hover:bg-[#293957]"><MessageCircle size={17} /> Start on WhatsApp <ArrowRight size={16} /></a><Link href="/templates" className="inline-flex items-center justify-center gap-2 rounded-full border border-[#18243a]/15 bg-white/80 px-5 py-3.5 text-sm font-bold transition hover:-translate-y-1 hover:border-[#ef655a]/45 hover:text-[#d95349]"><CirclePlay size={17} /> View live templates</Link></div>
+            <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 border-t border-[#18243a]/10 pt-5 text-[#53627a]"><div><p className="font-serif text-2xl text-[#18243a]">17</p><p className="mt-1 text-xs leading-4">distinct live worlds</p></div><div><p className="font-serif text-2xl text-[#18243a]">1:1</p><p className="mt-1 text-xs leading-4">direct consultation</p></div><div><p className="font-serif text-2xl text-[#18243a]">1 link</p><p className="mt-1 text-xs leading-4">for every guest</p></div></div>
           </div>
-
-          <HeroTemplateCarousel />
+          <div className="aksa-fade-up-delay min-w-0"><HeroTemplateCarousel /></div>
         </div>
       </section>
 
-      <section id="features" className="border-y border-[#19243a]/10 bg-white/75 px-6 py-20 lg:px-10 lg:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#d95a50]">Designed around the day</p>
-            <h2 className="mt-4 font-serif text-4xl leading-[1.02] tracking-[-0.035em] text-[#19243a] sm:text-6xl">
-              Everything guests need, beautifully considered.
-            </h2>
-          </div>
+      <section id="how-it-works" className="relative bg-[#18243a] px-5 py-20 text-white sm:px-6 lg:px-10 lg:py-28">
+        <div className="absolute inset-y-0 right-0 w-1/3 bg-[linear-gradient(135deg,transparent_48%,rgba(244,207,108,.12)_49%,transparent_51%)] bg-[length:36px_36px]" /><div className="relative mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[.75fr_1fr] lg:items-end"><div><p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#f4cf6c]">From spark to send</p><h2 className="mt-5 max-w-md font-serif text-4xl leading-[.96] sm:text-5xl">A simple process with a personal finish.</h2><p className="mt-6 max-w-md text-sm leading-7 text-white/65">No empty template, no confusing checkout. You begin with a conversation and we shape the right invitation experience together.</p></div><div className="grid gap-5 sm:grid-cols-3">{reasons.map(([number, title, description]) => <article key={number} className="border-t border-white/20 pt-5"><p className="font-serif text-3xl text-[#f4cf6c]">{number}</p><h3 className="mt-5 text-base font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-white/60">{description}</p></article>)}</div></div></div>
+      </section>
 
-          <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {invitationFeatures.map(({ icon: Icon, title, description }) => (
-              <article key={title} className="border-t border-[#19243a]/15 pt-5">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#fdebe7] text-[#d95a50]">
-                  <Icon size={19} />
-                </span>
-                <h3 className="mt-6 font-serif text-2xl text-[#19243a]">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#657087]">{description}</p>
-              </article>
-            ))}
-          </div>
+      <section id="pricing" className="relative overflow-hidden bg-[#fffaf5] px-5 py-20 sm:px-6 lg:px-10 lg:py-28">
+        <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-[48rem] -translate-x-1/2 rounded-full bg-[#ffe7bd]/60 blur-3xl" /><div className="relative mx-auto max-w-7xl"><div className="mx-auto max-w-3xl text-center"><p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#d95349]">Choose your AKSA experience</p><h2 className="mt-4 font-serif text-4xl leading-[.96] tracking-[-.035em] sm:text-5xl">A beautiful invitation can be the beginning of something bigger.</h2><p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#5c677d]">Start with an elegant digital invitation, then add an original soundtrack or an AI-crafted love film when your story calls for more.</p></div>
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">{packages.map((pkg) => <article key={pkg.name} className={`aksa-lift relative flex min-h-[30rem] flex-col rounded-[1.75rem] border border-[#18243a]/10 p-6 shadow-[0_18px_45px_rgba(24,36,58,.08)] sm:p-7 ${pkg.surface}`}>{pkg.featured && <span className="absolute right-5 top-5 rounded-full bg-[#f4cf6c] px-3 py-1.5 text-[9px] font-bold uppercase tracking-[.16em] text-[#18243a]">Most loved</span>}<p className={`text-[10px] font-bold uppercase tracking-[.24em] ${pkg.featured ? "text-[#f4cf6c]" : ""}`} style={pkg.featured ? undefined : { color: pkg.color }}>{pkg.label}</p><h3 className="mt-4 font-serif text-3xl leading-none">{pkg.name}</h3><div className="mt-7 border-y border-current/15 py-5"><p className={`text-sm ${pkg.featured ? "text-white/50" : "text-[#667085]"}`}>{pkg.was && <span className="mr-2 line-through">{pkg.was}</span>}{pkg.was ? "launch price" : "investment"}</p><p className="mt-1 font-serif text-4xl">{pkg.price}</p>{pkg.note && <p className={`mt-2 text-xs ${pkg.featured ? "text-white/60" : "text-[#667085]"}`}>{pkg.note}</p>}</div><ul className={`mt-6 space-y-3 text-sm leading-6 ${pkg.featured ? "text-white/75" : "text-[#53627a]"}`}>{pkg.items.map((item) => <li key={item} className="flex gap-2.5"><Check className="mt-0.5 shrink-0" size={16} style={{ color: pkg.color }} />{item}</li>)}</ul><a href={whatsappUrl(`${pkg.name} (${pkg.price})`)} target="_blank" rel="noreferrer" className={`mt-auto inline-flex items-center justify-between pt-8 text-sm font-bold ${pkg.featured ? "text-[#f4cf6c]" : "text-[#18243a]"}`}>Discuss on WhatsApp <ArrowRight size={17} /></a></article>)}</div>
+          <div className="mx-auto mt-8 flex max-w-3xl flex-col items-center justify-between gap-4 rounded-2xl border border-[#ef655a]/15 bg-[#fff0eb] px-5 py-4 text-center sm:flex-row sm:text-left"><p className="text-sm leading-6 text-[#6c554f]"><strong className="text-[#18243a]">Not sure what fits?</strong> Send us your occasion, guest count, and desired feeling. AKSA will recommend the right experience.</p><a href={whatsappUrl("a package recommendation")} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#ef655a] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#da5147]"><MessageCircle size={16} /> Ask AKSA</a></div><div className="mt-7 text-center"><Link href="/pricing" className="inline-flex items-center gap-2 text-sm font-bold text-[#53627a] transition hover:text-[#ef655a]">See full package details <ChevronRight size={16} /></Link></div>
         </div>
       </section>
 
       <TemplateGallery />
 
-      <section id="how-it-works" className="bg-[#19243a] px-6 py-24 text-white lg:px-10 lg:py-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-14 lg:grid-cols-[0.85fr_1fr] lg:items-end">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f4c979]">A simpler way to invite</p>
-              <h2 className="mt-5 max-w-lg font-serif text-5xl leading-[1.02] tracking-[-0.035em] sm:text-6xl">
-                From your story to their screen.
-              </h2>
-              <p className="mt-6 max-w-md text-base leading-7 text-white/60">
-                No complicated setup, no scattered tools. Just one welcoming place for your celebration.
-              </p>
-            </div>
-
-            <div className="grid gap-8 sm:grid-cols-3">
-              {steps.map((step) => (
-                <article key={step.number} className="border-t border-white/20 pt-5">
-                  <span className="font-serif text-3xl text-[#f4c979]">{step.number}</span>
-                  <h3 className="mt-6 text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/55">{step.description}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
+      <section className="relative overflow-hidden bg-[#e2f0f3] px-5 py-20 sm:px-6 lg:px-10 lg:py-28">
+        <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[32px] border-[#f4cf6c]/55" /><div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_.85fr] lg:items-center"><div><p className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.25em] text-[#4b7d93]"><Music2 size={15} /> AKSA original experiences</p><h2 className="mt-5 max-w-xl font-serif text-4xl leading-[.96] sm:text-5xl">More than a template: a soundtrack, a scene, a memory.</h2><p className="mt-6 max-w-xl text-sm leading-7 text-[#526a78]">For couples who want to go further, AKSA can turn a shared story into an original love song or AI-crafted love film—made for your invitation and yours to keep.</p><a href={whatsappUrl("an Original Love Song or AI Love Film")} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#18243a] px-5 py-3.5 text-sm font-bold text-white transition hover:-translate-y-0.5"><HeartHandshake size={17} /> Discuss a creative commission <ArrowRight size={16} /></a></div><div className="mx-auto grid aspect-square w-full max-w-sm place-items-center rounded-full border-[18px] border-[#fffaf5] bg-[#f4cf6c] shadow-[0_24px_60px_rgba(24,36,58,.18)]"><div className="grid h-44 w-44 place-items-center rounded-full border-[10px] border-[#e2f0f3] bg-[#ef655a] text-center text-white shadow-lg"><Film size={34}/><p className="mt-2 text-[9px] font-bold uppercase tracking-[.2em]">Your story<br />in motion</p></div></div></div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#f7dfe1] px-6 py-24 lg:px-10 lg:py-32">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full border-[28px] border-white/30" />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-start justify-between gap-9 lg:flex-row lg:items-end">
-          <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-[#b94f49]">
-              <Globe2 size={15} /> One link. One beautiful welcome.
-            </p>
-            <h2 className="mt-5 font-serif text-5xl leading-[1.02] tracking-[-0.04em] text-[#19243a] sm:text-6xl">
-              Let your guests feel the celebration before it begins.
-            </h2>
-          </div>
-          <Link
-            href="/pricing"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#19243a] px-6 py-3.5 text-sm font-bold text-white transition hover:-translate-y-1 hover:bg-[#2a3853]"
-          >
-            View packages <ChevronRight size={17} />
-          </Link>
-        </div>
-      </section>
-
-      <footer className="border-t border-[#19243a]/10 bg-[#fcfaf7] px-6 py-8 lg:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 text-sm text-[#657087] sm:flex-row">
-          <p>© 2026 AKSA Digital Studio</p>
-          <div className="flex gap-5">
-            <Link href="/templates" className="transition hover:text-[#19243a]">Templates</Link>
-            <Link href="/pricing" className="transition hover:text-[#19243a]">Experiences</Link>
-            <Link href="/login" className="transition hover:text-[#19243a]">Log in</Link>
-            <Link href="/signup" className="transition hover:text-[#19243a]">Create an invitation</Link>
-          </div>
-        </div>
-      </footer>
+      <footer className="bg-[#18243a] px-5 py-9 text-white/65 sm:px-6 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 sm:flex-row sm:items-center"><AksaBrand darkSurface /><div className="flex flex-wrap gap-x-5 gap-y-2 text-sm"><Link href="/templates" className="hover:text-white">Templates</Link><Link href="/pricing" className="hover:text-white">Packages</Link><Link href="/login" className="hover:text-white">Log in</Link><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="hover:text-white">WhatsApp AKSA</a></div><p className="text-xs">© 2026 AKSA Digital Studio</p></div></footer>
     </main>
   );
 }

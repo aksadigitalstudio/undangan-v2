@@ -29,7 +29,7 @@ export default function HeroTemplateCarousel() {
 
   return (
     <div
-      className="mx-auto w-full max-w-md"
+      className="mx-auto min-w-0 w-full max-w-md"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}

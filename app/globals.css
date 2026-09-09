@@ -196,8 +196,31 @@ body {
 .studio-canvas-fade { animation: studioCanvasFade 900ms ease-out both; }
 .studio-canvas-zoom { animation: studioCanvasZoom 8s ease-in-out infinite; }
 
+@keyframes aksaOrbFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(18px, -18px, 0) scale(1.08); }
+}
+
+@keyframes aksaFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.aksa-orb { animation: aksaOrbFloat 12s ease-in-out infinite; }
+.aksa-orb-delayed { animation: aksaOrbFloat 15s ease-in-out -5s infinite; }
+.aksa-fade-up { animation: aksaFadeUp 700ms cubic-bezier(.22, 1, .36, 1) both; }
+.aksa-fade-up-delay { animation: aksaFadeUp 800ms 120ms cubic-bezier(.22, 1, .36, 1) both; }
+.aksa-lift { transition: transform 220ms ease, box-shadow 220ms ease; }
+.aksa-lift:hover { transform: translateY(-7px); box-shadow: 0 26px 60px rgba(24, 36, 58, .14); }
+
 @media (prefers-reduced-motion: reduce) {
   .studio-canvas-float,
   .studio-canvas-fade,
-  .studio-canvas-zoom { animation: none; }
+  .studio-canvas-zoom,
+  .aksa-orb,
+  .aksa-orb-delayed,
+  .aksa-fade-up,
+  .aksa-fade-up-delay { animation: none; }
+
+  .aksa-lift:hover { transform: none; }
 }
