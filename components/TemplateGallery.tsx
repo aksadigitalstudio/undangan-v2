@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 export const templateCatalog = [
+  { id: "template-017", name: "Copenhagen Quiet", label: "New Release · Danish Modern", description: "Pale stone, walnut, and clean editorial grids for a modern wedding with lasting warmth.", image: "/template-demos/template-017/copenhagen-hero.png", accent: "#8c765d" },
   { id: "template-001", name: "Elegant Gold", label: "Classic · Refined", description: "Warm ivory and golden details for a celebration that feels timeless.", image: "/decor/elegant-gold/background/ivory-texture.webp", accent: "#b58b36" },
   { id: "template-002", name: "Sekar Sogan", label: "Javanese · Warm", description: "Soft batik, florals, and graceful details rooted in tradition.", image: "/decor/sekar-sogan/background/sekar-sogan-background-v1.png", accent: "#9a633d" },
   { id: "template-003", name: "Puspa Priangan", label: "Botanical · Lush", description: "A vibrant botanical atmosphere with an intimate, romantic feel.", image: "/decor/puspa-priangan/background/puspa-priangan-wallpaper.webp", accent: "#527052" },
@@ -18,7 +19,6 @@ export const templateCatalog = [
   { id: "template-014", name: "Side A, Side B", label: "Music · Vinyl", description: "An indie vinyl invitation with album art, music-track storytelling, and a concert-night finish.", image: "/template-demos/template-014/side-a-hero.png", accent: "#f4d8a4" },
   { id: "template-015", name: "Kintsugi Promise", label: "Ceramic · Intimate", description: "Clay, ivory, and gold seams for a quiet promise made more beautiful together.", image: "/template-demos/template-015/kintsugi-hero.png", accent: "#c99b45" },
   { id: "template-016", name: "Riad After Dark", label: "Marrakech · Nocturne", description: "Emerald zellige, terracotta, brass lanterns, and a candlelit courtyard made for a destination celebration.", image: "/template-demos/template-016/riad-hero.png", accent: "#c99c52" },
-  { id: "template-017", name: "Copenhagen Quiet", label: "Danish Modern · Quiet", description: "Pale stone, walnut, and clean editorial grids for a modern wedding with lasting warmth.", image: "/template-demos/template-017/copenhagen-hero.png", accent: "#8c765d" },
 ];
 
 export default function TemplateGallery() {
