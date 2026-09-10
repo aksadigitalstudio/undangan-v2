@@ -30,9 +30,11 @@ export default function InvitationsPage() {
 
   async function fetchInvitations() {
     setLoading(true);
-    const [{ data, error }, { data: authData }] = await Promise.all([
+    const { data: authData } = await supabase.auth.getUser();
+    if (authData.user) await fetch("/api/workspace/claim", { method: "POST" });
+
+    const [{ data, error }] = await Promise.all([
       supabase.from("invitations").select("*").order("created_at", { ascending: false }),
-      supabase.auth.getUser(),
     ]);
 
     if (error) {

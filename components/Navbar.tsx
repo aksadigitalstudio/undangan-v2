@@ -3,19 +3,21 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, LogOut, MailPlus } from "lucide-react";
+import { ClipboardList, LayoutDashboard, LogOut, MailPlus } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import AksaBrand from "@/components/AksaBrand";
 
 const mobileNavigation = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/dashboard/invitations", label: "Invitations", icon: MailPlus },
+  { href: "/dashboard/orders", label: "Order briefs", icon: ClipboardList },
 ];
 
-export default function Navbar() {
+export default function Navbar({ showOrders = false }: { showOrders?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const [email, setEmail] = useState("Admin");
+  const visibleNavigation = showOrders ? mobileNavigation : mobileNavigation.filter((item) => item.href !== "/dashboard/orders");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -48,7 +50,7 @@ export default function Navbar() {
       </div>
 
       <div className="flex gap-2 overflow-x-auto border-t border-[#182235]/8 px-4 py-2.5 lg:hidden">
-        {mobileNavigation.map(({ href, label, icon: Icon, exact }) => {
+        {visibleNavigation.map(({ href, label, icon: Icon, exact }) => {
           const active = exact ? pathname === href : pathname.startsWith(href);
           return (
             <Link

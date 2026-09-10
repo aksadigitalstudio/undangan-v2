@@ -105,6 +105,14 @@ useEffect(() => {
     const { id } = await params;
     setId(id);
 
+    const accessResponse = await fetch(`/api/workspace/invitation/${id}`, { cache: "no-store" });
+    const access = await accessResponse.json().catch(() => ({}));
+    if (!accessResponse.ok || !access.allowed) {
+      alert(access.message || "Your editor unlocks after AKSA confirms payment.");
+      router.replace("/dashboard/invitations");
+      return;
+    }
+
     const { data, error } = await supabase
       .from("invitations")
       .select("*")

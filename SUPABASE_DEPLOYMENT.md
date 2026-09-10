@@ -18,3 +18,12 @@ Add these variables to the production host before deployment:
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 
 Use the existing `.env.local` only as the source of the values; do not commit it.
+
+## Order briefs and private admin sales dashboard
+
+1. Run `supabase/migrations/20260909_order_briefs.sql`, then `supabase/migrations/20260910_paid_editor_access.sql` in the Supabase SQL Editor, in that order.
+2. Add `SUPABASE_SERVICE_ROLE_KEY` to `.env.local` and the production host. Keep this server-only secret out of browser variables and Git.
+3. Add `AKSA_ADMIN_EMAILS` to `.env.local` and the production host with the exact email address of each staff member allowed to see all customer enquiries. For multiple administrators, separate email addresses with commas.
+4. Sign in using one of those addresses, then open `/dashboard/orders`.
+
+The public order form saves a brief first and only then opens WhatsApp. Customer accounts cannot read this sales data or change its status. When an admin moves an order to `Paid`, `Production`, `Revision`, or `Completed`, the customer can sign in using the exact email from their brief and receive one invitation workspace. Moving the order back to a non-paid status revokes editor and publish access.

@@ -27,6 +27,8 @@ export default function NewInvitationPage() {
         return;
       }
 
+      await fetch("/api/workspace/claim", { method: "POST" });
+
       const { count, error } = await supabase
         .from("account_entitlements")
         .select("id", { count: "exact", head: true })
