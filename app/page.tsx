@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Check, ChevronRight, CirclePlay, HeartHandshake, MessageCircle, Music2, Sparkles } from "lucide-react";
+import { ArrowRight, Check, ChevronRight, CirclePlay, MessageCircle, Sparkles } from "lucide-react";
 import HeroTemplateCarousel from "@/components/HeroTemplateCarousel";
 import TemplateGallery from "@/components/TemplateGallery";
 import AksaBrand from "@/components/AksaBrand";
+import LandingProofSections from "@/components/LandingProofSections";
 
 const whatsappNumber = "628133224919";
 const whatsappUrl = (packageName = "an AKSA invitation") => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hello AKSA, I am interested in ${packageName}. I would like to discuss my event invitation.`)}`;
@@ -27,7 +27,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-6 lg:px-10">
           <Link href="/" aria-label="AKSA Digital Studio home"><AksaBrand /></Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold text-[#5c677d] md:flex">
-            <a href="#how-it-works" className="transition hover:text-[#ef655a]">How it works</a><Link href="/templates" className="transition hover:text-[#ef655a]">Templates</Link><a href="#pricing" className="transition hover:text-[#ef655a]">Packages</a>
+            <a href="#how-it-works" className="transition hover:text-[#ef655a]">How it works</a><a href="#portfolio" className="transition hover:text-[#ef655a]">Portfolio</a><Link href="/templates" className="transition hover:text-[#ef655a]">Templates</Link><a href="#pricing" className="transition hover:text-[#ef655a]">Packages</a><a href="#faq" className="transition hover:text-[#ef655a]">FAQ</a>
           </nav>
           <div className="flex items-center gap-1.5 sm:gap-3"><Link href="/login" className="hidden rounded-full px-3 py-2 text-sm font-semibold transition hover:bg-white sm:block sm:px-4">Log in</Link><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#ef655a] px-3.5 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#ef655a]/25 transition hover:-translate-y-0.5 hover:bg-[#da5147] sm:px-5 sm:text-sm"><MessageCircle size={16} /> Chat with AKSA</a></div>
         </div>
@@ -61,10 +61,7 @@ export default function Home() {
 
       <TemplateGallery />
 
-      <section className="relative overflow-hidden bg-[#e9f3f5] px-5 py-20 sm:px-6 lg:px-10 lg:py-28">
-        <div className="pointer-events-none absolute -left-20 bottom-0 h-80 w-80 rounded-full bg-[#f8cbbc]/50 blur-3xl" /><div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full border-[32px] border-[#f4cf6c]/50" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[.9fr_1fr] lg:items-center lg:gap-16"><div><p className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.25em] text-[#4b7d93]"><Music2 size={15} /> AKSA original experiences</p><h2 className="mt-5 max-w-xl font-serif text-4xl leading-[.96] sm:text-5xl">An invitation can sing, move, and stay with you.</h2><p className="mt-6 max-w-xl text-sm leading-7 text-[#526a78]">For the couple who wants more than a beautiful link: AKSA can transform shared memories into an original love song or an AI-crafted film, designed to live inside the invitation and beyond the day.</p><div className="mt-7 flex flex-wrap gap-3 text-xs font-bold"><span className="rounded-full border border-[#4b7d93]/20 bg-white/70 px-3 py-2 text-[#426f82]">Original Love Song</span><span className="rounded-full border border-[#ef655a]/20 bg-white/70 px-3 py-2 text-[#c6534b]">AI Love Film</span></div><Link href="/order?package=original-love-song" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#18243a] px-5 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#18243a]/15 transition hover:-translate-y-0.5"><HeartHandshake size={17} /> Begin a creative commission <ArrowRight size={16} /></Link></div><div className="aksa-lift relative mx-auto w-full max-w-[31rem] overflow-hidden rounded-[2rem] border-[10px] border-[#fffaf5] bg-[#18243a] shadow-[0_24px_60px_rgba(24,36,58,.2)]"><div className="relative aspect-[4/5]"><Image src="/brand/aksa-originals-editorial.png" alt="AKSA original love song and invitation creative direction" fill unoptimized className="object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#16243d]/75 via-transparent to-transparent" /><div className="absolute inset-x-5 top-5 flex items-center justify-between text-[9px] font-bold uppercase tracking-[.22em] text-white"><span className="rounded-full bg-[#18243a]/60 px-3 py-2 backdrop-blur">AKSA Originals</span><span>01 / 02</span></div><div className="absolute inset-x-6 bottom-6 text-white"><p className="text-[10px] font-bold uppercase tracking-[.24em] text-[#f4cf6c]">A song made from your story</p><p className="mt-2 font-serif text-3xl leading-none">Keep the feeling<br />after the celebration.</p></div></div></div></div>
-      </section>
+      <LandingProofSections />
 
       <footer className="bg-[#18243a] px-5 py-9 text-white/65 sm:px-6 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 sm:flex-row sm:items-center"><AksaBrand darkSurface /><div className="flex flex-wrap gap-x-5 gap-y-2 text-sm"><Link href="/templates" className="hover:text-white">Templates</Link><Link href="/pricing" className="hover:text-white">Packages</Link><Link href="/login" className="hover:text-white">Log in</Link><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="hover:text-white">WhatsApp AKSA</a></div><p className="text-xs">© 2026 AKSA Digital Studio</p></div></footer>
     </main>
