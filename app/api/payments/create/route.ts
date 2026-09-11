@@ -36,7 +36,6 @@ export async function POST(request: Request) {
 
   const product = getPaymentProduct(cleanText(body.productCode, 64));
   const customerName = cleanText(body.customerName, 120);
-  const customerEmail = cleanText(body.customerEmail, 160).toLowerCase();
   const customerPhone = cleanText(body.customerPhone, 32);
   const customerNote = cleanText(body.customerNote, 500);
 
@@ -49,11 +48,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Please sign in before starting checkout." }, { status: 401 });
   }
 
+  // The entitlement belongs to the authenticated account, never an email
+  // supplied by the browser during checkout.
+  const customerEmail = user.email?.trim().toLowerCase() || "";
+
   if (!product || !product.priceIdr) {
     return NextResponse.json({ message: "This product is not ready for checkout yet." }, { status: 400 });
   }
   if (customerName.length < 2 || !isValidEmail(customerEmail)) {
-    return NextResponse.json({ message: "Please enter a valid name and email address." }, { status: 400 });
+    return NextResponse.json({ message: "Your AKSA account needs a valid email address before checkout." }, { status: 400 });
   }
 
   const serverKey = process.env.MIDTRANS_SERVER_KEY;

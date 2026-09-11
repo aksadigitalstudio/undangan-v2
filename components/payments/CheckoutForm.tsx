@@ -21,13 +21,14 @@ type CheckoutFormProps = {
   productCode: string;
   productName: string;
   amountLabel: string;
+  accountEmail?: string;
   clientKey: string | undefined;
   isProduction: boolean;
 };
 
-export default function CheckoutForm({ productCode, productName, amountLabel, clientKey, isProduction }: CheckoutFormProps) {
+export default function CheckoutForm({ productCode, productName, amountLabel, accountEmail = "", clientKey, isProduction }: CheckoutFormProps) {
+  const accountDisplay = accountEmail || "Your signed-in AKSA account";
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ export default function CheckoutForm({ productCode, productName, amountLabel, cl
         body: JSON.stringify({
           productCode,
           customerName: name,
-          customerEmail: email,
+          customerEmail: accountEmail,
           customerPhone: phone,
           customerNote: note,
         }),
@@ -76,7 +77,7 @@ export default function CheckoutForm({ productCode, productName, amountLabel, cl
       <Script src={isProduction ? "https://app.midtrans.com/snap/snap.js" : "https://app.sandbox.midtrans.com/snap/snap.js"} data-client-key={clientKey} strategy="afterInteractive" />
       <form onSubmit={handleSubmit} className="space-y-5">
         <label className="block text-sm font-semibold text-[#19243a]">Your name<input required minLength={2} value={name} onChange={(event) => setName(event.target.value)} className="mt-2 w-full rounded-xl border border-[#19243a]/15 bg-[#fcfaf7] px-4 py-3.5 font-normal outline-none transition focus:border-[#e26257] focus:ring-4 focus:ring-[#e26257]/10" /></label>
-        <label className="block text-sm font-semibold text-[#19243a]">Email address<input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-[#19243a]/15 bg-[#fcfaf7] px-4 py-3.5 font-normal outline-none transition focus:border-[#e26257] focus:ring-4 focus:ring-[#e26257]/10" /></label>
+        <label className="block text-sm font-semibold text-[#19243a]">AKSA account email<input readOnly value={accountDisplay} className="mt-2 w-full cursor-not-allowed rounded-xl border border-[#19243a]/10 bg-[#f2f3f5] px-4 py-3.5 font-normal text-[#657087] outline-none" /><span className="mt-2 block text-xs font-normal leading-5 text-[#657087]">Your paid workspace will unlock on the account you are signed into.</span></label>
         <label className="block text-sm font-semibold text-[#19243a]">WhatsApp number <span className="font-normal text-[#657087]">(optional)</span><input value={phone} onChange={(event) => setPhone(event.target.value)} inputMode="tel" className="mt-2 w-full rounded-xl border border-[#19243a]/15 bg-[#fcfaf7] px-4 py-3.5 font-normal outline-none transition focus:border-[#e26257] focus:ring-4 focus:ring-[#e26257]/10" /></label>
         <label className="block text-sm font-semibold text-[#19243a]">A note for AKSA <span className="font-normal text-[#657087]">(optional)</span><textarea value={note} onChange={(event) => setNote(event.target.value)} rows={3} maxLength={500} className="mt-2 w-full resize-none rounded-xl border border-[#19243a]/15 bg-[#fcfaf7] px-4 py-3.5 font-normal outline-none transition focus:border-[#e26257] focus:ring-4 focus:ring-[#e26257]/10" /></label>
         {message && <p className="rounded-xl bg-[#fdebe7] p-3 text-sm leading-6 text-[#9c3933]">{message}</p>}

@@ -1,6 +1,6 @@
 # AKSA Payment Setup — Midtrans Snap
 
-This project contains a payment-ready checkout. It does **not** accept a payment until the required environment variables and product prices have been configured.
+This project contains a Midtrans Snap checkout. It does **not** accept a payment until the required environment variables have been configured.
 
 ## 1. Apply the database migration
 
@@ -8,6 +8,8 @@ Open the Supabase SQL Editor and run these files in order:
 
 1. `supabase/migrations/20260906_payment_orders.sql`
 2. `supabase/migrations/20260908_paid_workspace_access.sql`
+3. `supabase/migrations/20260909_order_briefs.sql`
+4. `supabase/migrations/20260910_paid_editor_access.sql`
 
 This creates the private `payment_orders` table and paid workspace entitlement system. Orders are created and updated only by server routes; users cannot submit a price, mark an order paid, or create an invitation without an available paid workspace credit.
 
@@ -36,17 +38,16 @@ NEXT_PUBLIC_SITE_URL=https://aksadigitalstudio.com
 
 `SUPABASE_SERVICE_ROLE_KEY` and `MIDTRANS_SERVER_KEY` are private server credentials. Never expose them in client-side code, a public Git repository, screenshots, or chat.
 
-## 3. Approve and set package prices
+## 3. Package prices
 
-Fill only approved final amounts in rupiah. Example values below are examples only—replace them with AKSA’s real price list before enabling checkout.
+The fixed-price editions are set in code to AKSA’s approved launch prices: Digital Invitation is **Rp199.000** (shown from Rp250.000) and Original Love Song is **Rp499.000**. You may override either value in Vercel only if the published price changes:
 
 ```env
-AKSA_PRICE_DIGITAL_INVITATION_IDR=350000
-AKSA_PRICE_ORIGINAL_LOVE_SONG_IDR=1500000
-AKSA_PRICE_AI_LOVE_FILM_IDR=2500000
+AKSA_PRICE_DIGITAL_INVITATION_IDR=199000
+AKSA_PRICE_ORIGINAL_LOVE_SONG_IDR=499000
 ```
 
-The server reads the amount from these variables. The browser only sends a product code, so a customer cannot edit the price in DevTools.
+AI Love Film starts from **Rp1.499.000** and remains a WhatsApp/brief quotation because it is negotiable. Leave `AKSA_PRICE_AI_LOVE_FILM_IDR` empty unless AKSA later decides to sell a fixed AI Film edition. The server reads the amount; the browser only sends a product code, so a customer cannot edit the price in DevTools.
 
 ## 4. Configure the webhook
 
@@ -60,7 +61,7 @@ The checkout also sends that URL as an `X-Override-Notification` header. Midtran
 
 ## 5. Test in sandbox
 
-After setting the variables, deploy, sign in to an AKSA account, and open:
+After setting the variables, deploy, sign in to an AKSA account, then choose Digital Invitation or Original Love Song from the landing page or open:
 
 ```text
 https://aksadigitalstudio.com/checkout?product=digital-invitation

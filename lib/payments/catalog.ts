@@ -10,18 +10,20 @@ export type PaymentProduct = {
   priceIdr: number | null;
 };
 
-const productDefinitions: Array<Omit<PaymentProduct, "priceIdr"> & { envKey: string }> = [
+const productDefinitions: Array<Omit<PaymentProduct, "priceIdr"> & { envKey: string; defaultPrice?: number }> = [
   {
     code: "digital-invitation",
     name: "Digital Invitation",
     description: "A complete, shareable invitation experience made around your celebration.",
     envKey: "AKSA_PRICE_DIGITAL_INVITATION_IDR",
+    defaultPrice: 199000,
   },
   {
     code: "original-love-song",
     name: "Original Love Song",
     description: "A signature original song created from the couple’s own story.",
     envKey: "AKSA_PRICE_ORIGINAL_LOVE_SONG_IDR",
+    defaultPrice: 499000,
   },
   {
     code: "ai-love-film",
@@ -31,15 +33,16 @@ const productDefinitions: Array<Omit<PaymentProduct, "priceIdr"> & { envKey: str
   },
 ];
 
-function configuredAmount(value: string | undefined) {
+function configuredAmount(value: string | undefined, fallback?: number) {
   const amount = Number(value);
-  return Number.isSafeInteger(amount) && amount > 0 ? amount : null;
+  if (Number.isSafeInteger(amount) && amount > 0) return amount;
+  return fallback ?? null;
 }
 
 export function getPaymentProducts(): PaymentProduct[] {
-  return productDefinitions.map(({ envKey, ...product }) => ({
+  return productDefinitions.map(({ envKey, defaultPrice, ...product }) => ({
     ...product,
-    priceIdr: configuredAmount(process.env[envKey]),
+    priceIdr: configuredAmount(process.env[envKey], defaultPrice),
   }));
 }
 

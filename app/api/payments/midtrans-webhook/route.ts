@@ -92,12 +92,28 @@ export async function POST(request: Request) {
           product_code: order.product_code,
           status: "active",
         },
-        { onConflict: "source_order_id", ignoreDuplicates: true }
+        { onConflict: "source_order_id" }
       );
 
     if (entitlementError) {
       console.error("Unable to grant paid invitation workspace", entitlementError);
       return NextResponse.json({ message: "Payment was verified but workspace provisioning failed." }, { status: 500 });
+    }
+  }
+
+  // A gateway-confirmed cancellation, expiry, or refund cannot leave an
+  // unused workspace credit active. Invitations already created stay intact;
+  // their access remains governed by the paid-workspace policy.
+  if (["expired", "cancelled", "refunded", "failed"].includes(status)) {
+    const { error: revokeError } = await admin
+      .from("account_entitlements")
+      .update({ status: "revoked" })
+      .eq("source_order_id", order.id)
+      .eq("status", "active");
+
+    if (revokeError) {
+      console.error("Unable to revoke unpaid workspace credit", revokeError);
+      return NextResponse.json({ message: "Payment status was saved but access provisioning could not be updated." }, { status: 500 });
     }
   }
 
