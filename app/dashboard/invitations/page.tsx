@@ -23,6 +23,7 @@ export default function InvitationsPage() {
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [loading, setLoading] = useState(true);
   const [canCreateInvitation, setCanCreateInvitation] = useState<boolean | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     fetchInvitations();
@@ -31,30 +32,37 @@ export default function InvitationsPage() {
   async function fetchInvitations() {
     setLoading(true);
     const { data: authData } = await supabase.auth.getUser();
-    if (authData.user) await fetch("/api/workspace/claim", { method: "POST" });
-
-    const [{ data, error }] = await Promise.all([
-      supabase.from("invitations").select("*").order("created_at", { ascending: false }),
-    ]);
-
-    if (error) {
-      alert(error.message);
+    if (!authData.user) {
+      setInvitations([]);
+      setCanCreateInvitation(false);
       setLoading(false);
       return;
     }
 
-    setInvitations(data ?? []);
+    await fetch("/api/workspace/claim", { method: "POST" });
+    const accessResponse = await fetch("/api/workspace/access", { cache: "no-store" });
+    const access = accessResponse.ok
+      ? (await accessResponse.json()) as { canCreate?: boolean; isAdmin?: boolean }
+      : { canCreate: false, isAdmin: false };
 
-    if (authData.user) {
-      const { count, error: entitlementError } = await supabase
-        .from("account_entitlements")
-        .select("id", { count: "exact", head: true })
-        .eq("user_id", authData.user.id)
-        .eq("status", "active")
-        .is("used_at", null);
-      setCanCreateInvitation(!entitlementError && (count ?? 0) > 0);
+    setCanCreateInvitation(Boolean(access.canCreate));
+    setIsAdmin(Boolean(access.isAdmin));
+
+    if (access.isAdmin) {
+      const adminResponse = await fetch("/api/admin/invitations", { cache: "no-store" });
+      const adminPayload = adminResponse.ok ? await adminResponse.json() as { invitations?: Invitation[] } : null;
+      if (!adminResponse.ok) alert("Admin invitations could not be loaded.");
+      setInvitations(adminPayload?.invitations ?? []);
     } else {
-      setCanCreateInvitation(false);
+      // The dashboard is strictly owner-scoped. Published invitations belong
+      // to their owners and must never become a shared template list.
+      const { data, error } = await supabase
+        .from("invitations")
+        .select("*")
+        .eq("user_id", authData.user.id)
+        .order("created_at", { ascending: false });
+      if (error) alert(error.message);
+      setInvitations(data ?? []);
     }
     setLoading(false);
   }
@@ -62,7 +70,13 @@ export default function InvitationsPage() {
   async function deleteInvitation(id: number) {
     if (!confirm("Yakin ingin menghapus undangan ini?")) return;
 
-    const { error } = await supabase.from("invitations").delete().eq("id", id);
+    const { error } = isAdmin
+      ? await fetch(`/api/admin/invitations?id=${id}`, { method: "DELETE" }).then(async (response) => {
+          if (response.ok) return { error: null };
+          const body = await response.json().catch(() => ({}));
+          return { error: { message: body.message ?? "Invitation could not be deleted." } };
+        })
+      : await supabase.from("invitations").delete().eq("id", id);
     if (error) {
       alert(error.message);
       return;

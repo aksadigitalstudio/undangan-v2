@@ -15,6 +15,7 @@ export default function NewInvitationPage() {
   const [templateId, setTemplateId] = useState("template-001");
   const [accessLoading, setAccessLoading] = useState(true);
   const [canCreateInvitation, setCanCreateInvitation] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function checkAccess() {
@@ -29,14 +30,12 @@ export default function NewInvitationPage() {
 
       await fetch("/api/workspace/claim", { method: "POST" });
 
-      const { count, error } = await supabase
-        .from("account_entitlements")
-        .select("id", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .eq("status", "active")
-        .is("used_at", null);
-
-      setCanCreateInvitation(!error && (count ?? 0) > 0);
+      const response = await fetch("/api/workspace/access", { cache: "no-store" });
+      const access = response.ok
+        ? (await response.json()) as { canCreate?: boolean; isAdmin?: boolean }
+        : { canCreate: false, isAdmin: false };
+      setCanCreateInvitation(Boolean(access.canCreate));
+      setIsAdmin(Boolean(access.isAdmin));
       setAccessLoading(false);
     }
 
@@ -47,32 +46,36 @@ export default function NewInvitationPage() {
 
     setLoading(true);
 
-    const slug =
-      groomName.toLowerCase().replace(/\s+/g, "-") +
-      "-" +
-      brideName.toLowerCase().replace(/\s+/g, "-");
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      setLoading(false);
-      alert("Sesi admin berakhir. Silakan masuk kembali.");
-      router.replace("/login");
-      return;
-    }
-
-    const { error } = await supabase.from("invitations").insert([
-      {
+    let error: { message: string } | null = null;
+    if (isAdmin) {
+      const response = await fetch("/api/admin/invitations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ groomName, brideName, templateId }),
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        error = { message: body.message ?? "Invitation could not be created." };
+      }
+    } else {
+      const slug = `${groomName.toLowerCase().replace(/\s+/g, "-")}-${brideName.toLowerCase().replace(/\s+/g, "-")}`;
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setLoading(false);
+        alert("Sesi Anda berakhir. Silakan masuk kembali.");
+        router.replace("/login");
+        return;
+      }
+      const result = await supabase.from("invitations").insert([{
         groom_name: groomName,
         bride_name: brideName,
         slug,
         status: "Draft",
         template_id: templateId,
         user_id: user.id,
-      },
-    ]);
+      }]);
+      error = result.error;
+    }
 
     setLoading(false);
 

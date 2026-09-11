@@ -3,6 +3,7 @@ import DecorLayer from "@/components/DecorLayer";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,8 +14,9 @@ export default async function InvitationPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const query = await searchParams;
   const supabase = await createClient();
+  const publicInvitations = createAdminClient();
 
-  const { data, error } = await supabase
+  const { data, error } = await publicInvitations
     .from("invitations")
     .select("*")
     .eq("slug", slug)
