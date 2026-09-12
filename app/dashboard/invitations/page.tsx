@@ -24,6 +24,7 @@ export default function InvitationsPage() {
   const [loading, setLoading] = useState(true);
   const [canCreateInvitation, setCanCreateInvitation] = useState<boolean | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminError, setAdminError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchInvitations();
@@ -47,12 +48,25 @@ export default function InvitationsPage() {
 
     setCanCreateInvitation(Boolean(access.canCreate));
     setIsAdmin(Boolean(access.isAdmin));
+    setAdminError(null);
 
     if (access.isAdmin) {
       const adminResponse = await fetch("/api/admin/invitations", { cache: "no-store" });
-      const adminPayload = adminResponse.ok ? await adminResponse.json() as { invitations?: Invitation[] } : null;
-      if (!adminResponse.ok) alert("Admin invitations could not be loaded.");
-      setInvitations(adminPayload?.invitations ?? []);
+      const adminPayload = await adminResponse.json().catch(() => null) as { invitations?: Invitation[]; message?: string } | null;
+      if (adminResponse.ok) {
+        setInvitations(adminPayload?.invitations ?? []);
+      } else {
+        // Keep the page usable while clearly explaining why the protected
+        // admin list is unavailable. A normal client may still see its own
+        // records through owner-scoped RLS.
+        setAdminError(adminPayload?.message ?? "Admin invitations could not be loaded.");
+        const { data } = await supabase
+          .from("invitations")
+          .select("*")
+          .eq("user_id", authData.user.id)
+          .order("created_at", { ascending: false });
+        setInvitations(data ?? []);
+      }
     } else {
       // The dashboard is strictly owner-scoped. Published invitations belong
       // to their owners and must never become a shared template list.
@@ -99,6 +113,7 @@ export default function InvitationsPage() {
       </div>
 
       {canCreateInvitation === false && <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-[#e65d51]/20 bg-[#fff6f3] p-5 text-[#182235] sm:flex-row sm:items-center sm:justify-between"><div><p className="font-bold">Your account is ready. Your invitation workspace is locked.</p><p className="mt-1 text-sm leading-6 text-[#687184]">Choose an AKSA experience, discuss it with our team, and we will unlock your workspace once the order is confirmed.</p></div><Link href="/pricing" className="shrink-0 text-sm font-bold text-[#c94d43] hover:underline">View experiences →</Link></div>}
+      {adminError && <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-amber-950"><p className="font-bold">Admin workspace needs attention.</p><p className="mt-1 text-sm leading-6">{adminError}</p></div>}
 
       <div className="space-y-3 md:hidden">
         {loading && <div className="rounded-2xl border border-[#182235]/10 bg-white p-6 text-center text-sm text-[#687184]">Loading invitations...</div>}

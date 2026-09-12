@@ -20,9 +20,17 @@ function cleanText(value: unknown, limit: number) {
 export async function GET() {
   if (!(await requireAdmin())) return NextResponse.json({ message: "Administrator access is required." }, { status: 403 });
 
-  const { data, error } = await createAdminClient().from("invitations").select("*").order("created_at", { ascending: false });
-  if (error) return NextResponse.json({ message: "Invitations could not be loaded." }, { status: 500 });
-  return NextResponse.json({ invitations: data ?? [] });
+  try {
+    const { data, error } = await createAdminClient().from("invitations").select("*").order("created_at", { ascending: false });
+    if (error) {
+      console.error("Unable to load admin invitations", error);
+      return NextResponse.json({ message: "Admin invitations could not be loaded from Supabase." }, { status: 503 });
+    }
+    return NextResponse.json({ invitations: data ?? [] });
+  } catch (error) {
+    console.error("Admin data service is not configured", error);
+    return NextResponse.json({ message: "Admin data service is not configured. Add SUPABASE_SERVICE_ROLE_KEY in Vercel, then redeploy." }, { status: 503 });
+  }
 }
 
 export async function POST(request: Request) {
@@ -44,7 +52,13 @@ export async function POST(request: Request) {
   }
 
   const slug = `${groomName.toLowerCase().replace(/\s+/g, "-")}-${brideName.toLowerCase().replace(/\s+/g, "-")}`;
-  const admin = createAdminClient();
+  let admin: ReturnType<typeof createAdminClient>;
+  try {
+    admin = createAdminClient();
+  } catch (error) {
+    console.error("Admin data service is not configured", error);
+    return NextResponse.json({ message: "Admin data service is not configured. Add SUPABASE_SERVICE_ROLE_KEY in Vercel, then redeploy." }, { status: 503 });
+  }
 
   // Admin-created internal workspaces still use the same database trigger as
   // paid workspaces. This preserves one owner per invitation without giving
@@ -77,7 +91,14 @@ export async function DELETE(request: Request) {
   const id = new URL(request.url).searchParams.get("id");
   if (!id || !/^\d+$/.test(id)) return NextResponse.json({ message: "Invalid invitation id." }, { status: 400 });
 
-  const { error } = await createAdminClient().from("invitations").delete().eq("id", Number(id));
+  let admin: ReturnType<typeof createAdminClient>;
+  try {
+    admin = createAdminClient();
+  } catch (error) {
+    console.error("Admin data service is not configured", error);
+    return NextResponse.json({ message: "Admin data service is not configured. Add SUPABASE_SERVICE_ROLE_KEY in Vercel, then redeploy." }, { status: 503 });
+  }
+  const { error } = await admin.from("invitations").delete().eq("id", Number(id));
   if (error) return NextResponse.json({ message: "Invitation could not be deleted." }, { status: 500 });
   return NextResponse.json({ deleted: true });
 }
