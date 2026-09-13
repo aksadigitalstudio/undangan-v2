@@ -15,7 +15,7 @@ export default function AksaBrand({
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <span className={`relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl ${darkSurface ? "bg-[#fcfaf7] p-1.5" : ""}`}>
         <Image
-          src="/brand/aksa-monogram.png"
+          src="/brand/aksa-monogram.webp"
           alt="AKSA"
           fill
           sizes="40px"
@@ -31,7 +31,7 @@ export default function AksaBrand({
           </span>
         ) : (
           <Image
-            src="/brand/aksa-wordmark.png"
+            src="/brand/aksa-wordmark.webp"
             alt="AKSA Digital Studio"
             width={142}
             height={51}

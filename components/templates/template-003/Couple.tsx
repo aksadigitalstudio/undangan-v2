@@ -6,7 +6,7 @@ import MotionItem from "@/components/motion/MotionItem";
 import MotionSection from "@/components/motion/MotionSection";
 
 const bananaOrnamentPath =
-  "/decor/puspa-priangan/foreground/puspa-priangan-banana-floral-v1.png";
+  "/decor/puspa-priangan/foreground/puspa-priangan-banana-floral-v1.webp";
 
 export default function Couple({ invitation }: TemplateProps) {
   const data = invitation;

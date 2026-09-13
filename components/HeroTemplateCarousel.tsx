@@ -52,7 +52,7 @@ export default function HeroTemplateCarousel() {
                 aria-label={`Open ${template.name} live demo`}
               >
                 <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-4 text-[10px] font-bold tracking-[0.2em] text-white/75">
-                  <Image src="/brand/aksa-monogram.png" alt="AKSA" width={18} height={18} className="h-[18px] w-[18px] object-contain" />
+                  <Image src="/brand/aksa-monogram.webp" alt="AKSA" width={18} height={18} className="h-[18px] w-[18px] object-contain" />
                   <span>LIVE DEMO</span>
                 </div>
                 <div className="relative z-10">

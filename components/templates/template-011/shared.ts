@@ -1,6 +1,6 @@
 export const underwaterMedia = {
-  hero: "/template-demos/template-011/underwater-hero.png",
-  groom: "/template-demos/template-011/groom.png",
-  bride: "/template-demos/template-011/bride.png",
-  gallerySheet: "/template-demos/template-011/gallery-contact-sheet.png",
+  hero: "/template-demos/template-011/underwater-hero.webp",
+  groom: "/template-demos/template-011/groom.webp",
+  bride: "/template-demos/template-011/bride.webp",
+  gallerySheet: "/template-demos/template-011/gallery-contact-sheet.webp",
 };

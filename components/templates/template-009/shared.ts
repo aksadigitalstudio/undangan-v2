@@ -1,1 +1,1 @@
-export const cinemaMedia = { hero: "/template-demos/template-009/cinema-hero.png", groom: "/template-demos/template-009/groom.png", bride: "/template-demos/template-009/bride.png", gallerySheet: "/template-demos/template-009/gallery-contact-sheet.png" };
+export const cinemaMedia = { hero: "/template-demos/template-009/cinema-hero.webp", groom: "/template-demos/template-009/groom.webp", bride: "/template-demos/template-009/bride.webp", gallerySheet: "/template-demos/template-009/gallery-contact-sheet.webp" };

@@ -1,1 +1,1 @@
-export const sideAMedia = { hero: "/template-demos/template-014/side-a-hero.png", groom: "/template-demos/template-014/groom.png", bride: "/template-demos/template-014/bride.png", gallerySheet: "/template-demos/template-014/gallery-contact-sheet.png" };
+export const sideAMedia = { hero: "/template-demos/template-014/side-a-hero.webp", groom: "/template-demos/template-014/groom.webp", bride: "/template-demos/template-014/bride.webp", gallerySheet: "/template-demos/template-014/gallery-contact-sheet.webp" };

@@ -171,7 +171,7 @@ export default function Gallery({ invitation }: TemplateProps) {
           {/* Bunga sebagai penutup bawah galeri */}
           <div className="relative -mt-5 h-24 overflow-hidden md:h-32">
             <Image
-              src="/decor/chinese-imperial/foreground/chinese-imperial-blessing-v1.png"
+              src="/decor/chinese-imperial/foreground/chinese-imperial-blessing-v1.webp"
               alt=""
               fill
               sizes="(max-width: 620px) 100vw, 620px"

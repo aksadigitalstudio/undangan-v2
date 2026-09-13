@@ -1,6 +1,6 @@
 export const grandTourMedia = {
-  hero: "/template-demos/template-012/grand-tour-hero.png",
-  groom: "/template-demos/template-012/groom.png",
-  bride: "/template-demos/template-012/bride.png",
-  gallerySheet: "/template-demos/template-012/gallery-contact-sheet.png",
+  hero: "/template-demos/template-012/grand-tour-hero.webp",
+  groom: "/template-demos/template-012/groom.webp",
+  bride: "/template-demos/template-012/bride.webp",
+  gallerySheet: "/template-demos/template-012/gallery-contact-sheet.webp",
 };

@@ -1,15 +1,15 @@
 import { defaultSections } from "@/lib/defaultSections";
 
 export const editorialMedia = {
-  hero: "/template-demos/template-005/gallery-1.png",
-  groom: "/template-demos/template-005/groom.png",
-  bride: "/template-demos/template-005/bride.png",
+  hero: "/template-demos/template-005/gallery-1.webp",
+  groom: "/template-demos/template-005/groom.webp",
+  bride: "/template-demos/template-005/bride.webp",
   gallery: [
-    "/template-demos/template-005/gallery-1.png",
-    "/template-demos/template-005/gallery-2.png",
-    "/template-demos/template-005/gallery-3.png",
-    "/template-demos/template-005/gallery-4.png",
-    "/template-demos/template-005/gallery-5.png",
+    "/template-demos/template-005/gallery-1.webp",
+    "/template-demos/template-005/gallery-2.webp",
+    "/template-demos/template-005/gallery-3.webp",
+    "/template-demos/template-005/gallery-4.webp",
+    "/template-demos/template-005/gallery-5.webp",
   ],
 };
 

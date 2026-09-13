@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { TemplateProps } from "../types";
 
 const floralPath =
-  "/decor/puspa-priangan/foreground/puspa-priangan-floral.png";
+  "/decor/puspa-priangan/foreground/puspa-priangan-floral-v1.webp";
 
 export default function Footer({ invitation }: TemplateProps) {
   const groomName = invitation.groom_name?.split(" ")[0] ?? "";

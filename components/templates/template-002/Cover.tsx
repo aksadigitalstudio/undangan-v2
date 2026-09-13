@@ -147,7 +147,7 @@ bg-[#F8EEDC]/95
 shadow-[0_20px_60px_rgba(43,26,18,0.35)]
   "
 >  <Image
-    src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.png"
+    src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.webp"
     alt=""
     fill
     priority

@@ -4,6 +4,20 @@ import { NextResponse, type NextRequest } from "next/server";
 const protectedPrefixes = ["/dashboard", "/preview"];
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Existing invitation records may still reference the pre-optimization PNG
+  // paths. Keep those old links working while serving their WebP replacements
+  // instead, without querying Supabase for a static asset request.
+  if (pathname.endsWith(".png")) {
+    if (pathname !== "/icon.png" && pathname !== "/apple-icon.png") {
+      const optimizedAssetUrl = request.nextUrl.clone();
+      optimizedAssetUrl.pathname = pathname.replace(/\.png$/, ".webp");
+      return NextResponse.rewrite(optimizedAssetUrl);
+    }
+    return NextResponse.next();
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -27,7 +41,7 @@ export async function middleware(request: NextRequest) {
 
   const { data: claims } = await supabase.auth.getClaims();
   const isAuthenticated = Boolean(claims?.claims?.sub);
-  const { pathname, search } = request.nextUrl;
+  const { search } = request.nextUrl;
   const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
 
   if (!isAuthenticated && isProtected) {
@@ -48,5 +62,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|jpg|jpeg|gif|webp)$).*)"],
 };

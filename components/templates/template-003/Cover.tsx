@@ -9,7 +9,7 @@ const wallpaperPath =
   "/decor/puspa-priangan/background/puspa-priangan-wallpaper.webp";
 
 const floralPath =
-  "/decor/puspa-priangan/foreground/puspa-priangan-floral.png";
+  "/decor/puspa-priangan/foreground/puspa-priangan-floral-v1.webp";
 
 export default function Cover({ invitation }: TemplateProps) {
   const [opened, setOpened] = useState(false);

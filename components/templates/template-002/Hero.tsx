@@ -111,7 +111,7 @@ return (
 
   <div className="sekar-sogan-bottom-ornament absolute -bottom-44 left-1/2 w-[min(120vw,820px)] opacity-[0.16]">
     <Image
-      src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.png"
+      src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.webp"
       alt=""
       width={900}
       height={1350}
@@ -129,7 +129,7 @@ return (
           <section className="relative z-10 overflow-hidden px-6 py-24">
             <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[36px] border border-[#C99747]/60 bg-[#F8EEDC]/95 px-8 py-20 text-center shadow-[0_24px_70px_rgba(59,36,23,0.28)] md:px-16">
               <Image
-                src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.png"
+                src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.webp"
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 896px"
@@ -192,7 +192,7 @@ return (
           <section className="relative z-10 px-6 pb-24">
             <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[32px] border border-[#C99747]/60 bg-[#F8EEDC]/95 px-8 py-14 text-center shadow-[0_20px_60px_rgba(59,36,23,0.22)]">
               <Image
-                src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.png"
+                src="/decor/sekar-sogan/foreground/sekar-sogan-ornament.webp"
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 896px"

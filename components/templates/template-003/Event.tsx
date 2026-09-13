@@ -59,7 +59,7 @@ export default function Event({ invitation }: TemplateProps) {
       address: data.akad_address,
       maps: data.akad_maps,
       background:
-        "/decor/puspa-priangan/background/puspa-priangan-event-akad.png",
+        "/decor/puspa-priangan/background/puspa-priangan-event-akad.webp",
       align: "left",
     },
     {
@@ -70,7 +70,7 @@ export default function Event({ invitation }: TemplateProps) {
       address: data.reception_address,
       maps: data.reception_maps,
       background:
-        "/decor/puspa-priangan/background/puspa-priangan-event-resepsi.png",
+        "/decor/puspa-priangan/background/puspa-priangan-event-resepsi.webp",
       align: "right",
     },
   ];

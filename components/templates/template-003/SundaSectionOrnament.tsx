@@ -71,7 +71,7 @@ export default function SundaSectionOrnament() {
 
         <div className="absolute -bottom-24 -left-52 w-[420px] md:-left-40 md:w-[520px]">
           <Image
-            src="/decor/puspa-priangan/foreground/puspa-priangan-rsvp-gift-ornament.png"
+            src="/decor/puspa-priangan/foreground/puspa-priangan-rsvp-gift-ornament.webp"
             alt=""
             width={720}
             height={720}
@@ -81,7 +81,7 @@ export default function SundaSectionOrnament() {
 
         <div className="absolute -right-52 top-16 w-[380px] md:-right-40 md:w-[480px]">
           <Image
-            src="/decor/puspa-priangan/foreground/puspa-priangan-rsvp-gift-ornament.png"
+            src="/decor/puspa-priangan/foreground/puspa-priangan-rsvp-gift-ornament.webp"
             alt=""
             width={720}
             height={720}

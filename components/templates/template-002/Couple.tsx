@@ -6,7 +6,7 @@ import MotionItem from "@/components/motion/MotionItem";
 import MotionSection from "@/components/motion/MotionSection";
 
 const ornamentPath =
-  "/decor/sekar-sogan/foreground/sekar-sogan-ornament.png";
+  "/decor/sekar-sogan/foreground/sekar-sogan-ornament.webp";
 
 function getInitials(name: string) {
   return name

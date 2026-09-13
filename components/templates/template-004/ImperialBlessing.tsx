@@ -20,7 +20,7 @@ export default function ImperialBlessing({
 
   <div className="relative aspect-[9/16] min-h-[710px] w-full md:min-h-[900px]">
         <Image
-          src="/decor/chinese-imperial/foreground/chinese-imperial-blessing-v1.png"
+          src="/decor/chinese-imperial/foreground/chinese-imperial-blessing-v1.webp"
           alt=""
           fill
           sizes="100vw"

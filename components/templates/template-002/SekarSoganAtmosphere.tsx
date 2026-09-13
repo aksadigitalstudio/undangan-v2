@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const petalPath =
-  "/decor/sekar-sogan/foreground/sekar-sogan-petal-v1.png";
+  "/decor/sekar-sogan/foreground/sekar-sogan-petal-v1.webp";
 
 const petalFlights = [
   { top: "8%", size: 82, delay: 0, duration: 15, rise: -42, turn: 130 },
