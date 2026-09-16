@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { BrowserQRCodeReader } from "@zxing/browser";
-import { Camera, CheckCircle2, Keyboard, QrCode, RefreshCw, TriangleAlert, UserRoundCheck, X } from "lucide-react";
+import { Camera, CheckCircle2, Keyboard, QrCode, RefreshCw, Search, TriangleAlert, UserRoundCheck, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { parseCheckInPayload } from "@/lib/checkIn";
 import { supabase } from "@/lib/supabase";
@@ -28,7 +28,7 @@ export default function CheckInPage({ params }: Props) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [scannerActive, setScannerActive] = useState(false);
-  const [manualValue, setManualValue] = useState("");
+  const [manualQuery, setManualQuery] = useState("");
   const [candidate, setCandidate] = useState<Guest | null>(null);
   const [guestCount, setGuestCount] = useState(1);
   const [notice, setNotice] = useState("");
@@ -85,6 +85,19 @@ export default function CheckInPage({ params }: Props) {
 
   useEffect(() => () => stopScanner(), [stopScanner]);
 
+  const selectGuest = useCallback((guest: Guest) => {
+    setError("");
+    setNotice("");
+
+    if (guest.checked_in_at) {
+      setNotice(`${guest.guest_name} sudah tercatat hadir sebelumnya.`);
+      return;
+    }
+
+    setCandidate(guest);
+    setGuestCount(Math.min(guest.max_guest, Math.max(1, guest.confirmed_guest || 1)));
+  }, []);
+
   const selectQr = useCallback((value: string) => {
     setError("");
     setNotice("");
@@ -106,14 +119,8 @@ export default function CheckInPage({ params }: Props) {
       return;
     }
 
-    if (guest.checked_in_at) {
-      setNotice(`${guest.guest_name} sudah tercatat hadir sebelumnya.`);
-      return;
-    }
-
-    setCandidate(guest);
-    setGuestCount(Math.min(guest.max_guest, Math.max(1, guest.confirmed_guest || 1)));
-  }, [guests, invitationId]);
+    selectGuest(guest);
+  }, [guests, invitationId, selectGuest]);
 
   async function startScanner() {
     if (!videoRef.current) return;
@@ -135,14 +142,8 @@ export default function CheckInPage({ params }: Props) {
       scannerControls.current = controls;
     } catch {
       setScannerActive(false);
-      setError("Kamera tidak dapat digunakan. Izinkan akses kamera atau gunakan input kode QR manual.");
+      setError("Kamera tidak dapat digunakan. Izinkan akses kamera atau cari nama tamu secara manual.");
     }
-  }
-
-  function submitManualCode(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    selectQr(manualValue);
-    setManualValue("");
   }
 
   async function confirmCheckIn() {
@@ -188,6 +189,9 @@ export default function CheckInPage({ params }: Props) {
 
   const checkedInInvitations = guests.filter((guest) => guest.checked_in_at).length;
   const checkedInPeople = guests.reduce((total, guest) => total + (guest.checked_in_at ? guest.checked_in_guest_count || 1 : 0), 0);
+  const manualMatches = manualQuery.trim().length > 0
+    ? guests.filter((guest) => guest.guest_name.toLowerCase().includes(manualQuery.trim().toLowerCase())).slice(0, 6)
+    : [];
 
   return (
     <section className="mx-auto max-w-5xl space-y-6 pb-10">
@@ -221,8 +225,8 @@ export default function CheckInPage({ params }: Props) {
         </article>
 
         <article className="rounded-[2rem] border border-[#182235]/10 bg-white p-5 shadow-sm sm:p-7">
-          <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-full bg-violet-50 text-violet-700"><Keyboard size={18} /></span><div><h2 className="font-serif text-2xl text-[#182235]">Manual fallback</h2><p className="mt-0.5 text-sm text-[#657087]">Paste a QR code if a camera is unavailable.</p></div></div>
-          <form onSubmit={submitManualCode} className="mt-6 space-y-3"><textarea value={manualValue} onChange={(event) => setManualValue(event.target.value)} placeholder="AKSA-CHECKIN:…" rows={4} className="w-full resize-none rounded-xl border border-[#182235]/15 bg-[#fcfaf7] p-3 font-mono text-xs text-[#182235] outline-none transition focus:border-[#e65d51] focus:ring-4 focus:ring-[#e65d51]/10" /><button type="submit" disabled={!manualValue.trim()} className="w-full rounded-xl border border-[#182235]/15 px-4 py-3 text-sm font-bold text-[#182235] transition hover:bg-[#f8f5ef] disabled:cursor-not-allowed disabled:opacity-50">Find guest pass</button></form>
+          <div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-full bg-violet-50 text-violet-700"><Keyboard size={18} /></span><div><h2 className="font-serif text-2xl text-[#182235]">Manual fallback</h2><p className="mt-0.5 text-sm text-[#657087]">Search a guest by name when a camera is unavailable.</p></div></div>
+          <div className="mt-6"><label className="sr-only" htmlFor="manual-guest-search">Cari nama tamu</label><div className="flex items-center gap-2 rounded-xl border border-[#182235]/15 bg-[#fcfaf7] px-3 focus-within:border-[#e65d51] focus-within:ring-4 focus-within:ring-[#e65d51]/10"><Search size={17} className="shrink-0 text-[#657087]" /><input id="manual-guest-search" value={manualQuery} onChange={(event) => setManualQuery(event.target.value)} placeholder="Cari nama tamu…" className="w-full bg-transparent py-3 text-sm text-[#182235] outline-none" /></div>{manualQuery.trim() && <div className="mt-3 overflow-hidden rounded-xl border border-[#182235]/10"><p className="border-b border-[#182235]/10 bg-[#f8f5ef] px-3 py-2 text-xs font-semibold text-[#657087]">Pilih tamu untuk check-in</p>{manualMatches.length > 0 ? manualMatches.map((guest) => <button key={guest.id} type="button" onClick={() => selectGuest(guest)} className="flex w-full items-center justify-between gap-3 border-b border-[#182235]/8 px-3 py-3 text-left last:border-b-0 transition hover:bg-[#fcfaf7]"><span><span className="block text-sm font-bold text-[#182235]">{guest.guest_name}</span><span className="mt-0.5 block text-xs text-[#657087]">Capacity: {guest.max_guest} · RSVP: {guest.rsvp_status}</span></span><span className={`rounded-full px-2 py-1 text-[10px] font-bold ${guest.checked_in_at ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"}`}>{guest.checked_in_at ? "Checked in" : "Select"}</span></button>) : <p className="px-3 py-4 text-sm text-[#657087]">Nama tamu tidak ditemukan.</p>}</div>}</div>
           <div className="mt-6 rounded-xl bg-[#f8f5ef] p-4 text-xs leading-5 text-[#657087]"><strong className="text-[#182235]">Privacy note:</strong> only a logged-in dashboard owner can record attendance. A QR pass never gives public access to your guest list.</div>
         </article>
       </div>
