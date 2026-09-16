@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
+import {
+  buildWhatsAppShareMessage,
+  isShareTemplateId,
+  shareMessageTemplates,
+  type ShareTemplateId,
+} from "@/lib/shareMessageTemplates";
 
 type Props = {
   params: Promise<{
@@ -29,9 +35,21 @@ interface Guest {
   responded_at: string | null;
 }
 
+type InvitationDetails = {
+  slug: string;
+  groom_name: string | null;
+  bride_name: string | null;
+  wedding_date: string | null;
+  sections: Record<string, unknown> | null;
+};
+
 export default function GuestsPage({ params }: Props) {
 const [invitationId, setInvitationId] = useState(0);
 const [invitationSlug, setInvitationSlug] = useState("");
+const [invitation, setInvitation] = useState<InvitationDetails | null>(null);
+const [shareTemplateId, setShareTemplateId] = useState<ShareTemplateId>("aksa-signature");
+const [isSavingShareTemplate, setIsSavingShareTemplate] = useState(false);
+const [shareTemplateFeedback, setShareTemplateFeedback] = useState("");
 
 const [guests, setGuests] = useState<Guest[]>([]);
 
@@ -57,12 +75,19 @@ setInvitationId(invitationId);
 
 const { data } = await supabase
   .from("invitations")
-  .select("slug")
+  .select("slug, groom_name, bride_name, wedding_date, sections")
   .eq("id", invitationId)
   .single();
 
 if (data) {
   setInvitationSlug(data.slug);
+  const invitationData = data as InvitationDetails;
+  setInvitation(invitationData);
+
+  const savedTemplate = invitationData.sections?.whatsapp_share_template;
+  if (isShareTemplateId(savedTemplate)) {
+    setShareTemplateId(savedTemplate);
+  }
 }
 
 loadGuests(invitationId);
@@ -148,22 +173,58 @@ setShowForm(false);
 
 loadGuests(invitationId);
   }
-async function copyInvitationLink(rsvpToken: string) {
-  const url =
-    `${window.location.origin}/${invitationSlug}?to=${rsvpToken}`;
-
-  await navigator.clipboard.writeText(url);
-
-  alert("Link berhasil disalin.");
+function getInvitationLink(rsvpToken: string) {
+  return `${window.location.origin}/${invitationSlug}?to=${rsvpToken}`;
 }
-function openWhatsApp(rsvpToken: string) {
-  const url =
-    `${window.location.origin}/${invitationSlug}?to=${rsvpToken}`;
 
+function getShareMessage(guest: Guest) {
+  return buildWhatsAppShareMessage(shareTemplateId, {
+    guestName: guest.guest_name,
+    groomName: invitation?.groom_name ?? "",
+    brideName: invitation?.bride_name ?? "",
+    weddingDate: invitation?.wedding_date ?? null,
+    invitationLink: getInvitationLink(guest.rsvp_token),
+  });
+}
+
+async function copyShareMessage(guest: Guest) {
+  await navigator.clipboard.writeText(getShareMessage(guest));
+  alert("Pesan undangan berhasil disalin.");
+}
+
+function openWhatsApp(guest: Guest) {
   window.open(
-    `https://wa.me/?text=${encodeURIComponent(url)}`,
+    `https://wa.me/?text=${encodeURIComponent(getShareMessage(guest))}`,
     "_blank"
   );
+}
+
+async function chooseShareTemplate(templateId: ShareTemplateId) {
+  setShareTemplateId(templateId);
+  setShareTemplateFeedback("");
+
+  if (!invitation || templateId === shareTemplateId) return;
+
+  setIsSavingShareTemplate(true);
+  const nextSections = {
+    ...(invitation.sections ?? {}),
+    whatsapp_share_template: templateId,
+  };
+
+  const { error } = await supabase
+    .from("invitations")
+    .update({ sections: nextSections })
+    .eq("id", invitationId);
+
+  setIsSavingShareTemplate(false);
+
+  if (error) {
+    setShareTemplateFeedback("Pilihan belum tersimpan. Coba lagi.");
+    return;
+  }
+
+  setInvitation({ ...invitation, sections: nextSections });
+  setShareTemplateFeedback("Gaya pesan tersimpan untuk undangan ini.");
 }
 function startEdit(guest: Guest) {
   setEditingGuestId(guest.id);
@@ -246,6 +307,15 @@ const checkedInPeople = guests.reduce(
   0
 );
 const hasSearch = searchKeyword.trim() !== "";
+const previewMessage = invitation
+  ? buildWhatsAppShareMessage(shareTemplateId, {
+      guestName: guests[0]?.guest_name ?? "Dear Guest",
+      groomName: invitation.groom_name ?? "",
+      brideName: invitation.bride_name ?? "",
+      weddingDate: invitation.wedding_date,
+      invitationLink: `https://aksadigitalstudio.com/${invitation.slug}?to=personal-link`,
+    })
+  : "";
 
 async function deleteGuest(guest: Guest) {
 
@@ -392,6 +462,52 @@ const { error } = await supabase
   </p>
 </div>
 </div>
+      {invitation && (
+        <section className="overflow-hidden rounded-2xl border border-[#f1d7cc] bg-[#fffaf7] shadow-sm">
+          <div className="border-b border-[#f1d7cc] px-6 py-5">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#e65d51]">Guest sharing</p>
+            <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="font-serif text-2xl font-semibold text-[#182235]">Pilih gaya pesan WhatsApp</h2>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-600">Pesan pilihan ini otomatis dipakai saat Anda menekan WhatsApp atau Copy message untuk setiap tamu.</p>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#182235] shadow-sm">
+                {isSavingShareTemplate ? "Menyimpan…" : shareTemplateFeedback || "Pilih satu gaya"}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid gap-6 p-6 lg:grid-cols-[1fr_1.1fr]">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {shareMessageTemplates.map((template) => {
+                const selected = template.id === shareTemplateId;
+                return (
+                  <button
+                    key={template.id}
+                    type="button"
+                    onClick={() => chooseShareTemplate(template.id)}
+                    disabled={isSavingShareTemplate}
+                    className={`rounded-xl border p-4 text-left transition disabled:cursor-wait ${
+                      selected
+                        ? "border-[#e65d51] bg-[#182235] text-white shadow-md"
+                        : "border-[#eadfd9] bg-white text-[#182235] hover:border-[#e65d51] hover:bg-[#fff5f1]"
+                    }`}
+                  >
+                    <span className="block text-sm font-bold">{template.label}</span>
+                    <span className={`mt-1 block text-xs ${selected ? "text-[#ffd4ca]" : "text-slate-500"}`}>{template.meta}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="rounded-xl bg-[#182235] p-5 text-white shadow-inner">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e9a99f]">Preview pesan</p>
+              <p className="mt-2 text-sm leading-6 text-slate-300">Contoh dengan tamu pertama. Link final setiap tamu tetap unik dan aman.</p>
+              <pre className="mt-4 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg bg-white/10 p-4 font-sans text-sm leading-6 text-white">{previewMessage}</pre>
+            </div>
+          </div>
+        </section>
+      )}
       {showForm && (
 
         <div className="bg-white rounded-xl shadow p-6 space-y-4">
@@ -584,14 +700,14 @@ onChange={(e) =>
 <td className="p-4">
   <div className="flex gap-2">
     <button
-      onClick={() => copyInvitationLink(guest.rsvp_token)}
+      onClick={() => copyShareMessage(guest)}
       className="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
     >
-      Copy
+      Copy pesan
     </button>
 
     <button
-      onClick={() => openWhatsApp(guest.rsvp_token)}
+      onClick={() => openWhatsApp(guest)}
       className="rounded-lg bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-700"
     >
       WhatsApp

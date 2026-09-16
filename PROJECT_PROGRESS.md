@@ -49,6 +49,12 @@
 - Kehadiran, jumlah orang tiba, waktu, dan petugas tersimpan langsung di database
 - Migration: `supabase/migrations/20260916_guest_checkin.sql`
 
+✅ Phase 31 — WhatsApp Guest Share Templates
+- Pilihan gaya pesan per undangan: AKSA Signature, Warm & Intimate, Indonesian Elegant, Modern Premium, dan Formal Family
+- Pilihan disimpan pada `invitations.sections.whatsapp_share_template`
+- Preview tersedia di dashboard tamu
+- Tombol WhatsApp dan Copy message memakai pesan personal dengan nama tamu serta tautan RSVP unik
+
 ---
 
 # Phase 25 — Multi Template System
