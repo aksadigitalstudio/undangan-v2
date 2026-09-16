@@ -13,8 +13,10 @@ interface Props {
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const query = await searchParams;
+  const guestToken = /^[0-9a-f-]{36}$/i.test(query.to ?? "") ? query.to : null;
 
   try {
     const publicInvitations = createAdminClient();
@@ -31,7 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const title = `The Wedding of ${couple} | AKSA Digital Studio`;
     const description = `With joy, we invite you to celebrate ${couple}. Open the invitation for event details and RSVP.`;
     const version = data.updated_at ? new Date(data.updated_at).getTime() : "1";
-    const image = `${siteUrl}/${slug}/opengraph-image?v=${version}`;
+    const shareParams = new URLSearchParams({ v: String(version) });
+    if (guestToken) shareParams.set("guest", guestToken);
+
+    const sharePath = guestToken ? `/${slug}?to=${encodeURIComponent(guestToken)}` : `/${slug}`;
+    const image = `${siteUrl}/${slug}/opengraph-image?${shareParams.toString()}`;
 
     return {
       title,
@@ -40,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       openGraph: {
         title,
         description,
-        url: `/${slug}`,
+        url: sharePath,
         siteName: "AKSA Digital Studio",
         locale: "id_ID",
         type: "website",
