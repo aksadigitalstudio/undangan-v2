@@ -55,6 +55,11 @@
 - Preview tersedia di dashboard tamu
 - Tombol WhatsApp dan Copy message memakai pesan personal dengan nama tamu serta tautan RSVP unik
 
+✅ Phase 32 — Luxury WhatsApp Link Preview
+- Metadata Open Graph dinamis untuk setiap undangan yang sudah Published
+- Kartu WhatsApp menampilkan foto hero, nama pasangan, tanggal, dan identitas AKSA Digital Studio
+- Gambar preview PNG dihasilkan dinamis tanpa menambah aset gambar baru ke repository
+
 ---
 
 # Phase 25 — Multi Template System

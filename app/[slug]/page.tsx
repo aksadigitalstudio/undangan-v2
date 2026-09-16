@@ -1,5 +1,6 @@
 import TemplateRenderer from "@/components/templates/TemplateRenderer";
 import DecorLayer from "@/components/DecorLayer";
+import type { Metadata } from "next";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { createClient } from "@/lib/supabase/server";
@@ -8,6 +9,53 @@ import { createAdminClient } from "@/lib/supabase/admin";
 interface Props {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ to?: string }>;
+}
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  try {
+    const publicInvitations = createAdminClient();
+    const { data } = await publicInvitations
+      .from("invitations")
+      .select("groom_name, bride_name, wedding_date, updated_at")
+      .eq("slug", slug)
+      .eq("status", "Published")
+      .single();
+
+    if (!data) return {};
+
+    const couple = `${data.groom_name || ""} & ${data.bride_name || ""}`.trim();
+    const title = `The Wedding of ${couple} | AKSA Digital Studio`;
+    const description = `With joy, we invite you to celebrate ${couple}. Open the invitation for event details and RSVP.`;
+    const version = data.updated_at ? new Date(data.updated_at).getTime() : "1";
+    const image = `${siteUrl}/${slug}/opengraph-image?v=${version}`;
+
+    return {
+      title,
+      description,
+      alternates: { canonical: `/${slug}` },
+      openGraph: {
+        title,
+        description,
+        url: `/${slug}`,
+        siteName: "AKSA Digital Studio",
+        locale: "id_ID",
+        type: "website",
+        images: [{ url: image, width: 1200, height: 630, alt: `Wedding invitation for ${couple}` }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [image],
+      },
+    };
+  } catch {
+    return {};
+  }
 }
 
 export default async function InvitationPage({ params, searchParams }: Props) {
