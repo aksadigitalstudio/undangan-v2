@@ -42,6 +42,13 @@
 ✅ Phase 23 — Performance Optimization  
 ✅ Phase 24 — Admin Dashboard Improvement  
 
+✅ Phase 30 — AKSA Event Pass & QR Guest Check-in
+- QR pass unik per tamu, terpisah dari tautan RSVP
+- QR tersedia pada undangan personal dan dapat diunduh dari dashboard tamu
+- Halaman QR Check-in untuk petugas dengan kamera dan input manual
+- Kehadiran, jumlah orang tiba, waktu, dan petugas tersimpan langsung di database
+- Migration: `supabase/migrations/20260916_guest_checkin.sql`
+
 ---
 
 # Phase 25 — Multi Template System

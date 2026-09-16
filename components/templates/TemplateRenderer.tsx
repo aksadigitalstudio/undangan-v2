@@ -5,6 +5,7 @@ import type { TemplateProps } from "./types";
 import MusicPlayer from "@/components/MusicPlayer";
 import InvitationCanvasCover from "@/components/studio/InvitationCanvasCover";
 import { isCanvasDocument } from "@/components/studio/canvasTypes";
+import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
 interface TemplateRendererProps extends TemplateProps {
   templateId: string;
   showCover?: boolean;
@@ -65,6 +66,15 @@ return (
         invitation={invitation}
         guest={guest}
       />
+    )}
+
+    {guest?.check_in_token && !invitation.is_demo && (
+      <div className="relative z-10 border-y border-[#182235]/10 bg-[#fffdf8] px-5 py-12 text-center text-[#182235] sm:px-8">
+        <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-[#e65d51]">AKSA event pass</p>
+        <h2 className="mt-3 font-serif text-3xl">Your arrival, beautifully simple.</h2>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#657087]">Show your personal QR pass to the welcome team when you arrive.</p>
+        <div className="mt-6"><GuestCheckInQr invitationId={Number(invitation.id)} guestName={guest.guest_name} token={guest.check_in_token} triggerLabel="Open my event pass" triggerClassName="rounded-full bg-[#182235] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#2a3b5b]" /></div>
+      </div>
     )}
 
     {sections?.gift !== false && (

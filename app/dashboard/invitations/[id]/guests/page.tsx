@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
 
 type Props = {
   params: Promise<{
@@ -17,6 +19,9 @@ interface Guest {
   max_guest: number;
   slug: string;
   rsvp_token: string;
+  check_in_token: string | null;
+  checked_in_at: string | null;
+  checked_in_guest_count: number | null;
 
   rsvp_status: "pending" | "attending" | "declined";
   confirmed_guest: number;
@@ -235,6 +240,11 @@ const confirmedGuests = guests.reduce(
   (total, guest) => total + guest.confirmed_guest,
   0
 );
+const checkedInInvitations = guests.filter((guest) => guest.checked_in_at).length;
+const checkedInPeople = guests.reduce(
+  (total, guest) => total + (guest.checked_in_at ? guest.checked_in_guest_count || 1 : 0),
+  0
+);
 const hasSearch = searchKeyword.trim() !== "";
 
 async function deleteGuest(guest: Guest) {
@@ -269,20 +279,21 @@ const { error } = await supabase
 <h1 className="text-4xl font-bold text-black">
   Daftar Tamu
 </h1>
-<button
-  onClick={() => {
-    setEditingGuestId(null);
-
-    setGuestName("");
-    setPhone("");
-    setMaxGuest(1);
-
-    setShowForm(!showForm);
-  }}
-  className="bg-blue-600 text-white rounded-lg px-5 py-3"
->
-  + Tambah Tamu
-</button>
+<div className="flex flex-wrap items-center justify-end gap-2">
+  <Link href={`/dashboard/invitations/${invitationId}/check-in`} className="rounded-lg bg-[#182235] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#2a3b5b]">QR Check-in</Link>
+  <button
+    onClick={() => {
+      setEditingGuestId(null);
+      setGuestName("");
+      setPhone("");
+      setMaxGuest(1);
+      setShowForm(!showForm);
+    }}
+    className="bg-blue-600 text-white rounded-lg px-5 py-3"
+  >
+    + Tambah Tamu
+  </button>
+</div>
 
       </div>
 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -325,6 +336,14 @@ const { error } = await supabase
   <p className="mt-2 text-3xl font-bold text-purple-600">
     {totalCapacity}
   </p>
+</div>
+<div className="rounded-xl bg-white p-5 shadow">
+  <p className="text-sm text-gray-500">Sudah Check-in</p>
+  <p className="mt-2 text-3xl font-bold text-emerald-600">{checkedInInvitations}</p>
+</div>
+<div className="rounded-xl bg-white p-5 shadow">
+  <p className="text-sm text-gray-500">Orang Tiba</p>
+  <p className="mt-2 text-3xl font-bold text-violet-600">{checkedInPeople}</p>
 </div>
 
 <div className="rounded-xl bg-white p-5 shadow">
@@ -577,6 +596,7 @@ onChange={(e) =>
     >
       WhatsApp
     </button>
+    <GuestCheckInQr invitationId={invitationId} guestName={guest.guest_name} token={guest.check_in_token} triggerLabel="QR" triggerClassName="rounded-lg bg-[#182235] px-3 py-2 text-sm text-white hover:bg-[#2a3b5b]" />
 <button
   onClick={() => startEdit(guest)}
   className="rounded-lg bg-amber-500 px-3 py-2 text-sm text-white hover:bg-amber-600"
