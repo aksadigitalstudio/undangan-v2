@@ -17,12 +17,12 @@ export default function TemplatesPage() {
       </header>
 
       <div className="mx-auto max-w-7xl px-6 pb-2 pt-16 text-center lg:px-10 lg:pt-24">
-        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#c94d43]">Template collection</p>
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#c94d43]">Invitation collections</p>
         <h1 className="mt-4 font-serif text-5xl leading-[0.95] tracking-[-0.04em] sm:text-7xl">
-          Find a design<br />
-          <span className="text-[#9aa2ad]">that feels like you.</span>
+          Find a setting<br />
+          <span className="text-[#9aa2ad]">for every occasion.</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-[#687184]">Every design is responsive and ready to be made entirely your own.</p>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-[#687184]">Explore live wedding demos, then choose a visual direction for engagement, birthday, and event invitations.</p>
       </div>
 
       <TemplateGallery />

@@ -61,6 +61,13 @@
 - Gambar preview PNG dihasilkan dinamis tanpa menambah aset gambar baru ke repository
 - Cache kartu dipisahkan per tautan personal tamu agar WhatsApp tidak memakai preview lama
 
+✅ Phase 33 — Multi-Occasion Template Catalogue
+- Koleksi templates dikelompokkan menjadi Wedding, Engagement, Birthday, dan Event
+- Wedding mempertahankan 17 demo live yang sudah tersedia
+- Ditambahkan 10 arah tema Engagement, 10 Birthday, dan 10 Event tanpa aset gambar baru
+- Setiap arah tema baru mengarah ke order brief dengan jenis acara dan preferensi template sudah terisi
+- Order brief kini dapat menyimpan semua preferensi tema baru untuk diteruskan ke WhatsApp dan dashboard admin
+
 ---
 
 # Phase 25 — Multi Template System
