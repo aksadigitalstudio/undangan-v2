@@ -68,6 +68,13 @@
 - Setiap arah tema baru mengarah ke order brief dengan jenis acara dan preferensi template sudah terisi
 - Order brief kini dapat menyimpan semua preferensi tema baru untuk diteruskan ke WhatsApp dan dashboard admin
 
+✅ Phase 34 — Multi-Occasion Live Template Demos
+- Template018 — Petal & Promise: live demo Engagement dengan cover, countdown, host story, agenda, visual notes, RSVP, dan QR check-in proposition
+- Template019 — Tiny Star: live demo Birthday dengan pengalaman halaman lengkap yang disesuaikan untuk perayaan keluarga
+- Template020 — Studio Session: live demo Event dengan pengalaman halaman lengkap untuk gathering komunitas atau brand
+- Ketiga visual hero dibuat sebagai aset ringan orisinal dan dipakai ulang di seluruh halaman demo
+- Global wedding decor tidak diterapkan ke Template018–020 agar tiap koleksi mempertahankan karakter visualnya
+
 ---
 
 # Phase 25 — Multi Template System

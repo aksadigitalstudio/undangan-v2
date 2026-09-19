@@ -21,6 +21,9 @@ const templatesWithoutGlobalDecor = new Set([
   "template-012",
   "template-013",
   "template-014",
+  "template-018",
+  "template-019",
+  "template-020",
 ]);
 
 export default function DecorLayer({

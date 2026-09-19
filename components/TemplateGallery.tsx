@@ -49,7 +49,7 @@ const other = "Other";
 const tribute = "Celebration of life";
 
 const occasionTemplateCatalog: TemplateCatalogItem[] = [
-  brief("engagement-petal-promise", "Petal & Promise", "Garden · Soft Romance", "Ivory paper, peony pink, and a sunlit garden for a gentle yes.", "#d87b7d", "engagement", "Garden Romance", engagement, "linear-gradient(135deg,#fff9f2,#f8cfca 52%,#d77e7f)"),
+  { ...brief("template-018", "Petal & Promise", "Garden · Soft Romance", "Ivory paper, peony pink, and a sunlit garden for a gentle yes.", "#d87b7d", "engagement", "Garden Romance", engagement, "linear-gradient(135deg,#fff9f2,#f8cfca 52%,#d77e7f)"), status: "live", image: "/template-demos/engagement-petal-promise/hero.png" },
   brief("engagement-golden-hour", "Golden Hour Letters", "Sunset · Editorial", "Amber light, handwritten notes, and a warm story-led announcement.", "#b56e32", "engagement", "Garden Romance", engagement, "linear-gradient(135deg,#fff1d4,#e5a15d 55%,#9b4e39)"),
   brief("engagement-moonlit", "Moonlit Botanical", "Night Garden · Intimate", "Inky blue, silver leaves, and quiet details for an evening reveal.", "#cbd9e9", "engagement", "Garden Romance", engagement, "linear-gradient(135deg,#101d35,#30496d 52%,#c8d7dc)"),
   brief("engagement-tea-ceremony", "Tea Ceremony", "Heritage · Refined", "Porcelain, vermilion, and gold accents for a meaningful family celebration.", "#d9a441", "engagement", "Heritage & Family", engagement, "linear-gradient(135deg,#5e1220,#b83a35 52%,#dcae4a)"),
@@ -60,7 +60,7 @@ const occasionTemplateCatalog: TemplateCatalogItem[] = [
   brief("engagement-azure-courtyard", "Azure Courtyard", "Mediterranean · Joyful", "Ceramic blue, citrus, and a courtyard mood for an effortless yes.", "#1e6393", "engagement", "Contemporary Keepsakes", engagement, "linear-gradient(135deg,#e8f1ef,#75b5d0 52%,#215c8e)"),
   brief("engagement-studio-no-1", "Studio No. 1", "Monochrome · Modern", "Gallery white, charcoal type, and a striking modern-couple introduction.", "#ffffff", "engagement", "Contemporary Keepsakes", engagement, "linear-gradient(135deg,#f0ede6,#89909a 48%,#182235)"),
 
-  brief("birthday-tiny-star", "Tiny Star", "Kids · Dreamy", "Soft cloud blue, little stars, and joyful details for a first celebration.", "#fff4c6", "birthday", "Kids & Family", birthday, "linear-gradient(135deg,#dcecf6,#9ec8e8 54%,#5176aa)"),
+  { ...brief("template-019", "Tiny Star", "Kids · Dreamy", "Soft cloud blue, little stars, and joyful details for a first celebration.", "#fff4c6", "birthday", "Kids & Family", birthday, "linear-gradient(135deg,#dcecf6,#9ec8e8 54%,#5176aa)"), status: "live", image: "/template-demos/birthday-tiny-star/hero.png" },
   brief("birthday-blooming-one", "Blooming One", "Kids · Garden", "Buttercream, playful florals, and a sweet garden-party invitation.", "#f7d37e", "birthday", "Kids & Family", birthday, "linear-gradient(135deg,#fff8dc,#f5c4b2 54%,#cf7b75)"),
   brief("birthday-little-explorer", "Little Explorer", "Kids · Adventure", "Forest green, hand-drawn maps, and a birthday expedition worth joining.", "#e8c069", "birthday", "Kids & Family", birthday, "linear-gradient(135deg,#d9e2b3,#668b70 55%,#294d44)"),
   brief("birthday-tea-party", "Tea Party", "Afternoon · Whimsical", "Porcelain, strawberry pink, and a charming invitation for a lovely afternoon.", "#c86878", "birthday", "Kids & Family", birthday, "linear-gradient(135deg,#fff6ee,#e6b7bc 55%,#ba6076)"),
@@ -75,7 +75,7 @@ const occasionTemplateCatalog: TemplateCatalogItem[] = [
   brief("event-open-house", "Open House", "Gathering · Welcome", "A bright, generous direction for open homes, reunions, and shared tables.", "#fff4ce", "event", "Community & Formal", gathering, "linear-gradient(135deg,#fcebc2,#e9a768 52%,#b85d45)"),
   brief("event-community-lanterns", "Community Lanterns", "Community · Warm", "Indigo, lantern light, and a warm invitation for neighbourhood evenings.", "#f6c66b", "event", "Community & Formal", community, "linear-gradient(135deg,#101d3d,#314873 52%,#d79646)"),
   brief("event-celebration-of-life", "Celebration of Life", "Tribute · Gentle", "Quiet botanical tones and measured typography for a dignified remembrance.", "#e2dcc4", "event", "Community & Formal", tribute, "linear-gradient(135deg,#e8e5d8,#aeb8a7 52%,#5e6c64)"),
-  brief("event-studio-session", "Studio Session", "Creative · Modern", "A crisp, creative announcement for workshops, launches, and studio gatherings.", "#f4c85e", "event", "Creative & Business", other, "linear-gradient(135deg,#19243a,#425878 52%,#e6ad52)"),
+  { ...brief("template-020", "Studio Session", "Creative · Modern", "A crisp, creative announcement for workshops, launches, and studio gatherings.", "#f4c85e", "event", "Creative & Business", other, "linear-gradient(135deg,#19243a,#425878 52%,#e6ad52)"), status: "live", image: "/template-demos/event-studio-session/hero.png" },
   brief("event-product-salon", "Product Salon", "Brand · Premium", "Soft stone, muted rose, and a polished RSVP invitation for product experiences.", "#e3b5a2", "event", "Creative & Business", other, "linear-gradient(135deg,#f3e9df,#d2a594 52%,#81606a)"),
   brief("event-anniversary-soiree", "Anniversary Soirée", "Formal · Evening", "Ink, gold, and beautiful restraint for an organisation’s landmark night.", "#e7bf6b", "event", "Creative & Business", other, "linear-gradient(135deg,#0b1429,#293962 50%,#c89a47)"),
   brief("event-giving-table", "The Giving Table", "Purpose · Dinner", "Formal warmth and transparent information for a meaningful fundraising evening.", "#f0c883", "event", "Creative & Business", other, "linear-gradient(135deg,#342b2a,#806454 50%,#e0ba72)"),
@@ -87,9 +87,9 @@ export const allTemplateCatalog = [...templateCatalog, ...occasionTemplateCatalo
 
 const categories: Array<{ id: TemplateCategory; eyebrow: string; title: string; description: string }> = [
   { id: "wedding", eyebrow: "Live wedding demos", title: "Wedding invitations", description: "17 live designs, each ready to explore from cover to RSVP." },
-  { id: "engagement", eyebrow: "New collection · 10 directions", title: "Engagement invitations", description: "A considered first announcement, from heritage rituals to intimate modern stories." },
-  { id: "birthday", eyebrow: "New collection · 10 directions", title: "Birthday invitations", description: "Designs for tiny firsts, full rooms, landmark years, and every beautiful in-between." },
-  { id: "event", eyebrow: "New collection · 10 directions", title: "Event invitations", description: "Purpose-led invitations for communities, brands, gatherings, tributes, and shared moments." },
+  { id: "engagement", eyebrow: "1 live demo · 9 directions", title: "Engagement invitations", description: "A considered first announcement, from heritage rituals to intimate modern stories." },
+  { id: "birthday", eyebrow: "1 live demo · 9 directions", title: "Birthday invitations", description: "Designs for tiny firsts, full rooms, landmark years, and every beautiful in-between." },
+  { id: "event", eyebrow: "1 live demo · 9 directions", title: "Event invitations", description: "Purpose-led invitations for communities, brands, gatherings, tributes, and shared moments." },
 ];
 
 function templateHref(template: TemplateCatalogItem) {
