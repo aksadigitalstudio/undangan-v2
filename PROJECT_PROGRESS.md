@@ -263,3 +263,10 @@ Section yang digunakan:
 - Migration RLS dan Storage siap di `supabase/migrations/20260823_auth_and_rls.sql`, tetapi belum diterapkan ke project Supabase live.
 - Pricing ditunda; menu dan route placeholder disembunyikan untuk launch awal.
 - Fokus berikutnya adalah menjalankan migration, backfill ownership, lalu menguji policy live sebelum deployment preview.
+
+
+## 2026-09-20 — Multi-occasion demo 404 fix
+- Root cause: public preview guard checked wedding-only templateCatalog, rejecting live occasion templates 018–020.
+- Preview now validates allTemplateCatalog with live status; brief-only and unknown IDs remain 404.
+- Added optimized WebP heroes and updated gallery/demo/component references. Existing PNG URLs also work through the legacy middleware rewrite.
+- Validation: production build passed (existing unused-variable warning in template-013); local production HTTP checks passed for templates 017–020, invalid/brief-only 404s, and all six WebP/legacy PNG asset URLs.

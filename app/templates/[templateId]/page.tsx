@@ -3,7 +3,7 @@ import DecorLayer from "@/components/DecorLayer";
 import TemplateRenderer from "@/components/templates/TemplateRenderer";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
-import { templateCatalog } from "@/components/TemplateGallery";
+import { allTemplateCatalog } from "@/components/TemplateGallery";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { template001Demo, template002Demo, template003Demo, template004Demo, template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo, template013Demo, template014Demo, template015Demo, template016Demo, template017Demo } from "@/lib/templateDemoData";
 import { template018Demo, template019Demo, template020Demo } from "@/lib/occasionTemplateDemoData";
@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 export default async function TemplatePreviewPage({ params }: Props) {
   const { templateId } = await params;
 
-  if (!templateCatalog.some((template) => template.id === templateId)) {
+  if (!allTemplateCatalog.some((template) => template.id === templateId && template.status === "live")) {
     notFound();
   }
 
