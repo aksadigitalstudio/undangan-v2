@@ -6,7 +6,7 @@ import { allTemplateCatalog } from "@/components/TemplateGallery";
 
 const whatsappNumber = "628133224919";
 const packages = [
-  { code: "digital-invitation", name: "Digital Invitation", price: "Rp199.000" },
+  { code: "digital-invitation", name: "Digital Invitation", price: "Rp299.000" },
   { code: "original-love-song", name: "Original Love Song", price: "Rp499.000" },
   { code: "ai-love-film", name: "AI Love Film", price: "From Rp1.499.000" },
 ];

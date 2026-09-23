@@ -9,7 +9,7 @@ const whatsappNumber = "628133224919";
 const whatsappUrl = (packageName = "an AKSA invitation") => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hello AKSA, I am interested in ${packageName}. I would like to discuss my event invitation.`)}`;
 
 const packages = [
-  { code: "digital-invitation", name: "Digital Invitation", label: "The essential edit", price: "Rp199.000", was: "Rp250.000", color: "#f16e61", surface: "bg-[#fff1ec]", items: ["A template of your choice", "RSVP, gallery, map, gift & livestream", "One elegant shareable link"] },
+  { code: "digital-invitation", name: "Digital Invitation", label: "The essential edit", price: "Rp299.000", color: "#f16e61", surface: "bg-[#fff1ec]", items: ["A template of your choice", "RSVP, gallery, map, gift & livestream", "One elegant shareable link"] },
   { code: "original-love-song", name: "Original Love Song", label: "AKSA signature", price: "Rp499.000", color: "#f4cf6c", surface: "bg-[#16243d] text-white", featured: true, items: ["Everything in Digital Invitation", "Original song concept from your story", "A soundtrack made only for your celebration"] },
   { code: "ai-love-film", name: "AI Love Film", label: "The cinematic commission", price: "From Rp1.499.000", note: "+ negotiable based on treatment", color: "#88b5c8", surface: "bg-[#e8f3f6]", items: ["Everything in Original Love Song", "AI visual storytelling around the couple", "Creative direction and guided review"] },
 ];

@@ -16,7 +16,7 @@ const productDefinitions: Array<Omit<PaymentProduct, "priceIdr"> & { envKey: str
     name: "Digital Invitation",
     description: "A complete, shareable invitation experience made around your celebration.",
     envKey: "AKSA_PRICE_DIGITAL_INVITATION_IDR",
-    defaultPrice: 199000,
+    defaultPrice: 299000,
   },
   {
     code: "original-love-song",

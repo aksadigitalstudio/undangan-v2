@@ -40,10 +40,10 @@ NEXT_PUBLIC_SITE_URL=https://aksadigitalstudio.com
 
 ## 3. Package prices
 
-The fixed-price editions are set in code to AKSA’s approved launch prices: Digital Invitation is **Rp199.000** (shown from Rp250.000) and Original Love Song is **Rp499.000**. You may override either value in Vercel only if the published price changes:
+The fixed-price editions are set in code to AKSA’s approved prices: Digital Invitation is **Rp299.000** and Original Love Song is **Rp499.000**. You may override either value in Vercel only if the published price changes:
 
 ```env
-AKSA_PRICE_DIGITAL_INVITATION_IDR=199000
+AKSA_PRICE_DIGITAL_INVITATION_IDR=299000
 AKSA_PRICE_ORIGINAL_LOVE_SONG_IDR=499000
 ```
 

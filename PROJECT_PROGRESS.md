@@ -270,3 +270,8 @@ Section yang digunakan:
 - Preview now validates allTemplateCatalog with live status; brief-only and unknown IDs remain 404.
 - Added optimized WebP heroes and updated gallery/demo/component references. Existing PNG URLs also work through the legacy middleware rewrite.
 - Validation: production build passed (existing unused-variable warning in template-013); local production HTTP checks passed for templates 017–020, invalid/brief-only 404s, and all six WebP/legacy PNG asset URLs.
+
+## 2026-09-23 — Digital Invitation price update
+- Digital Invitation price is Rp299.000 across landing page, pricing, order brief, and the server-side payment catalogue.
+- Removed the previous Rp250.000 crossed-out launch price so the offer remains clear and accurate.
+- The Vercel variable `AKSA_PRICE_DIGITAL_INVITATION_IDR` must be set to `299000` before production checkout uses the updated amount.
