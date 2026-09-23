@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { Download, FileSpreadsheet, LoaderCircle, Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
+import { prepareGuestImport } from "@/lib/guestImport";
+import { readGuestSpreadsheet } from "@/lib/xlsxGuestRows";
 import {
   buildWhatsAppShareMessage,
   isShareTemplateId,
@@ -52,6 +55,13 @@ const [isSavingShareTemplate, setIsSavingShareTemplate] = useState(false);
 const [shareTemplateFeedback, setShareTemplateFeedback] = useState("");
 
 const [guests, setGuests] = useState<Guest[]>([]);
+const importInputRef = useRef<HTMLInputElement>(null);
+const [isImporting, setIsImporting] = useState(false);
+const [importFeedback, setImportFeedback] = useState<{
+  tone: "success" | "error";
+  message: string;
+  issues: string[];
+} | null>(null);
 
   const [showForm, setShowForm] = useState(false);
 
@@ -106,6 +116,87 @@ async function loadGuests(id: number) {
     });
 
   setGuests(data ?? []);
+}
+
+function downloadGuestTemplate() {
+  window.location.assign("/downloads/aksa-guest-import-template.xlsx");
+}
+
+async function importGuestFile(event: ChangeEvent<HTMLInputElement>) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+
+  if (!file || isImporting) return;
+
+  if (file.size > 5 * 1024 * 1024) {
+    setImportFeedback({
+      tone: "error",
+      message: "Ukuran file maksimal 5 MB.",
+      issues: [],
+    });
+    return;
+  }
+
+  if (!/\.xlsx$/i.test(file.name)) {
+    setImportFeedback({
+      tone: "error",
+      message: "Gunakan file Excel .xlsx dari template AKSA.",
+      issues: [],
+    });
+    return;
+  }
+
+  setIsImporting(true);
+  setImportFeedback(null);
+
+  try {
+    const rows = await readGuestSpreadsheet(file);
+    const result = prepareGuestImport(rows, guests);
+
+    if (result.error) {
+      setImportFeedback({ tone: "error", message: result.error, issues: [] });
+      return;
+    }
+
+    const formattedIssues = result.issues.map((issue) => `Baris ${issue.rowNumber}: ${issue.message}`);
+    if (!result.guests.length) {
+      setImportFeedback({
+        tone: "error",
+        message: "Tidak ada tamu valid yang dapat diimpor.",
+        issues: formattedIssues,
+      });
+      return;
+    }
+
+    const importId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    const records = result.guests.map((guest, index) => ({
+      invitation_id: invitationId,
+      guest_name: guest.guestName,
+      phone: guest.phone,
+      address: guest.address,
+      max_guest: guest.maxGuest,
+      slug: `${guest.guestName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "guest"}-${importId}-${index + 1}`,
+    }));
+
+    const { error } = await supabase.from("guests").insert(records);
+    if (error) throw error;
+
+    await loadGuests(invitationId);
+    setCurrentPage(1);
+    setImportFeedback({
+      tone: "success",
+      message: `${records.length} tamu berhasil ditambahkan.${formattedIssues.length ? ` ${formattedIssues.length} baris dilewati.` : ""}`,
+      issues: formattedIssues,
+    });
+  } catch (error) {
+    setImportFeedback({
+      tone: "error",
+      message: error instanceof Error ? error.message : "Impor gagal. Silakan coba lagi.",
+      issues: [],
+    });
+  } finally {
+    setIsImporting(false);
+  }
 }
 
   async function saveGuest() {
@@ -350,6 +441,22 @@ const { error } = await supabase
   Daftar Tamu
 </h1>
 <div className="flex flex-wrap items-center justify-end gap-2">
+  <button
+    type="button"
+    onClick={downloadGuestTemplate}
+    className="inline-flex items-center gap-2 rounded-lg border border-[#182235]/15 bg-white px-4 py-3 text-sm font-bold text-[#182235] transition hover:border-[#ef655a] hover:text-[#d95349]"
+  >
+    <Download size={16} /> Download Excel
+  </button>
+  <button
+    type="button"
+    onClick={() => importInputRef.current?.click()}
+    disabled={isImporting}
+    className="inline-flex items-center gap-2 rounded-lg bg-[#ef655a] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#d95349] disabled:cursor-wait disabled:opacity-70"
+  >
+    {isImporting ? <LoaderCircle size={16} className="animate-spin" /> : <Upload size={16} />}
+    {isImporting ? "Mengimpor…" : "Import Excel"}
+  </button>
   <Link href={`/dashboard/invitations/${invitationId}/check-in`} className="rounded-lg bg-[#182235] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#2a3b5b]">QR Check-in</Link>
   <button
     onClick={() => {
@@ -365,7 +472,33 @@ const { error } = await supabase
   </button>
 </div>
 
+<input
+  ref={importInputRef}
+  type="file"
+  accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  onChange={importGuestFile}
+  className="hidden"
+/>
+
       </div>
+      <section className="rounded-2xl border border-[#dbe4ee] bg-[#f8fbff] p-5 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#182235] text-white"><FileSpreadsheet size={20} /></span>
+            <div>
+              <p className="font-bold text-[#182235]">Tambah daftar tamu sekaligus</p>
+              <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">Download template AKSA, isi satu tamu per baris, lalu upload. Kolom yang dipakai: Nama Tamu, Nomor WhatsApp, Jumlah Tamu, dan Alamat (opsional).</p>
+            </div>
+          </div>
+          <button type="button" onClick={downloadGuestTemplate} className="shrink-0 text-sm font-bold text-[#d95349] hover:text-[#b8443b]">Ambil template →</button>
+        </div>
+        {importFeedback && (
+          <div className={`mt-4 rounded-xl border px-4 py-3 text-sm ${importFeedback.tone === "success" ? "border-emerald-200 bg-emerald-50 text-emerald-900" : "border-red-200 bg-red-50 text-red-900"}`}>
+            <p className="font-semibold">{importFeedback.message}</p>
+            {importFeedback.issues.length > 0 && <ul className="mt-2 list-disc space-y-1 pl-5 text-xs leading-5">{importFeedback.issues.slice(0, 8).map((issue) => <li key={issue}>{issue}</li>)}{importFeedback.issues.length > 8 && <li>dan {importFeedback.issues.length - 8} masalah lainnya.</li>}</ul>}
+          </div>
+        )}
+      </section>
 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
 
   <div className="rounded-xl bg-white p-5 shadow">

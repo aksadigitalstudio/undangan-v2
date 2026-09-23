@@ -275,3 +275,8 @@ Section yang digunakan:
 - Digital Invitation price is Rp299.000 across landing page, pricing, order brief, and the server-side payment catalogue.
 - Removed the previous Rp250.000 crossed-out launch price so the offer remains clear and accurate.
 - The Vercel variable `AKSA_PRICE_DIGITAL_INVITATION_IDR` must be set to `299000` before production checkout uses the updated amount.
+
+## 2026-09-23 — Guest list Excel import
+- Dashboard Guests now offers an AKSA `.xlsx` template download and bulk guest import for up to 500 rows at a time.
+- Import validates names and guest capacity, keeps WhatsApp numbers as text, skips duplicate guests, and reports skipped rows clearly.
+- Imported guests use the existing protected guest insert flow, so each receives the normal RSVP token and QR check-in token from Supabase.
