@@ -8,9 +8,13 @@ import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
 import { prepareGuestImport } from "@/lib/guestImport";
 import { readGuestSpreadsheet } from "@/lib/xlsxGuestRows";
 import {
+  buildWhatsAppRsvpFollowUpMessage,
   buildWhatsAppShareMessage,
+  isRsvpFollowUpTemplateId,
   isShareTemplateId,
+  rsvpFollowUpTemplates,
   shareMessageTemplates,
+  type RsvpFollowUpTemplateId,
   type ShareTemplateId,
 } from "@/lib/shareMessageTemplates";
 
@@ -53,6 +57,9 @@ const [invitation, setInvitation] = useState<InvitationDetails | null>(null);
 const [shareTemplateId, setShareTemplateId] = useState<ShareTemplateId>("aksa-signature");
 const [isSavingShareTemplate, setIsSavingShareTemplate] = useState(false);
 const [shareTemplateFeedback, setShareTemplateFeedback] = useState("");
+const [rsvpFollowUpTemplateId, setRsvpFollowUpTemplateId] = useState<RsvpFollowUpTemplateId>("gentle-reminder");
+const [isSavingFollowUpTemplate, setIsSavingFollowUpTemplate] = useState(false);
+const [followUpTemplateFeedback, setFollowUpTemplateFeedback] = useState("");
 
 const [guests, setGuests] = useState<Guest[]>([]);
 const importInputRef = useRef<HTMLInputElement>(null);
@@ -97,6 +104,11 @@ if (data) {
   const savedTemplate = invitationData.sections?.whatsapp_share_template;
   if (isShareTemplateId(savedTemplate)) {
     setShareTemplateId(savedTemplate);
+  }
+
+  const savedFollowUpTemplate = invitationData.sections?.whatsapp_rsvp_follow_up_template;
+  if (isRsvpFollowUpTemplateId(savedFollowUpTemplate)) {
+    setRsvpFollowUpTemplateId(savedFollowUpTemplate);
   }
 }
 
@@ -290,6 +302,28 @@ function openWhatsApp(guest: Guest) {
   );
 }
 
+function getFollowUpMessage(guest: Guest) {
+  return buildWhatsAppRsvpFollowUpMessage(rsvpFollowUpTemplateId, {
+    guestName: guest.guest_name,
+    groomName: invitation?.groom_name ?? "",
+    brideName: invitation?.bride_name ?? "",
+    weddingDate: invitation?.wedding_date ?? null,
+    invitationLink: getInvitationLink(guest.rsvp_token),
+  });
+}
+
+async function copyFollowUpMessage(guest: Guest) {
+  await navigator.clipboard.writeText(getFollowUpMessage(guest));
+  alert("Pesan follow-up RSVP berhasil disalin.");
+}
+
+function openFollowUpWhatsApp(guest: Guest) {
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(getFollowUpMessage(guest))}`,
+    "_blank"
+  );
+}
+
 async function chooseShareTemplate(templateId: ShareTemplateId) {
   setShareTemplateId(templateId);
   setShareTemplateFeedback("");
@@ -316,6 +350,34 @@ async function chooseShareTemplate(templateId: ShareTemplateId) {
 
   setInvitation({ ...invitation, sections: nextSections });
   setShareTemplateFeedback("Gaya pesan tersimpan untuk undangan ini.");
+}
+
+async function chooseRsvpFollowUpTemplate(templateId: RsvpFollowUpTemplateId) {
+  setRsvpFollowUpTemplateId(templateId);
+  setFollowUpTemplateFeedback("");
+
+  if (!invitation || templateId === rsvpFollowUpTemplateId) return;
+
+  setIsSavingFollowUpTemplate(true);
+  const nextSections = {
+    ...(invitation.sections ?? {}),
+    whatsapp_rsvp_follow_up_template: templateId,
+  };
+
+  const { error } = await supabase
+    .from("invitations")
+    .update({ sections: nextSections })
+    .eq("id", invitationId);
+
+  setIsSavingFollowUpTemplate(false);
+
+  if (error) {
+    setFollowUpTemplateFeedback("Pilihan belum tersimpan. Coba lagi.");
+    return;
+  }
+
+  setInvitation({ ...invitation, sections: nextSections });
+  setFollowUpTemplateFeedback("Gaya follow-up tersimpan untuk undangan ini.");
 }
 function startEdit(guest: Guest) {
   setEditingGuestId(guest.id);
@@ -401,6 +463,15 @@ const hasSearch = searchKeyword.trim() !== "";
 const previewMessage = invitation
   ? buildWhatsAppShareMessage(shareTemplateId, {
       guestName: guests[0]?.guest_name ?? "Dear Guest",
+      groomName: invitation.groom_name ?? "",
+      brideName: invitation.bride_name ?? "",
+      weddingDate: invitation.wedding_date,
+      invitationLink: `https://aksadigitalstudio.com/${invitation.slug}?to=personal-link`,
+    })
+  : "";
+const followUpPreviewMessage = invitation
+  ? buildWhatsAppRsvpFollowUpMessage(rsvpFollowUpTemplateId, {
+      guestName: guests.find((guest) => guest.rsvp_status === "pending")?.guest_name ?? "Tamu Undangan",
       groomName: invitation.groom_name ?? "",
       brideName: invitation.bride_name ?? "",
       weddingDate: invitation.wedding_date,
@@ -641,6 +712,52 @@ const { error } = await supabase
           </div>
         </section>
       )}
+      {invitation && (
+        <section className="overflow-hidden rounded-2xl border border-amber-200 bg-[#fffdf8] shadow-sm">
+          <div className="border-b border-amber-200 px-6 py-5">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-700">RSVP follow-up</p>
+            <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="font-serif text-2xl font-semibold text-[#182235]">Ingatkan tamu yang belum RSVP</h2>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-600">Pesan ini hanya digunakan pada tombol follow-up untuk tamu dengan status Belum RSVP. Pesan tidak dikirim otomatis.</p>
+              </div>
+              <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 shadow-sm">
+                {isSavingFollowUpTemplate ? "Menyimpan…" : followUpTemplateFeedback || `${pendingRSVP} tamu belum RSVP`}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid gap-6 p-6 lg:grid-cols-[1fr_1.1fr]">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {rsvpFollowUpTemplates.map((template) => {
+                const selected = template.id === rsvpFollowUpTemplateId;
+                return (
+                  <button
+                    key={template.id}
+                    type="button"
+                    onClick={() => chooseRsvpFollowUpTemplate(template.id)}
+                    disabled={isSavingFollowUpTemplate}
+                    className={`rounded-xl border p-4 text-left transition disabled:cursor-wait ${
+                      selected
+                        ? "border-amber-500 bg-[#182235] text-white shadow-md"
+                        : "border-amber-100 bg-white text-[#182235] hover:border-amber-400 hover:bg-amber-50"
+                    }`}
+                  >
+                    <span className="block text-sm font-bold">{template.label}</span>
+                    <span className={`mt-1 block text-xs ${selected ? "text-amber-200" : "text-slate-500"}`}>{template.meta}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="rounded-xl bg-[#182235] p-5 text-white shadow-inner">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-200">Preview follow-up</p>
+              <p className="mt-2 text-sm leading-6 text-slate-300">Contoh untuk tamu yang belum memberi konfirmasi. Tautan RSVP tiap tamu tetap unik dan aman.</p>
+              <pre className="mt-4 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg bg-white/10 p-4 font-sans text-sm leading-6 text-white">{followUpPreviewMessage}</pre>
+            </div>
+          </div>
+        </section>
+      )}
       {showForm && (
 
         <div className="bg-white rounded-xl shadow p-6 space-y-4">
@@ -845,6 +962,22 @@ onChange={(e) =>
     >
       WhatsApp
     </button>
+    {guest.rsvp_status === "pending" && (
+      <>
+        <button
+          onClick={() => copyFollowUpMessage(guest)}
+          className="rounded-lg bg-amber-500 px-3 py-2 text-sm font-semibold text-white hover:bg-amber-600"
+        >
+          Copy follow-up
+        </button>
+        <button
+          onClick={() => openFollowUpWhatsApp(guest)}
+          className="rounded-lg bg-[#1d7f50] px-3 py-2 text-sm font-semibold text-white hover:bg-[#176540]"
+        >
+          Follow-up WA
+        </button>
+      </>
+    )}
     <GuestCheckInQr invitationId={invitationId} guestName={guest.guest_name} token={guest.check_in_token} triggerLabel="QR" triggerClassName="rounded-lg bg-[#182235] px-3 py-2 text-sm text-white hover:bg-[#2a3b5b]" />
 <button
   onClick={() => startEdit(guest)}

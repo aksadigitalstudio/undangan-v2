@@ -8,6 +8,15 @@ export const SHARE_TEMPLATE_IDS = [
 
 export type ShareTemplateId = (typeof SHARE_TEMPLATE_IDS)[number];
 
+export const RSVP_FOLLOW_UP_TEMPLATE_IDS = [
+  "gentle-reminder",
+  "warm-follow-up",
+  "formal-reminder",
+  "graceful-english",
+] as const;
+
+export type RsvpFollowUpTemplateId = (typeof RSVP_FOLLOW_UP_TEMPLATE_IDS)[number];
+
 export type ShareMessageVariables = {
   guestName: string;
   groomName: string;
@@ -105,8 +114,74 @@ Terima kasih atas doa dan kehadirannya.`,
   },
 ];
 
+export const rsvpFollowUpTemplates: ReadonlyArray<{
+  id: RsvpFollowUpTemplateId;
+  label: string;
+  meta: string;
+  message: string;
+}> = [
+  {
+    id: "gentle-reminder",
+    label: "Gentle Reminder",
+    meta: "Hangat · Bahasa Indonesia",
+    message: `Halo {guestName},
+
+Kami ingin mengingatkan dengan hangat mengenai undangan pernikahan {groomName} & {brideName}.
+
+Mohon kesediaannya untuk mengisi konfirmasi kehadiran melalui tautan berikut:
+{invitationLink}
+
+Konfirmasi Anda sangat membantu kami menyiapkan hari istimewa ini.
+
+Terima kasih.`,
+  },
+  {
+    id: "warm-follow-up",
+    label: "Warm & Personal",
+    meta: "Akrab · Bahasa Indonesia",
+    message: `Hai {guestName},
+
+Kami berharap Anda berkenan menjadi bagian dari hari bahagia {groomName} & {brideName}.
+
+Jika belum sempat, silakan isi RSVP melalui undangan personal ini:
+{invitationLink}
+
+Terima kasih banyak. Kami menantikan kabar baik dari Anda.`,
+  },
+  {
+    id: "formal-reminder",
+    label: "Formal Keluarga",
+    meta: "Sopan · Bahasa Indonesia",
+    message: `Yth. Bapak/Ibu/Saudara/i {guestName},
+
+Dengan hormat, kami ingin mengingatkan kembali mengenai konfirmasi kehadiran untuk pernikahan {groomName} & {brideName}.
+
+Mohon mengisi RSVP melalui tautan undangan berikut:
+{invitationLink}
+
+Atas perhatian dan konfirmasinya, kami ucapkan terima kasih.`,
+  },
+  {
+    id: "graceful-english",
+    label: "Graceful English",
+    meta: "Refined · English",
+    message: `Dear {guestName},
+
+We would be grateful if you could kindly confirm your attendance for the wedding of {groomName} & {brideName}.
+
+Please respond through your personal invitation:
+{invitationLink}
+
+Your reply will help us prepare a beautiful celebration. Thank you.`,
+  },
+];
+
 export function isShareTemplateId(value: unknown): value is ShareTemplateId {
   return typeof value === "string" && SHARE_TEMPLATE_IDS.includes(value as ShareTemplateId);
+}
+
+export function isRsvpFollowUpTemplateId(value: unknown): value is RsvpFollowUpTemplateId {
+  return typeof value === "string" && RSVP_FOLLOW_UP_TEMPLATE_IDS.includes(value as RsvpFollowUpTemplateId);
 }
 
 function formatWeddingDate(value: string | null) {
@@ -131,6 +206,21 @@ export function buildWhatsAppShareMessage(
 
   return template.message
     .replaceAll("{guestName}", variables.guestName || "Dear Guest")
+    .replaceAll("{groomName}", variables.groomName || "")
+    .replaceAll("{brideName}", variables.brideName || "")
+    .replaceAll("{weddingDate}", formatWeddingDate(variables.weddingDate))
+    .replaceAll("{invitationLink}", variables.invitationLink);
+}
+
+export function buildWhatsAppRsvpFollowUpMessage(
+  templateId: RsvpFollowUpTemplateId,
+  variables: ShareMessageVariables
+) {
+  const template =
+    rsvpFollowUpTemplates.find((item) => item.id === templateId) ?? rsvpFollowUpTemplates[0];
+
+  return template.message
+    .replaceAll("{guestName}", variables.guestName || "Tamu Undangan")
     .replaceAll("{groomName}", variables.groomName || "")
     .replaceAll("{brideName}", variables.brideName || "")
     .replaceAll("{weddingDate}", formatWeddingDate(variables.weddingDate))
