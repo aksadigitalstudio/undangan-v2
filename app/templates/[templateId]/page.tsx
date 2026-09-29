@@ -9,6 +9,7 @@ import { template001Demo, template002Demo, template003Demo, template004Demo, tem
 import { template018Demo, template019Demo, template020Demo } from "@/lib/occasionTemplateDemoData";
 import { template021Demo } from "@/lib/crimsonFortuneDemoData";
 import { template022Demo } from "@/lib/jadeDynastyDemoData";
+import { template023Demo } from "@/lib/porcelainReverieDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
@@ -55,6 +56,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     "template-020": template020Demo,
     "template-021": template021Demo,
     "template-022": template022Demo,
+    "template-023": template023Demo,
   };
   const fallbackDemo = demoByTemplateId[templateId as keyof typeof demoByTemplateId];
   const data = publishedInvitation ?? fallbackDemo;

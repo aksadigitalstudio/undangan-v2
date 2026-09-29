@@ -61,6 +61,7 @@ const templates = [
   { id: "template-017", name: "Copenhagen Quiet", description: "Danish modern dengan batu pucat, walnut, grid editorial, dan suasana hotel yang tenang serta premium.", available: true },
   { id: "template-021", name: "Crimson Fortune", description: "Chinese wedding modern dengan crimson silk, ornamen peony, lattice emas, dan suasana banquet yang penuh keberuntungan.", available: true },
   { id: "template-022", name: "Jade Dynasty", description: "Chinese wedding modern dengan emerald jade, ivory porcelain, cloud motif, dan suasana ceremony yang anggun.", available: true },
+  { id: "template-023", name: "Porcelain Reverie", description: "Chinese wedding blue-and-white dengan ivory porcelain, motif awan, dan suasana tea ceremony yang tenang dan elegan.", available: true },
 ];
 
 export default function TemplatePicker({
