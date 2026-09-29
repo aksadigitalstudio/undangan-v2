@@ -21,6 +21,7 @@ import { template018, template019, template020 } from "./occasion";
 import { template021 } from "./template-021/index";
 import { template022 } from "./template-022/index";
 import { template023 } from "./template-023/index";
+import { template024 } from "./template-024/index";
 
 export const templateRegistry: Partial<
   Record<string, InvitationTemplate>
@@ -48,4 +49,5 @@ export const templateRegistry: Partial<
   [template021.id]: template021,
   [template022.id]: template022,
   [template023.id]: template023,
+  [template024.id]: template024,
 };
