@@ -60,6 +60,7 @@ const templates = [
   { id: "template-016", name: "Riad After Dark", description: "Riad Marrakech dengan zellige emerald, terracotta, brass lantern, dan suasana malam yang mewah.", available: true },
   { id: "template-017", name: "Copenhagen Quiet", description: "Danish modern dengan batu pucat, walnut, grid editorial, dan suasana hotel yang tenang serta premium.", available: true },
   { id: "template-021", name: "Crimson Fortune", description: "Chinese wedding modern dengan crimson silk, ornamen peony, lattice emas, dan suasana banquet yang penuh keberuntungan.", available: true },
+  { id: "template-022", name: "Jade Dynasty", description: "Chinese wedding modern dengan emerald jade, ivory porcelain, cloud motif, dan suasana ceremony yang anggun.", available: true },
 ];
 
 export default function TemplatePicker({
