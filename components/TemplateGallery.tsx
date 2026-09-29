@@ -22,6 +22,7 @@ const wedding = (id: string, name: string, label: string, description: string, i
 const brief = (id: string, name: string, label: string, description: string, accent: string, category: Exclude<TemplateCategory, "wedding">, themeGroup: string, eventType: string, background: string): TemplateCatalogItem => ({ id, name, label, description, accent, category, themeGroup, status: "brief", eventType, background });
 
 export const templateCatalog: TemplateCatalogItem[] = [
+  { id: "template-021", name: "Crimson Fortune", label: "Chinese · Auspicious", description: "Crimson silk, gold latticework, peony-inspired ornament, and a joyful modern banquet.", accent: "#f2ca62", category: "wedding", themeGroup: "Classic & Cultural", status: "live", eventType: "Wedding invitation", background: "radial-gradient(circle at 74% 18%,#b52e3d 0%,transparent 23%), linear-gradient(135deg,#3d0710,#821625 54%,#d9a741)" },
   wedding("template-017", "Copenhagen Quiet", "New Release · Danish Modern", "Pale stone, walnut, and editorial grids for a quietly modern celebration.", "/template-demos/template-017/copenhagen-hero.webp", "#8c765d", "Modern & Editorial"),
   wedding("template-001", "Elegant Gold", "Classic · Refined", "Warm ivory and golden details for a celebration that feels timeless.", "/decor/elegant-gold/background/ivory-texture.optimized.webp", "#b58b36", "Classic & Cultural"),
   wedding("template-002", "Sekar Sogan", "Javanese · Warm", "Soft batik, florals, and graceful details rooted in tradition.", "/decor/sekar-sogan/background/sekar-sogan-background-v1.webp", "#9a633d", "Classic & Cultural"),
@@ -86,7 +87,7 @@ const occasionTemplateCatalog: TemplateCatalogItem[] = [
 export const allTemplateCatalog = [...templateCatalog, ...occasionTemplateCatalog];
 
 const categories: Array<{ id: TemplateCategory; eyebrow: string; title: string; description: string }> = [
-  { id: "wedding", eyebrow: "Live wedding demos", title: "Wedding invitations", description: "17 live designs, each ready to explore from cover to RSVP." },
+  { id: "wedding", eyebrow: "Live wedding demos", title: "Wedding invitations", description: "18 live designs, each ready to explore from cover to RSVP." },
   { id: "engagement", eyebrow: "1 live demo · 9 directions", title: "Engagement invitations", description: "A considered first announcement, from heritage rituals to intimate modern stories." },
   { id: "birthday", eyebrow: "1 live demo · 9 directions", title: "Birthday invitations", description: "Designs for tiny firsts, full rooms, landmark years, and every beautiful in-between." },
   { id: "event", eyebrow: "1 live demo · 9 directions", title: "Event invitations", description: "Purpose-led invitations for communities, brands, gatherings, tributes, and shared moments." },
