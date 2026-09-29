@@ -22,6 +22,7 @@ const wedding = (id: string, name: string, label: string, description: string, i
 const brief = (id: string, name: string, label: string, description: string, accent: string, category: Exclude<TemplateCategory, "wedding">, themeGroup: string, eventType: string, background: string): TemplateCatalogItem => ({ id, name, label, description, accent, category, themeGroup, status: "brief", eventType, background });
 
 export const templateCatalog: TemplateCatalogItem[] = [
+  { id: "template-025", name: "Bhakti Biru", label: "Professional · Police", description: "Midnight blue, silver, and sky-blue details for a modern, formal celebration.", accent: "#bce6f4", category: "wedding", themeGroup: "Professional Stories", status: "live", eventType: "Wedding invitation", background: "radial-gradient(circle at 75% 16%,#4d88c1 0%,transparent 22%), linear-gradient(135deg,#051426,#143b64 55%,#51b7df)" },
   { id: "template-024", name: "Satria Nusantara", label: "Professional · TNI", description: "Ceremonial navy, ivory, crimson, and gold for a formal wedding celebration.", accent: "#f5deb0", category: "wedding", themeGroup: "Professional Stories", status: "live", eventType: "Wedding invitation", background: "radial-gradient(circle at 75% 16%,#416b9b 0%,transparent 22%), linear-gradient(135deg,#06152b,#12365f 55%,#a52c39)" },
   { id: "template-023", name: "Porcelain Reverie", label: "Chinese · Blue & White", description: "Blue porcelain, ivory paper, cloud-line ornament, and a quiet ceremonial romance.", accent: "#bcd8ed", category: "wedding", themeGroup: "Classic & Cultural", status: "live", eventType: "Wedding invitation", background: "radial-gradient(circle at 76% 16%,#6b9acb 0%,transparent 22%), linear-gradient(135deg,#092653,#245192 55%,#dce5ed)" },
   { id: "template-022", name: "Jade Dynasty", label: "Chinese · Jade & Porcelain", description: "Emerald jade, ivory porcelain, cloud motifs, and a graceful modern ceremony.", accent: "#f5d986", category: "wedding", themeGroup: "Classic & Cultural", status: "live", eventType: "Wedding invitation", background: "radial-gradient(circle at 76% 16%,#49a18a 0%,transparent 22%), linear-gradient(135deg,#043a34,#0e695b 55%,#d8b86d)" },
@@ -90,7 +91,7 @@ const occasionTemplateCatalog: TemplateCatalogItem[] = [
 export const allTemplateCatalog = [...templateCatalog, ...occasionTemplateCatalog];
 
 const categories: Array<{ id: TemplateCategory; eyebrow: string; title: string; description: string }> = [
-  { id: "wedding", eyebrow: "Live wedding demos", title: "Wedding invitations", description: "21 live designs, each ready to explore from cover to RSVP." },
+  { id: "wedding", eyebrow: "Live wedding demos", title: "Wedding invitations", description: "22 live designs, each ready to explore from cover to RSVP." },
   { id: "engagement", eyebrow: "1 live demo · 9 directions", title: "Engagement invitations", description: "A considered first announcement, from heritage rituals to intimate modern stories." },
   { id: "birthday", eyebrow: "1 live demo · 9 directions", title: "Birthday invitations", description: "Designs for tiny firsts, full rooms, landmark years, and every beautiful in-between." },
   { id: "event", eyebrow: "1 live demo · 9 directions", title: "Event invitations", description: "Purpose-led invitations for communities, brands, gatherings, tributes, and shared moments." },

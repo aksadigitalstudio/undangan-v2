@@ -11,6 +11,7 @@ import { template021Demo } from "@/lib/crimsonFortuneDemoData";
 import { template022Demo } from "@/lib/jadeDynastyDemoData";
 import { template023Demo } from "@/lib/porcelainReverieDemoData";
 import { template024Demo } from "@/lib/satriaNusantaraDemoData";
+import { template025Demo } from "@/lib/bhaktiBiruDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
@@ -59,6 +60,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     "template-022": template022Demo,
     "template-023": template023Demo,
     "template-024": template024Demo,
+    "template-025": template025Demo,
   };
   const fallbackDemo = demoByTemplateId[templateId as keyof typeof demoByTemplateId];
   const data = publishedInvitation ?? fallbackDemo;

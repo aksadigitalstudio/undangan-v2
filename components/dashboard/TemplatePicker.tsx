@@ -63,6 +63,7 @@ const templates = [
   { id: "template-022", name: "Jade Dynasty", description: "Chinese wedding modern dengan emerald jade, ivory porcelain, cloud motif, dan suasana ceremony yang anggun.", available: true },
   { id: "template-023", name: "Porcelain Reverie", description: "Chinese wedding blue-and-white dengan ivory porcelain, motif awan, dan suasana tea ceremony yang tenang dan elegan.", available: true },
   { id: "template-024", name: "Satria Nusantara", description: "Wedding profesi TNI bernuansa navy ceremonial, ivory, merah, dan emas. Ornamen formal tanpa memakai lambang resmi institusi.", available: true },
+  { id: "template-025", name: "Bhakti Biru", description: "Wedding profesi Police bernuansa midnight blue, silver, dan sky blue. Ornamen modern tanpa memakai lambang resmi kepolisian.", available: true },
 ];
 
 export default function TemplatePicker({
