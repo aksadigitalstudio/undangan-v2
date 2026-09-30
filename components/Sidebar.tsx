@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ClipboardList, LayoutDashboard, MailPlus } from "lucide-react";
+import { ClipboardList, KeyRound, LayoutDashboard, MailPlus } from "lucide-react";
 import { usePathname } from "next/navigation";
 import AksaBrand from "@/components/AksaBrand";
 
 const navigation = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/dashboard/invitations", label: "Invitations", icon: MailPlus },
+  { href: "/dashboard/account", label: "Keamanan akun", icon: KeyRound },
   { href: "/dashboard/orders", label: "Order briefs", icon: ClipboardList },
 ];
 

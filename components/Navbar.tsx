@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { ClipboardList, LayoutDashboard, LogOut, MailPlus } from "lucide-react";
+import { ClipboardList, KeyRound, LayoutDashboard, LogOut, MailPlus } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import AksaBrand from "@/components/AksaBrand";
 
 const mobileNavigation = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/dashboard/invitations", label: "Invitations", icon: MailPlus },
+  { href: "/dashboard/account", label: "Account", icon: KeyRound },
   { href: "/dashboard/orders", label: "Order briefs", icon: ClipboardList },
 ];
 
