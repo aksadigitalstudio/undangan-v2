@@ -7,6 +7,7 @@ import InvitationCanvasCover from "@/components/studio/InvitationCanvasCover";
 import { isCanvasDocument } from "@/components/studio/canvasTypes";
 import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
 import { withDisplayNames } from "@/lib/displayNames";
+import { withParentTitles } from "@/lib/parentTitles";
 interface TemplateRendererProps extends TemplateProps {
   templateId: string;
   showCover?: boolean;
@@ -23,7 +24,7 @@ export default function TemplateRenderer({
 }: TemplateRendererProps) {
   const template = templateRegistry[templateId];
   const canvasDocument = isCanvasDocument(sections?.studio_canvas) ? sections.studio_canvas : null;
-  const invitationForDisplay = withDisplayNames(invitation, sections);
+  const invitationForDisplay = withParentTitles(withDisplayNames(invitation, sections), sections);
 
   if (!template) {
     return (
