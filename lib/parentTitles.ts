@@ -14,16 +14,16 @@ export const parentTitleOptions: Array<{
   label: string;
   description: string;
 }> = [
-  { value: "bapak-ibu", label: "Bapak / Ibu", description: "Sapaan formal Bahasa Indonesia" },
-  { value: "tuan-nyonya", label: "Tuan / Nyonya", description: "Sapaan formal klasik" },
+  { value: "bapak-ibu", label: "Bp. / Ibu", description: "Sapaan formal Bahasa Indonesia" },
+  { value: "tuan-nyonya", label: "Tn. / Ny.", description: "Sapaan formal klasik" },
   { value: "mr-mrs", label: "Mr. / Mrs.", description: "Sapaan formal Bahasa Inggris" },
   { value: "none", label: "Tanpa sapaan", description: "Tampilkan nama persis seperti data" },
 ];
 
 const titles: Record<ParentTitleStyle, ParentTitlePair> = {
   none: { father: "", mother: "" },
-  "bapak-ibu": { father: "Bapak", mother: "Ibu" },
-  "tuan-nyonya": { father: "Tuan", mother: "Nyonya" },
+  "bapak-ibu": { father: "Bp.", mother: "Ibu" },
+  "tuan-nyonya": { father: "Tn.", mother: "Ny." },
   "mr-mrs": { father: "Mr.", mother: "Mrs." },
 };
 
@@ -45,7 +45,7 @@ function formatParentName(value: unknown, title: string) {
 
   // Keep an existing deceased marker before the selected formal title.
   const deceased = name.match(/^((?:alm|almh)\.?)\s+(.+)$/i);
-  return deceased ? `${deceased[1]} ${title} ${deceased[2]}` : `${title} ${name}`;
+  return deceased ? `${deceased[1].replace(/\.?$/, ".")} ${title} ${deceased[2]}` : `${title} ${name}`;
 }
 
 export function withParentTitles<T extends object>(

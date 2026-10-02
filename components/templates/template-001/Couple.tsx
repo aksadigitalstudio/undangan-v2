@@ -6,6 +6,21 @@ import MotionGroup from "@/components/motion/MotionGroup";
 import MotionItem from "@/components/motion/MotionItem";
 import MotionSection from "@/components/motion/MotionSection";
 
+function ParentName({ value, accent, textColor, topMargin = false }: { value: unknown; accent: string; textColor: string; topMargin?: boolean }) {
+  const name = typeof value === "string" ? value.trim() : "";
+  const match = name.match(/^((?:(?:alm|almh)\.?\s+)?(?:bp\.?|bpk\.?|bapak|ibu|tn\.?|tuan|ny\.?|nyonya|mr\.?|mrs\.?)\s+)(.+)$/i);
+
+  if (!match) {
+    return <p className={`${topMargin ? "mt-5 " : ""}text-center text-base leading-8`} style={{ color: textColor }}>{name}</p>;
+  }
+
+  const title = match[1]
+    .trim()
+    .replace(/^(almh?)\.?/i, (_, marker: string) => `${marker.charAt(0).toUpperCase()}${marker.slice(1).toLowerCase()}.`);
+
+  return <p className={`${topMargin ? "mt-5 " : ""}text-center text-base leading-8`} style={{ color: textColor }}><span className="mr-1.5 text-[0.78rem] font-semibold tracking-[0.08em]" style={{ color: accent }}>{title}</span><span>{match[2]}</span></p>;
+}
+
 export default function Couple({ invitation }: TemplateProps) {
   const data = invitation;
 
@@ -103,19 +118,8 @@ export default function Couple({ invitation }: TemplateProps) {
                       Son of
                     </p>
 
-                    <p
-                      className="mt-5 text-center text-base leading-8"
-                      style={{ color: currentTheme.text }}
-                    >
-                      {data.groom_father}
-                    </p>
-
-                    <p
-                      className="text-center text-base leading-8"
-                      style={{ color: currentTheme.text }}
-                    >
-                      {data.groom_mother}
-                    </p>
+                    <ParentName value={data.groom_father} accent={currentTheme.accent} textColor={currentTheme.text} topMargin />
+                    <ParentName value={data.groom_mother} accent={currentTheme.accent} textColor={currentTheme.text} />
                   </div>
                 </div>
               </MotionItem>
@@ -184,19 +188,8 @@ export default function Couple({ invitation }: TemplateProps) {
                       Daughter of
                     </p>
 
-                    <p
-                      className="mt-5 text-center text-base leading-8"
-                      style={{ color: currentTheme.text }}
-                    >
-                      {data.bride_father}
-                    </p>
-
-                    <p
-                      className="text-center text-base leading-8"
-                      style={{ color: currentTheme.text }}
-                    >
-                      {data.bride_mother}
-                    </p>
+                    <ParentName value={data.bride_father} accent={currentTheme.accent} textColor={currentTheme.text} topMargin />
+                    <ParentName value={data.bride_mother} accent={currentTheme.accent} textColor={currentTheme.text} />
                   </div>
                 </div>
               </MotionItem>
