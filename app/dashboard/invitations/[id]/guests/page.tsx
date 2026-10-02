@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
 import { prepareGuestImport } from "@/lib/guestImport";
 import { readGuestSpreadsheet } from "@/lib/xlsxGuestRows";
+import { getDisplayName } from "@/lib/displayNames";
 import {
   buildWhatsAppRsvpFollowUpMessage,
   buildWhatsAppShareMessage,
@@ -283,8 +284,8 @@ function getInvitationLink(rsvpToken: string) {
 function getShareMessage(guest: Guest) {
   return buildWhatsAppShareMessage(shareTemplateId, {
     guestName: guest.guest_name,
-    groomName: invitation?.groom_name ?? "",
-    brideName: invitation?.bride_name ?? "",
+    groomName: displayGroomName,
+    brideName: displayBrideName,
     weddingDate: invitation?.wedding_date ?? null,
     invitationLink: getInvitationLink(guest.rsvp_token),
   });
@@ -305,8 +306,8 @@ function openWhatsApp(guest: Guest) {
 function getFollowUpMessage(guest: Guest) {
   return buildWhatsAppRsvpFollowUpMessage(rsvpFollowUpTemplateId, {
     guestName: guest.guest_name,
-    groomName: invitation?.groom_name ?? "",
-    brideName: invitation?.bride_name ?? "",
+    groomName: displayGroomName,
+    brideName: displayBrideName,
     weddingDate: invitation?.wedding_date ?? null,
     invitationLink: getInvitationLink(guest.rsvp_token),
   });
@@ -436,6 +437,8 @@ const totalCapacity = guests.reduce(
   (total, guest) => total + guest.max_guest,
   0
 );
+const displayGroomName = invitation ? getDisplayName(invitation, invitation.sections, "groom") : "";
+const displayBrideName = invitation ? getDisplayName(invitation, invitation.sections, "bride") : "";
 const pendingRSVP = guests.filter(
   (guest) => guest.rsvp_status === "pending"
 ).length;
@@ -463,8 +466,8 @@ const hasSearch = searchKeyword.trim() !== "";
 const previewMessage = invitation
   ? buildWhatsAppShareMessage(shareTemplateId, {
       guestName: guests[0]?.guest_name ?? "Dear Guest",
-      groomName: invitation.groom_name ?? "",
-      brideName: invitation.bride_name ?? "",
+      groomName: displayGroomName,
+      brideName: displayBrideName,
       weddingDate: invitation.wedding_date,
       invitationLink: `https://aksadigitalstudio.com/${invitation.slug}?to=personal-link`,
     })
@@ -472,8 +475,8 @@ const previewMessage = invitation
 const followUpPreviewMessage = invitation
   ? buildWhatsAppRsvpFollowUpMessage(rsvpFollowUpTemplateId, {
       guestName: guests.find((guest) => guest.rsvp_status === "pending")?.guest_name ?? "Tamu Undangan",
-      groomName: invitation.groom_name ?? "",
-      brideName: invitation.bride_name ?? "",
+      groomName: displayGroomName,
+      brideName: displayBrideName,
       weddingDate: invitation.wedding_date,
       invitationLink: `https://aksadigitalstudio.com/${invitation.slug}?to=personal-link`,
     })

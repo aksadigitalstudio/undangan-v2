@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getDisplayName } from "@/lib/displayNames";
 
 export const runtime = "nodejs";
 export const alt = "AKSA Digital Studio wedding invitation";
@@ -35,12 +36,13 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
     bride_name: string | null;
     wedding_date: string | null;
     hero_background: string | null;
+    sections: Record<string, unknown> | null;
   } | null = null;
 
   try {
     const { data } = await createAdminClient()
       .from("invitations")
-      .select("groom_name, bride_name, wedding_date, hero_background")
+      .select("groom_name, bride_name, wedding_date, hero_background, sections")
       .eq("slug", slug)
       .eq("status", "Published")
       .single();
@@ -50,8 +52,8 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
     invitation = null;
   }
 
-  const groom = invitation?.groom_name || "The Groom";
-  const bride = invitation?.bride_name || "The Bride";
+  const groom = invitation ? getDisplayName(invitation, invitation.sections, "groom") || "The Groom" : "The Groom";
+  const bride = invitation ? getDisplayName(invitation, invitation.sections, "bride") || "The Bride" : "The Bride";
   const hero = imageUrl(invitation?.hero_background ?? null);
 
   return new ImageResponse(

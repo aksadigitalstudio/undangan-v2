@@ -6,6 +6,7 @@ import MusicPlayer from "@/components/MusicPlayer";
 import InvitationCanvasCover from "@/components/studio/InvitationCanvasCover";
 import { isCanvasDocument } from "@/components/studio/canvasTypes";
 import GuestCheckInQr from "@/components/check-in/GuestCheckInQr";
+import { withDisplayNames } from "@/lib/displayNames";
 interface TemplateRendererProps extends TemplateProps {
   templateId: string;
   showCover?: boolean;
@@ -22,6 +23,7 @@ export default function TemplateRenderer({
 }: TemplateRendererProps) {
   const template = templateRegistry[templateId];
   const canvasDocument = isCanvasDocument(sections?.studio_canvas) ? sections.studio_canvas : null;
+  const invitationForDisplay = withDisplayNames(invitation, sections);
 
   if (!template) {
     return (
@@ -35,35 +37,35 @@ export default function TemplateRenderer({
 
 return (
   <>
-    {showCover && (canvasDocument ? <InvitationCanvasCover document={canvasDocument} /> : <template.Cover invitation={invitation} />)}
+    {showCover && (canvasDocument ? <InvitationCanvasCover document={canvasDocument} /> : <template.Cover invitation={invitationForDisplay} />)}
 
 {sections?.hero !== false && (
-  <template.Hero invitation={invitation} />
+  <template.Hero invitation={invitationForDisplay} />
 )}
 
 {sections?.couple !== false && (
-  <template.Couple invitation={invitation} />
+  <template.Couple invitation={invitationForDisplay} />
 )}
 
     {sections?.story !== false && (
-      <template.Story invitation={invitation} />
+      <template.Story invitation={invitationForDisplay} />
     )}
 
     {sections?.event !== false && (
-      <template.Event invitation={invitation} />
+      <template.Event invitation={invitationForDisplay} />
     )}
     {sections?.live_stream === true && template.LiveStream && (
       <template.LiveStream
-        invitation={invitation}
+        invitation={invitationForDisplay}
       />
     )}
     {sections?.gallery !== false && (
-      <template.Gallery invitation={invitation} />
+      <template.Gallery invitation={invitationForDisplay} />
     )}
 
     {sections?.rsvp !== false && (
       <template.RSVP
-        invitation={invitation}
+        invitation={invitationForDisplay}
         guest={guest}
       />
     )}
@@ -78,10 +80,10 @@ return (
     )}
 
     {sections?.gift !== false && (
-      <template.Gift invitation={invitation} />
+      <template.Gift invitation={invitationForDisplay} />
     )}
 
-    <template.Footer invitation={invitation} />
+    <template.Footer invitation={invitationForDisplay} />
      {showMusic && sections?.music !== false && invitation.music && (
       <MusicPlayer musicUrl={invitation.music} />
     )}   

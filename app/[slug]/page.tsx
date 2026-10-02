@@ -3,6 +3,7 @@ import DecorLayer from "@/components/DecorLayer";
 import type { Metadata } from "next";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
+import { getDisplayName } from "@/lib/displayNames";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -22,14 +23,14 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     const publicInvitations = createAdminClient();
     const { data } = await publicInvitations
       .from("invitations")
-      .select("groom_name, bride_name, wedding_date, updated_at")
+      .select("groom_name, bride_name, wedding_date, updated_at, sections")
       .eq("slug", slug)
       .eq("status", "Published")
       .single();
 
     if (!data) return {};
 
-    const couple = `${data.groom_name || ""} & ${data.bride_name || ""}`.trim();
+    const couple = `${getDisplayName(data, data.sections, "groom")} & ${getDisplayName(data, data.sections, "bride")}`.trim();
     const title = `The Wedding of ${couple} | AKSA Digital Studio`;
     const description = `With joy, we invite you to celebrate ${couple}. Open the invitation for event details and RSVP.`;
     const version = data.updated_at ? new Date(data.updated_at).getTime() : "1";
