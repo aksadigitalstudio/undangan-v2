@@ -37,7 +37,7 @@ function DoubleHappiness({ className = "" }: { className?: string }) {
 }
 
 function PorcelainPattern({ className = "" }: { className?: string }) {
-  return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "radial-gradient(circle at 12px 12px, transparent 8px, currentColor 8.5px, currentColor 9.5px, transparent 10px), radial-gradient(circle at 28px 28px, transparent 8px, currentColor 8.5px, currentColor 9.5px, transparent 10px)", backgroundSize: "40px 40px" }} />;
+  return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "radial-gradient(circle at 12px 12px, transparent 8px, currentColor 8.5px, currentColor 9.5px, transparent 10px),radial-gradient(circle at 28px 28px, transparent 8px, currentColor 8.5px, currentColor 9.5px, transparent 10px),radial-gradient(circle at 20px 20px,currentColor 0 2px,transparent 2.5px),linear-gradient(45deg,transparent 47%,currentColor 48%,currentColor 52%,transparent 53%)", backgroundSize: "40px 40px,40px 40px,40px 40px,40px 40px" }} />;
 }
 
 function Cover({ invitation }: TemplateProps) {

@@ -61,6 +61,10 @@ function Peony({ className = "" }: { className?: string }) {
   return <div aria-hidden="true" className={`pointer-events-none absolute grid h-24 w-24 place-items-center rounded-full border border-[#d9a741]/65 ${className}`}><div className="h-16 w-16 rounded-full border border-[#d9a741]/65" /><div className="absolute h-10 w-10 rounded-full border border-[#d9a741]/65" /><span className="absolute h-2 w-2 rounded-full bg-[#d9a741]" /></div>;
 }
 
+function Lantern({ className = "" }: { className?: string }) {
+  return <div aria-hidden="true" className={`pointer-events-none absolute flex flex-col items-center ${className}`}><span className="h-8 w-px bg-[#f2ca62]/70" /><span className="grid h-16 w-11 place-items-center rounded-[45%] border-2 border-[#f2ca62] bg-[#981a29] text-xl text-[#f8dda0] shadow-[0_0_30px_rgba(217,167,65,.28)]">囍</span><span className="mt-1 h-8 w-px bg-[#f2ca62]/70" /><span className="h-5 w-7 bg-[repeating-linear-gradient(90deg,#f2ca62_0_1px,transparent_1px_4px)]" /></div>;
+}
+
 function Cover({ invitation }: TemplateProps) {
   const [opened, setOpened] = useState(false);
   if (opened) return null;
@@ -70,6 +74,8 @@ function Cover({ invitation }: TemplateProps) {
     <Lattice className="inset-0" />
     <Peony className="-left-8 top-12 scale-150" />
     <Peony className="-right-8 bottom-8 scale-150" />
+    <Lantern className="left-8 top-0 hidden sm:flex" />
+    <Lantern className="right-8 top-0 hidden sm:flex" />
     <div className="relative w-full max-w-md border border-[#d9a741]/65 bg-[#6f101c]/75 p-2 shadow-2xl backdrop-blur-sm">
       <div className="relative overflow-hidden border border-[#f4dc9a]/55 px-7 py-12 text-center sm:px-10">
         <DoubleHappiness className="absolute -left-5 top-1 text-9xl text-[#d9a741]/15" />
@@ -94,6 +100,7 @@ function Hero({ invitation }: TemplateProps) {
     <Lattice className="inset-0" />
     <Peony className="-left-10 top-24 scale-[1.85]" />
     <Peony className="-right-10 bottom-24 scale-[1.85]" />
+    <Lantern className="right-10 top-0 hidden lg:flex" />
     <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[.9fr_1fr] lg:items-center">
       <div className="text-center lg:text-left">
         <p className="text-[10px] font-bold uppercase tracking-[.42em] text-[#f2ca62]">A red thread of destiny</p>
@@ -104,7 +111,7 @@ function Hero({ invitation }: TemplateProps) {
       </div>
       <div className="relative mx-auto w-full max-w-xl">
         <div className="absolute -inset-4 border border-[#d9a741]/55" />
-        <div className="relative aspect-[4/5] overflow-hidden bg-[#7e1826] shadow-[20px_20px_0_rgba(217,167,65,.22)]">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-t-[12rem] border-x border-t border-[#f2ca62]/70 bg-[#7e1826] shadow-[20px_20px_0_rgba(217,167,65,.22)]">
           <Image src={invitation.hero_background || crimsonAssets.hero} alt="Crimson Fortune wedding celebration" fill priority unoptimized className="object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(77,7,17,.08),rgba(77,7,17,.55))]" />
           <DoubleHappiness className="absolute bottom-6 left-1/2 -translate-x-1/2 text-7xl text-[#f5cf71] drop-shadow-lg" />

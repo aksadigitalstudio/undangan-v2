@@ -33,11 +33,11 @@ function useCountdown(date?: string) {
 }
 
 function HonourMark({ className = "" }: { className?: string }) {
-  return <span aria-hidden="true" className={`inline-flex items-center gap-1 text-[11px] tracking-[.28em] ${className}`}>✦ ✦ ✦</span>;
+  return <span aria-hidden="true" className={`inline-flex items-center gap-2 ${className}`}><span className="h-px w-8 bg-current opacity-70" /><span className="relative grid h-9 w-12 place-items-center border border-current text-sm shadow-[inset_0_0_0_3px_rgba(255,255,255,.08)]"><span className="absolute inset-x-1 top-1 h-1 bg-current opacity-80" />✦<span className="absolute inset-x-1 bottom-1 h-1 bg-current opacity-80" /></span><span className="h-px w-8 bg-current opacity-70" /></span>;
 }
 
 function ParadeLines({ className = "" }: { className?: string }) {
-  return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 10px)" }} />;
+  return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "repeating-linear-gradient(135deg,currentColor 0 1px,transparent 1px 10px),linear-gradient(90deg,transparent 0 7%,currentColor 7% 7.5%,transparent 7.5% 92.5%,currentColor 92.5% 93%,transparent 93%)" }} />;
 }
 
 function Cover({ invitation }: TemplateProps) {

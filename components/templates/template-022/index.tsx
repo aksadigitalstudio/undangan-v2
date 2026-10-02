@@ -37,7 +37,7 @@ function DoubleHappiness({ className = "" }: { className?: string }) {
 }
 
 function CloudBorder({ className = "" }: { className?: string }) {
-  return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "radial-gradient(circle at 15px 19px, transparent 14px, currentColor 15px, currentColor 16px, transparent 17px)", backgroundSize: "40px 40px" }} />;
+  return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "radial-gradient(circle at 15px 19px, transparent 14px, currentColor 15px, currentColor 16px, transparent 17px),radial-gradient(circle at 35px 19px, transparent 14px, currentColor 15px, currentColor 16px, transparent 17px),linear-gradient(90deg,transparent 48%,currentColor 49%,currentColor 51%,transparent 52%)", backgroundSize: "80px 40px,80px 40px,80px 40px" }} />;
 }
 
 function Cover({ invitation }: TemplateProps) {
