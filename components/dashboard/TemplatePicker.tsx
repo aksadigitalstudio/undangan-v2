@@ -1,139 +1,107 @@
 "use client";
 
+import { Check, LayoutTemplate } from "lucide-react";
+import { templateCatalog } from "@/components/TemplateGallery";
+
 interface TemplatePickerProps {
   value: string;
   onChange: (templateId: string) => void;
 }
 
-const templates = [
-  {
-    id: "template-001",
-    name: "Chinese Wedding",
-    description: "Elegant Chinese wedding invitation.",
-    available: true,
-  },
-  {
-    id: "template-002",
-    name: "Javanese Wedding",
-    description: "Traditional Javanese wedding invitation.",
-    available: true,
-  },
-  {
-    id: "template-003",
-    name: "Sundanese Wedding",
-    description: "Traditional Sundanese wedding invitation.",
-    available: true,
-  },
-  {
-    id: "template-004",
-    name: "Chinese Imperial",
-    description:
-      "Chinese wedding dengan panorama istana merah yang meriah.",
-    available: true,
-  },
-  {
-    id: "template-005",
-    name: "The Edit",
-    description: "Modern monochrome editorial wedding invitation.",
-    available: true,
-  },
-  {
-    id: "template-006",
-    name: "Amalfi Afterglow",
-    description: "Italian Riviera wedding dengan cobalt tiles, lemon, dan suasana golden hour.",
-    available: true,
-  },
-  {
-    id: "template-007",
-    name: "Lisbon Letters",
-    description: "Azulejo biru-putih dan arsitektur Lisbon untuk tampilan Eropa yang graphic-modern.",
-    available: true,
-  },
-  { id: "template-008", name: "Château de Lune", description: "French château old-money dengan dusty blue, monogram, dan garden formal.", available: true },
-  { id: "template-009", name: "Midnight Cinema", description: "Film-poster wedding dengan ticket stub, red velvet, dan suasana premiere malam.", available: true },
-  { id: "template-010", name: "Atelier No. 27", description: "Fashion atelier dengan couture sketchbook, kartu editorial, dan suasana private dinner yang mewah.", available: true },
-  { id: "template-011", name: "Underwater Vows", description: "Undangan laut dalam dengan navy–aqua, pearl, motion gelembung, dan suasana beach-resort yang elegan.", available: true },
-  { id: "template-012", name: "The Grand Tour", description: "Travel journal Eropa dengan paspor, kartu pos, peta kereta, koper vintage, dan RSVP boarding pass.", available: true },
-  { id: "template-013", name: "Celestial Observatory", description: "Deep navy dan silver dengan peta bintang, fase bulan, konstelasi pasangan, dan observatory clock.", available: true },
-  { id: "template-014", name: "Side A, Side B", description: "Indie vinyl dengan album cover, tracklist cerita, concert ticket, dan RSVP Guest List Pass.", available: true },
-  { id: "template-015", name: "Kintsugi Promise", description: "Keramik Jepang, clay, ivory, dan garis emas untuk intimate wedding yang tenang dan premium.", available: true },
-  { id: "template-016", name: "Riad After Dark", description: "Riad Marrakech dengan zellige emerald, terracotta, brass lantern, dan suasana malam yang mewah.", available: true },
-  { id: "template-017", name: "Copenhagen Quiet", description: "Danish modern dengan batu pucat, walnut, grid editorial, dan suasana hotel yang tenang serta premium.", available: true },
-  { id: "template-021", name: "Crimson Fortune", description: "Chinese wedding modern dengan crimson silk, ornamen peony, lattice emas, dan suasana banquet yang penuh keberuntungan.", available: true },
-  { id: "template-022", name: "Jade Dynasty", description: "Chinese wedding modern dengan emerald jade, ivory porcelain, cloud motif, dan suasana ceremony yang anggun.", available: true },
-  { id: "template-023", name: "Porcelain Reverie", description: "Chinese wedding blue-and-white dengan ivory porcelain, motif awan, dan suasana tea ceremony yang tenang dan elegan.", available: true },
-  { id: "template-024", name: "Satria Nusantara", description: "Wedding profesi TNI bernuansa navy ceremonial, ivory, merah, dan emas. Ornamen formal tanpa memakai lambang resmi institusi.", available: true },
-  { id: "template-025", name: "Bhakti Biru", description: "Wedding profesi Police bernuansa midnight blue, silver, dan sky blue. Ornamen modern tanpa memakai lambang resmi kepolisian.", available: true },
-];
-
 export default function TemplatePicker({
   value,
   onChange,
 }: TemplatePickerProps) {
-  return (
-    <section className="mb-8">
-      <div className="mb-4">
-        <h2 className="text-2xl font-bold text-black">
-          Pilih Template
-        </h2>
+  const themeGroups = Array.from(
+    new Set(templateCatalog.map((template) => template.themeGroup)),
+  );
 
-        <p className="mt-1 text-sm text-gray-500">
-          Pilih desain utama untuk undangan ini.
+  return (
+    <section className="border-t border-[#182235]/10 pt-8">
+      <div className="max-w-2xl">
+        <div className="flex items-center gap-2 text-[#c94d43]">
+          <LayoutTemplate size={16} />
+          <p className="text-xs font-bold uppercase tracking-[0.2em]">
+            Koleksi AKSA
+          </p>
+        </div>
+        <h2 className="mt-3 font-serif text-3xl tracking-[-0.02em] text-[#182235]">
+          Pilih template undangan
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-[#687184]">
+          Semua desain wedding AKSA tersedia di sini. Pilih satu desain untuk
+          mulai, dan Anda masih dapat mengubahnya sebelum undangan dipublikasikan.
         </p>
       </div>
 
-<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {templates.map((template) => {
-          const isSelected = value === template.id;
-
-          if (!template.available) {
-            return (
-              <div
-                key={template.id}
-                className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-5 opacity-60"
-              >
-                <p className="text-lg font-semibold text-black">
-                  {template.name}
-                </p>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  {template.description}
-                </p>
-
-                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
-                  Segera hadir
-                </p>
-              </div>
-            );
-          }
+      <div className="mt-7 space-y-8">
+        {themeGroups.map((group) => {
+          const templates = templateCatalog.filter(
+            (template) => template.themeGroup === group,
+          );
 
           return (
-            <button
-              key={template.id}
-              type="button"
-              onClick={() => onChange(template.id)}
-              className={`rounded-xl border p-5 text-left transition ${
-                isSelected
-                  ? "border-blue-600 bg-blue-50 ring-2 ring-blue-200"
-                  : "border-gray-200 bg-white hover:border-blue-300"
-              }`}
-            >
-              <p className="text-lg font-semibold text-black">
-                {template.name}
-              </p>
+            <div key={group}>
+              <div className="mb-3 flex items-center gap-3">
+                <span className="h-px w-7 bg-[#c94d43]" />
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#52627a]">
+                  {group}
+                </p>
+              </div>
 
-              <p className="mt-2 text-sm text-gray-500">
-                {template.description}
-              </p>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {templates.map((template) => {
+                  const isSelected = value === template.id;
+                  const coverStyle = template.image
+                    ? {
+                        backgroundImage: `linear-gradient(180deg, rgba(13,24,42,0.04), rgba(13,24,42,0.34)), url('${template.image}')`,
+                      }
+                    : { background: template.background };
 
-              <p
-                className={`mt-4 text-xs font-semibold uppercase tracking-wider ${
-                  isSelected ? "text-blue-600" : "text-gray-400"
-                }`}
-              >
-                {isSelected ? "Dipilih" : "Pilih template"}
-              </p>
-            </button>
+                  return (
+                    <button
+                      key={template.id}
+                      type="button"
+                      onClick={() => onChange(template.id)}
+                      aria-pressed={isSelected}
+                      className={`group relative overflow-hidden rounded-2xl border text-left shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c94d43] focus-visible:ring-offset-2 ${
+                        isSelected
+                          ? "border-[#182235] bg-[#f8fafc] ring-1 ring-[#182235]/20"
+                          : "border-[#182235]/10 bg-white hover:-translate-y-0.5 hover:border-[#c94d43]/50 hover:shadow-md"
+                      }`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="block h-28 bg-[#182235] bg-cover bg-center sm:h-32"
+                        style={coverStyle}
+                      />
+                      <span className="block p-4">
+                        <span
+                          className="block text-[10px] font-bold uppercase tracking-[0.16em]"
+                          style={{ color: template.accent }}
+                        >
+                          {template.label}
+                        </span>
+                        <span className="mt-1.5 block font-serif text-xl leading-6 text-[#182235]">
+                          {template.name}
+                        </span>
+                        <span className="mt-2 block min-h-10 text-xs leading-5 text-[#687184]">
+                          {template.description}
+                        </span>
+                        <span
+                          className={`mt-4 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
+                            isSelected ? "text-[#c94d43]" : "text-[#687184]"
+                          }`}
+                        >
+                          {isSelected && <Check size={13} strokeWidth={3} />}
+                          {isSelected ? "Template dipilih" : "Pilih template"}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           );
         })}
       </div>
