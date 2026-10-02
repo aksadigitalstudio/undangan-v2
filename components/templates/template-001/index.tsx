@@ -20,12 +20,20 @@ function Template001Cover({ invitation }: TemplateProps) {
       .map((image: string) => image.trim())
       .filter(Boolean) ?? [];
 
+  // "Hero Background" is the cover image selected in the editor. Previously
+  // the cover only read Gallery images, so a client who uploaded only a cover
+  // saw the blurred invitation behind the overlay instead of their photo.
+  const coverImages =
+    typeof invitation.hero_background === "string" && invitation.hero_background.trim()
+      ? [invitation.hero_background]
+      : galleryImages;
+
   return (
     <Cover
       groomName={invitation.groom_name ?? ""}
       brideName={invitation.bride_name ?? ""}
       guestName={invitation.guest_name ?? ""}
-      galleryImages={galleryImages}
+      galleryImages={coverImages}
     />
   );
 }

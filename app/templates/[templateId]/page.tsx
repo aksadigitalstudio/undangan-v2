@@ -4,7 +4,6 @@ import TemplateRenderer from "@/components/templates/TemplateRenderer";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { allTemplateCatalog } from "@/components/TemplateGallery";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { template001Demo, template002Demo, template003Demo, template004Demo, template005Demo, template006Demo, template007Demo, template008Demo, template009Demo, template010Demo, template011Demo, template012Demo, template013Demo, template014Demo, template015Demo, template016Demo, template017Demo } from "@/lib/templateDemoData";
 import { template018Demo, template019Demo, template020Demo } from "@/lib/occasionTemplateDemoData";
 import { template021Demo } from "@/lib/crimsonFortuneDemoData";
@@ -15,25 +14,12 @@ import { template025Demo } from "@/lib/bhaktiBiruDemoData";
 
 type Props = { params: Promise<{ templateId: string }> };
 
-// Use the published invitation selected for each template as the public demo.
-// Dashboard media changes then appear here without a separate, stale copy.
-export const dynamic = "force-dynamic";
-
 export default async function TemplatePreviewPage({ params }: Props) {
   const { templateId } = await params;
 
   if (!allTemplateCatalog.some((template) => template.id === templateId && template.status === "live")) {
     notFound();
   }
-
-  const { data: publishedInvitation } = await createAdminClient()
-    .from("invitations")
-    .select("*")
-    .eq("template_id", templateId)
-    .eq("status", "Published")
-    .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
 
   const demoByTemplateId = {
     "template-001": template001Demo,
@@ -62,12 +48,15 @@ export default async function TemplatePreviewPage({ params }: Props) {
     "template-024": template024Demo,
     "template-025": template025Demo,
   };
-  const fallbackDemo = demoByTemplateId[templateId as keyof typeof demoByTemplateId];
-  const data = publishedInvitation ?? fallbackDemo;
+  // Template previews must only use the local demo fixture. Never query a
+  // customer invitation here: an invitation belongs exclusively at /[slug].
+  const data = demoByTemplateId[templateId as keyof typeof demoByTemplateId];
 
   if (!data) {
     notFound();
   }
+
+  const heroBackground = "hero_background" in data ? data.hero_background : "";
 
   const sections = {
     ...defaultSections,
@@ -88,7 +77,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
         }
       : data.template_id === "template-002"
         ? {
-            backgroundImage: `url(${data.hero_background})`,
+            backgroundImage: `url(${heroBackground})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
