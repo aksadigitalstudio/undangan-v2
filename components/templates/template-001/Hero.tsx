@@ -87,8 +87,8 @@ export default function Hero({ invitation }: TemplateProps) {
                           alt={groomName}
                           fill
                           priority
-                          unoptimized
                           sizes="160px"
+                          quality={72}
                           className="object-cover object-top"
                         />
                       </div>
@@ -98,8 +98,8 @@ export default function Hero({ invitation }: TemplateProps) {
                           alt={brideName}
                           fill
                           priority
-                          unoptimized
                           sizes="160px"
+                          quality={72}
                           className="object-cover object-top"
                         />
                       </div>

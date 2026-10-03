@@ -95,9 +95,8 @@ export default function Couple({ invitation }: TemplateProps) {
                         alt={data.groom_name}
                         width={260}
                         height={260}
-                        unoptimized
-                        quality={85}
                         sizes="240px"
+                        quality={72}
                         className="relative h-60 w-60 rounded-full border-[6px] border-white object-cover object-center shadow-2xl"
                       />
                     </div>
@@ -165,9 +164,8 @@ export default function Couple({ invitation }: TemplateProps) {
                         alt={data.bride_name}
                         width={260}
                         height={260}
-                        unoptimized
-                        quality={85}
                         sizes="240px"
+                        quality={72}
                         className="relative h-60 w-60 rounded-full border-[6px] border-white object-cover object-center shadow-2xl"
                       />
                     </div>

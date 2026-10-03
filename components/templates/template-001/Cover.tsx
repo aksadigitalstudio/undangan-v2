@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface InvitationCoverProps {
   groomName: string;
@@ -20,11 +21,7 @@ const [opened, setOpened] = useState(false);
 
 const [isClosing, setIsClosing] = useState(false);
 
-const [currentImage, setCurrentImage] = useState(0);
-
-const [previousImage, setPreviousImage] = useState(0);
-
-const [isTransitioning, setIsTransitioning] = useState(false);
+const coverImage = galleryImages[0];
 
 useEffect(() => {
   // A marketing preview must always start on its cover. On a real invitation,
@@ -40,31 +37,6 @@ useEffect(() => {
   }
 }, []);
 
-useEffect(() => {
-  if (galleryImages.length <= 1) return;
-
-  const timer = setTimeout(() => {
-    setPreviousImage(currentImage);
-
-    setCurrentImage((currentImage + 1) % galleryImages.length);
-
-    setIsTransitioning(true);
-
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 600);
-
-  }, 5000);
-
-  return () => clearTimeout(timer);
-
-}, [currentImage, galleryImages]);
-useEffect(() => {
-  galleryImages.forEach((src) => {
-    const img = new Image();
-    img.src = src;
-  });
-}, [galleryImages]);
 if (opened) return null;
 
 return (
@@ -80,38 +52,17 @@ return (
   }}
 >
 
-{galleryImages.length > 0 && (
+{coverImage && (
   <div className="absolute inset-0 overflow-hidden">
-
-    <motion.div
-      className="absolute inset-0 bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${galleryImages[previousImage]})`,
-      }}
-      animate={{
-        opacity: isTransitioning ? 0 : 1,
-      }}
-      transition={{
-        duration: 0.6,
-        ease: "easeInOut",
-      }}
+    <Image
+      src={coverImage}
+      alt=""
+      fill
+      priority
+      sizes="100vw"
+      quality={72}
+      className="object-cover"
     />
-
-    <motion.div
-      className="absolute inset-0 bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${galleryImages[currentImage]})`,
-      }}
-      initial={false}
-      animate={{
-        opacity: 1,
-      }}
-      transition={{
-        duration: 0.6,
-        ease: "easeInOut",
-      }}
-    />
-
   </div>
 )}
 <div

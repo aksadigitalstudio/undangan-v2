@@ -50,7 +50,8 @@ export default function Gallery({ images }: GalleryProps) {
                   alt={`Gallery ${index + 1}`}
                   width={600}
                   height={600}
-                  unoptimized
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  quality={72}
                   className="aspect-square w-full rounded-3xl object-cover transition-all duration-700 hover:scale-105 hover:shadow-2xl"
                 />
               </button>

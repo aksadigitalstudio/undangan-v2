@@ -16,8 +16,45 @@ const initials = (invitation: TemplateProps["invitation"]) => `${firstName(invit
 
 function countdownFor(date?: string) { const target = new Date(`${date || ""}T00:00:00`).getTime(); const remaining = Number.isNaN(target) ? 0 : Math.max(0, target - Date.now()); return [[Math.floor(remaining / 86400000), "Days"], [Math.floor(remaining / 3600000) % 24, "Hours"], [Math.floor(remaining / 60000) % 60, "Minutes"], [Math.floor(remaining / 1000) % 60, "Seconds"]]; }
 function useCountdown(date?: string) { const [values, setValues] = useState(() => countdownFor(date)); useEffect(() => { const timer = window.setInterval(() => setValues(countdownFor(date)), 1000); return () => window.clearInterval(timer); }, [date]); return values; }
-function TrustMark({ className = "" }: { className?: string }) { return <span aria-hidden="true" className={`inline-flex items-center gap-2 ${className}`}><span className="h-px w-7 bg-current opacity-70" /><span className="grid h-9 w-8 place-items-center border border-current bg-current/10 text-sm [clip-path:polygon(50%_0,100%_22%,88%_78%,50%_100%,12%_78%,0_22%)]">✦</span><span className="h-px w-7 bg-current opacity-70" /></span>; }
-function BlueGrid({ className = "" }: { className?: string }) { return <div aria-hidden="true" className={`pointer-events-none absolute ${className}`} style={{ backgroundImage: "linear-gradient(90deg,currentColor 1px,transparent 1px),linear-gradient(currentColor 1px,transparent 1px),radial-gradient(circle at 50% 50%,currentColor 0 1px,transparent 1.5px)", backgroundSize: "26px 26px,26px 26px,52px 52px" }} />; }
+/** Abstract civic-service badge; intentionally not based on any official police insignia. */
+function TrustMark({ className = "" }: { className?: string }) {
+  return (
+    <span aria-hidden="true" className={`inline-flex items-center gap-3 ${className}`}>
+      <span className="relative h-px w-9 bg-current opacity-70"><span className="bhakti-beacon absolute -right-1 -top-px h-[3px] w-3 rounded-full bg-current" /></span>
+      <span
+        className="bhakti-shield-float relative grid h-12 w-10 place-items-center overflow-hidden border border-current bg-current/10 text-base shadow-[0_8px_18px_rgba(5,20,38,.22)]"
+        style={{ clipPath: "polygon(50% 0%, 93% 17%, 84% 75%, 50% 100%, 16% 75%, 7% 17%)" }}
+      >
+        <span className="absolute inset-x-2 top-3 h-px bg-current/55" />
+        <span className="relative">✦</span>
+        <span className="absolute bottom-1 text-[5px] font-black tracking-[.18em]">CIVIC</span>
+      </span>
+      <span className="relative h-px w-9 bg-current opacity-70"><span className="bhakti-beacon-alt absolute -left-1 -top-px h-[3px] w-3 rounded-full bg-current" /></span>
+    </span>
+  );
+}
+
+function BlueGrid({ className = "" }: { className?: string }) {
+  return (
+    <div aria-hidden="true" className={`pointer-events-none absolute overflow-hidden ${className}`}>
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "linear-gradient(90deg,currentColor 1px,transparent 1px),linear-gradient(currentColor 1px,transparent 1px),radial-gradient(circle at 50% 50%,currentColor 0 1px,transparent 1.5px)",
+          backgroundSize: "26px 26px,26px 26px,52px 52px",
+        }}
+      />
+      <div className="absolute inset-x-[12%] top-8 flex items-center justify-center gap-2 opacity-80">
+        <span className="bhakti-beacon h-1.5 w-[29%] rounded-full bg-[#51b7df] shadow-[0_0_16px_#51b7df]" />
+        <span className="bhakti-beacon-alt h-1.5 w-[19%] rounded-full bg-[#dce7ed] shadow-[0_0_16px_#dce7ed]" />
+        <span className="bhakti-beacon h-1.5 w-[29%] rounded-full bg-[#51b7df] shadow-[0_0_16px_#51b7df]" />
+      </div>
+      <div className="absolute -left-8 top-1/3 h-44 w-20 rounded-full border border-current/30" />
+      <div className="absolute -left-2 top-[37%] h-28 w-12 rounded-full border border-current/25" />
+      <span className="bhakti-scan absolute top-0 h-full w-12 bg-gradient-to-r from-transparent via-current/25 to-transparent" />
+    </div>
+  );
+}
 
 function Cover({ invitation }: TemplateProps) { const [opened, setOpened] = useState(false); if (opened) return null; return <section className="fixed inset-0 z-50 grid place-items-center overflow-hidden bg-[#071d36] px-5 py-8 text-[#f7fafc]"><div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,#2c6aa4_0%,#0b2d51_42%,#051426_100%)]" /><BlueGrid className="inset-0 text-[#8ed1ee]/10" /><div className="relative w-full max-w-md border border-[#b8ceda]/60 bg-[#0e365f]/90 p-2 shadow-2xl"><div className="relative overflow-hidden border border-[#dce7ed]/50 px-7 py-12 text-center sm:px-10"><div className="absolute inset-x-0 top-0 h-2 bg-[#51b7df]" /><TrustMark className="relative text-[#bce6f4]" /><p className="relative mt-7 text-[10px] font-bold uppercase tracking-[.42em] text-[#dce7ed]">AKSA · Bhakti Biru</p><div className="relative mx-auto mt-8 grid h-24 w-24 place-items-center rounded-full border-2 border-[#bce6f4] bg-[#eaf2f4] font-serif text-3xl text-[#143b64] shadow-[0_0_0_8px_rgba(81,183,223,.14)]">{initials(invitation)}</div><p className="relative mt-8 text-[10px] font-bold uppercase tracking-[.28em] text-white/65">A ceremony of trust and love</p><h1 className="relative mt-5 font-serif text-5xl leading-[.9] sm:text-6xl">{firstName(invitation.groom_name) || "Dimas"}<br /><span className="italic text-[#bce6f4]">&amp;</span> {firstName(invitation.bride_name) || "Kayla"}</h1><p className="relative mt-8 text-[10px] font-bold uppercase tracking-[.25em] text-white/70">The blue hour · {invitation.wedding_date}</p><button onClick={() => { window.dispatchEvent(new Event("invitation-opened")); setOpened(true); }} className="relative mt-9 bg-[#bce6f4] px-7 py-3 text-[10px] font-bold uppercase tracking-[.2em] text-[#11385f] transition hover:bg-white">Open invitation</button></div></div></section>; }
 

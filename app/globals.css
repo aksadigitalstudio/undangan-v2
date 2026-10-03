@@ -213,6 +213,27 @@ body {
 .aksa-lift { transition: transform 220ms ease, box-shadow 220ms ease; }
 .aksa-lift:hover { transform: translateY(-7px); box-shadow: 0 26px 60px rgba(24, 36, 58, .14); }
 
+@keyframes bhaktiBeaconPulse {
+  0%, 100% { opacity: .3; transform: scaleX(.72); }
+  50% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes bhaktiShieldFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes bhaktiScan {
+  0% { transform: translateX(-140%) skewX(-20deg); opacity: 0; }
+  18%, 68% { opacity: .8; }
+  100% { transform: translateX(340%) skewX(-20deg); opacity: 0; }
+}
+
+.bhakti-beacon { animation: bhaktiBeaconPulse 2.8s ease-in-out infinite; transform-origin: center; }
+.bhakti-beacon-alt { animation: bhaktiBeaconPulse 2.8s ease-in-out -1.4s infinite; transform-origin: center; }
+.bhakti-shield-float { animation: bhaktiShieldFloat 8s ease-in-out infinite; }
+.bhakti-scan { animation: bhaktiScan 5.5s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   .studio-canvas-float,
   .studio-canvas-fade,
@@ -220,7 +241,11 @@ body {
   .aksa-orb,
   .aksa-orb-delayed,
   .aksa-fade-up,
-  .aksa-fade-up-delay { animation: none; }
+  .aksa-fade-up-delay,
+  .bhakti-beacon,
+  .bhakti-beacon-alt,
+  .bhakti-shield-float,
+  .bhakti-scan { animation: none; }
 
   .aksa-lift:hover { transform: none; }
 }
