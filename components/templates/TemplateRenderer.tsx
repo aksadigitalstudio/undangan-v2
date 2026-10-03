@@ -24,7 +24,10 @@ export default function TemplateRenderer({
 }: TemplateRendererProps) {
   const template = templateRegistry[templateId];
   const canvasDocument = isCanvasDocument(sections?.studio_canvas) ? sections.studio_canvas : null;
-  const invitationForDisplay = withParentTitles(withDisplayNames(invitation, sections), sections);
+  // Nicknames belong to the personal moments of an invitation (cover, opening,
+  // and closing). The formal introduction and event details retain full names.
+  const invitationForContent = withParentTitles(invitation, sections);
+  const invitationForDisplay = withDisplayNames(invitationForContent, sections);
 
   if (!template) {
     return (
@@ -45,28 +48,28 @@ return (
 )}
 
 {sections?.couple !== false && (
-  <template.Couple invitation={invitationForDisplay} />
+  <template.Couple invitation={invitationForContent} />
 )}
 
     {sections?.story !== false && (
-      <template.Story invitation={invitationForDisplay} />
+      <template.Story invitation={invitationForContent} />
     )}
 
     {sections?.event !== false && (
-      <template.Event invitation={invitationForDisplay} />
+      <template.Event invitation={invitationForContent} />
     )}
     {sections?.live_stream === true && template.LiveStream && (
       <template.LiveStream
-        invitation={invitationForDisplay}
+        invitation={invitationForContent}
       />
     )}
     {sections?.gallery !== false && (
-      <template.Gallery invitation={invitationForDisplay} />
+      <template.Gallery invitation={invitationForContent} />
     )}
 
     {sections?.rsvp !== false && (
       <template.RSVP
-        invitation={invitationForDisplay}
+        invitation={invitationForContent}
         guest={guest}
       />
     )}
@@ -81,7 +84,7 @@ return (
     )}
 
     {sections?.gift !== false && (
-      <template.Gift invitation={invitationForDisplay} />
+      <template.Gift invitation={invitationForContent} />
     )}
 
     <template.Footer invitation={invitationForDisplay} />

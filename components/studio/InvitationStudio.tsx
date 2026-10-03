@@ -90,7 +90,7 @@ function Field({ label, value, onChange, type = "text", multiline = false, place
 function DisplayNameFields({ groomName, brideName, groomDisplayName, brideDisplayName, onChange }: { groomName: string; brideName: string; groomDisplayName: string; brideDisplayName: string; onChange: (role: "groom" | "bride", value: string) => void }) {
   return <section className="rounded-2xl border border-[#c94d43]/20 bg-[#fff8f5] p-4">
     <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#c94d43]">Nama untuk tampilan</p>
-    <p className="mt-2 text-xs leading-5 text-[#687184]">Gunakan nama panggilan pada cover dan seluruh tampilan undangan. Kosongkan jika ingin menggunakan nama lengkap.</p>
+    <p className="mt-2 text-xs leading-5 text-[#687184]">Nama panggilan tampil pada cover, bagian pembuka, dan penutup. Bagian perkenalan mempelai serta detail acara tetap memakai nama lengkap.</p>
     <div className="mt-4 grid gap-3">
       <Field label="Nama panggilan mempelai pria" value={groomDisplayName} onChange={(value) => onChange("groom", value)} placeholder={groomName || "Contoh: Yere"} />
       <Field label="Nama panggilan mempelai wanita" value={brideDisplayName} onChange={(value) => onChange("bride", value)} placeholder={brideName || "Contoh: Novia"} />
