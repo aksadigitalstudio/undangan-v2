@@ -4,6 +4,7 @@ import HeroTemplateCarousel from "@/components/HeroTemplateCarousel";
 import TemplateGallery from "@/components/TemplateGallery";
 import AksaBrand from "@/components/AksaBrand";
 import LandingProofSections from "@/components/LandingProofSections";
+import LanguageSupportButton from "@/components/LanguageSupportButton";
 
 const whatsappNumber = "628133224919";
 const whatsappUrl = (packageName = "an AKSA invitation") => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hello AKSA, I am interested in ${packageName}. I would like to discuss my event invitation.`)}`;
@@ -29,7 +30,7 @@ export default function Home() {
           <nav className="hidden items-center gap-7 text-sm font-semibold text-[#5c677d] md:flex">
             <a href="#how-it-works" className="transition hover:text-[#ef655a]">How it works</a><a href="#portfolio" className="transition hover:text-[#ef655a]">Portfolio</a><Link href="/templates" className="transition hover:text-[#ef655a]">Templates</Link><a href="#pricing" className="transition hover:text-[#ef655a]">Packages</a><a href="#faq" className="transition hover:text-[#ef655a]">FAQ</a>
           </nav>
-          <div className="flex items-center gap-1.5 sm:gap-3"><Link href="/login" className="hidden rounded-full px-3 py-2 text-sm font-semibold transition hover:bg-white sm:block sm:px-4">Log in</Link><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#ef655a] px-3.5 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#ef655a]/25 transition hover:-translate-y-0.5 hover:bg-[#da5147] sm:px-5 sm:text-sm"><MessageCircle size={16} /> Chat with AKSA</a></div>
+          <div className="flex items-center gap-1.5 sm:gap-3"><LanguageSupportButton /><Link href="/login" className="hidden rounded-full px-3 py-2 text-sm font-semibold transition hover:bg-white sm:block sm:px-4">Log in</Link><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#ef655a] px-3.5 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#ef655a]/25 transition hover:-translate-y-0.5 hover:bg-[#da5147] sm:px-5 sm:text-sm"><MessageCircle size={16} /> Chat with AKSA</a></div>
         </div>
       </header>
 
