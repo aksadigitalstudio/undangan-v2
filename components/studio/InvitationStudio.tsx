@@ -60,6 +60,7 @@ const sectionItems = [
 
 const themeOptions = [
   ["elegant-gold", "Elegant Gold", "#c9a227"],
+  ["elegant-silver", "Elegant Silver", "#aeb7c3"],
   ["luxury-black", "Luxury Black", "#171717"],
   ["sakura-pink", "Sakura Pink", "#e8a8b9"],
   ["forest-green", "Forest Green", "#45694c"],

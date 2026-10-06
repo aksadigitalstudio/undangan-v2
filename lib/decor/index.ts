@@ -23,6 +23,32 @@ export const decor = {
     ],
   },
 
+  // Elegant Silver retains the refined floral composition while DecorLayer
+  // gives it a cool, desaturated silver finish at render time.
+  "elegant-silver": {
+    background: [
+      "/decor/elegant-gold/background/luxury-paper.optimized.webp",
+      "/decor/elegant-gold/background/ivory-texture.optimized.webp",
+    ],
+    foreground: [
+      "/decor/elegant-gold/foreground/floral-top-left.optimized.webp",
+      "/decor/elegant-gold/foreground/floral-top-right.optimized.webp",
+      "/decor/elegant-gold/foreground/floral-bottom-left.optimized.webp",
+      "/decor/elegant-gold/foreground/floral-bottom-right.optimized.webp",
+    ],
+    particles: [
+      "/decor/elegant-gold/particles/gold-dust.optimized.webp",
+      "/decor/elegant-gold/particles/sparkle.optimized.webp",
+      "/decor/elegant-gold/particles/bokeh.optimized.webp",
+      "/decor/elegant-gold/particles/floating-petals.optimized.webp",
+    ],
+    icons: [
+      "/decor/elegant-gold/icons/dove.optimized.webp",
+      "/decor/elegant-gold/icons/wedding-ring.optimized.webp",
+      "/decor/elegant-gold/icons/wax-seal.optimized.webp",
+    ],
+  },
+
   "luxury-black": {
     background: [
       "/decor/luxury-black/background/black-marble.optimized.webp",

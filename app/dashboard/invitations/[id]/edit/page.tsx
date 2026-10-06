@@ -335,6 +335,10 @@ max_guest: maxGuest,
       Elegant Gold
     </option>
 
+    <option value="elegant-silver">
+      Elegant Silver
+    </option>
+
     <option value="luxury-black">
       Luxury Black
     </option>

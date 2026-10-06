@@ -110,6 +110,8 @@ export default async function TemplatePreviewPage({ params }: Props) {
                 ? "rgba(0,0,0,0.45)"
                 : data.theme === "elegant-gold"
                   ? "rgba(245,241,232,0.18)"
+                  : data.theme === "elegant-silver"
+                    ? "rgba(226,231,237,0.18)"
                   : data.theme === "sakura-pink"
                     ? "rgba(255,220,230,0.15)"
                     : data.theme === "forest-green"

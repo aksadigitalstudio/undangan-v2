@@ -82,6 +82,8 @@ export default async function TemplatePreviewPage({ params }: Props) {
             background:
               data.theme === "luxury-black"
                 ? "rgba(0,0,0,0.45)"
+                : data.theme === "elegant-silver"
+                  ? "rgba(226,231,237,0.18)"
                 : "rgba(0,0,0,0.25)",
           }
         : { background: "transparent" };

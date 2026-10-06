@@ -7,6 +7,14 @@ export const themes = {
     divider: "#D8C7A0",
   },
 
+  "elegant-silver": {
+    accent: "#8D99A8",
+    background: "#F3F5F7",
+    text: "#172238",
+    card: "#FFFFFF",
+    divider: "#C7CED7",
+  },
+
   "luxury-black": {
     accent: "#D4AF37",
     background: "#0F0F10",
