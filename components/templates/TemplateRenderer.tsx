@@ -28,6 +28,28 @@ export default function TemplateRenderer({
   // and closing). The formal introduction and event details retain full names.
   const invitationForContent = withParentTitles(invitation, sections);
   const invitationForDisplay = withDisplayNames(invitationForContent, sections);
+  // Keep the gift choices independent. Templates that only support a bank
+  // transfer receive empty bank data when it is turned off, while templates
+  // with an address option can still render the delivery details.
+  const invitationSections =
+    invitationForContent.sections && typeof invitationForContent.sections === "object"
+      ? (invitationForContent.sections as Record<string, unknown>)
+      : {};
+  const hasAddressChoice = Object.prototype.hasOwnProperty.call(
+    invitationSections,
+    "gift_address",
+  );
+  const addressGiftEnabled =
+    sections?.gift_address === true || !hasAddressChoice;
+  const invitationForGift = {
+    ...invitationForContent,
+    bank_name: sections?.gift_bank === false ? "" : invitationForContent.bank_name,
+    bank_account: sections?.gift_bank === false ? "" : invitationForContent.bank_account,
+    account_name: sections?.gift_bank === false ? "" : invitationForContent.account_name,
+    qris_image: sections?.gift_bank === false ? "" : invitationForContent.qris_image,
+    gift_address: addressGiftEnabled ? invitationForContent.gift_address : "",
+    gift_note: addressGiftEnabled ? invitationForContent.gift_note : "",
+  };
 
   if (!template) {
     return (
@@ -84,7 +106,7 @@ return (
     )}
 
     {sections?.gift !== false && (
-      <template.Gift invitation={invitationForContent} />
+      <template.Gift invitation={invitationForGift} />
     )}
 
     <template.Footer invitation={invitationForDisplay} />

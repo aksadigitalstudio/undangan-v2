@@ -19,7 +19,23 @@ export default function Gift({ invitation }: TemplateProps) {
     themes[data.theme as keyof typeof themes] ??
     themes["elegant-gold"];
 
-  if (!sections.gift) {
+  const storedSections =
+    data.sections && typeof data.sections === "object"
+      ? (data.sections as Record<string, unknown>)
+      : {};
+  const hasBankDetails = Boolean(
+    String(data.bank_account ?? "").trim() || String(data.qris_image ?? "").trim(),
+  );
+  const hasDeliveryAddress = Boolean(String(data.gift_address ?? "").trim());
+  const showBankDetails = sections.gift_bank !== false && hasBankDetails;
+  // Invitations created before this setting existed retain their existing
+  // delivery address. New invitations must explicitly enable it.
+  const showDeliveryAddress =
+    hasDeliveryAddress &&
+    (sections.gift_address === true ||
+      !Object.prototype.hasOwnProperty.call(storedSections, "gift_address"));
+
+  if (!sections.gift || (!showBankDetails && !showDeliveryAddress)) {
     return null;
   }
 
@@ -71,88 +87,101 @@ export default function Gift({ invitation }: TemplateProps) {
 
           <MotionGroup>
             <MotionItem>
-              <div
-                className="rounded-3xl border p-10 shadow-xl"
-                style={{
-                  background: currentTheme.card,
-                  borderColor: currentTheme.divider,
-                }}
-              >
-                <p className="mb-2 text-sm uppercase tracking-[0.2em] text-gray-500">
-                  Bank
-                </p>
-
-                <h3
-                  className="mb-8 text-2xl font-semibold"
-                  style={{ color: currentTheme.text }}
+              {showBankDetails && (
+                <div
+                  className="rounded-3xl border p-10 shadow-xl"
+                  style={{
+                    background: currentTheme.card,
+                    borderColor: currentTheme.divider,
+                  }}
                 >
-                  {data.bank_name}
-                </h3>
+                  {data.bank_name && (
+                    <>
+                      <p className="mb-2 text-sm uppercase tracking-[0.2em] text-gray-500">
+                        Bank
+                      </p>
+                      <h3
+                        className="mb-8 text-2xl font-semibold"
+                        style={{ color: currentTheme.text }}
+                      >
+                        {data.bank_name}
+                      </h3>
+                    </>
+                  )}
 
-                <p className="mb-2 text-sm uppercase tracking-[0.2em] text-gray-500">
-                  Account Number
-                </p>
+                  {data.bank_account && (
+                    <>
+                      <p className="mb-2 text-sm uppercase tracking-[0.2em] text-gray-500">
+                        Account Number
+                      </p>
+                      <p
+                        className="mb-8 text-4xl font-bold tracking-[0.15em]"
+                        style={{ color: currentTheme.accent }}
+                      >
+                        {data.bank_account}
+                      </p>
+                    </>
+                  )}
 
-                <p
-                  className="mb-8 text-4xl font-bold tracking-[0.15em]"
-                  style={{ color: currentTheme.accent }}
-                >
-                  {data.bank_account}
-                </p>
+                  {data.account_name && (
+                    <>
+                      <p className="mb-2 text-sm uppercase tracking-[0.2em] text-gray-500">
+                        Account Holder
+                      </p>
+                      <p
+                        className="text-xl font-semibold"
+                        style={{ color: currentTheme.text }}
+                      >
+                        {data.account_name}
+                      </p>
+                    </>
+                  )}
 
-                <p className="mb-2 text-sm uppercase tracking-[0.2em] text-gray-500">
-                  Account Holder
-                </p>
+                  {data.bank_account && <CopyButton text={data.bank_account} />}
 
-                <p
-                  className="text-xl font-semibold"
-                  style={{ color: currentTheme.text }}
-                >
-                  {data.account_name}
-                </p>
-
-                <CopyButton text={data.bank_account} />
-
-                {data.qris_image && (
-                  <div
-                    className="mt-10 rounded-3xl border p-8 text-center"
-                    style={{
-                      background: currentTheme.card,
-                      borderColor: currentTheme.divider,
-                    }}
-                  >
-                    <h3
-                      className="mb-3 text-2xl font-semibold"
-                      style={{ color: currentTheme.text }}
-                    >
-                      QRIS
-                    </h3>
-
-                    <p
-                      className="mb-8 text-sm"
+                  {data.qris_image && (
+                    <div
+                      className="mt-10 rounded-3xl border p-8 text-center"
                       style={{
-                        color: currentTheme.text,
-                        opacity: 0.7,
+                        background: currentTheme.card,
+                        borderColor: currentTheme.divider,
                       }}
                     >
-                      Scan using your preferred banking or e-wallet application.
-                    </p>
+                      <h3
+                        className="mb-3 text-2xl font-semibold"
+                        style={{ color: currentTheme.text }}
+                      >
+                        QRIS
+                      </h3>
 
-                    <Image
-                      src={data.qris_image}
-                      alt="QRIS"
-                      width={300}
-                      height={300}
-                      quality={85}
-                      sizes="300px"
-                      loading="lazy"
-                      className="mx-auto rounded-2xl shadow-lg"
-                    />
-                  </div>
-                )}
+                      <p
+                        className="mb-8 text-sm"
+                        style={{
+                          color: currentTheme.text,
+                          opacity: 0.7,
+                        }}
+                      >
+                        Scan using your preferred banking or e-wallet application.
+                      </p>
 
+                      <Image
+                        src={data.qris_image}
+                        alt="QRIS"
+                        width={300}
+                        height={300}
+                        quality={85}
+                        sizes="300px"
+                        loading="lazy"
+                        className="mx-auto rounded-2xl shadow-lg"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {showDeliveryAddress && (
                 <div
-                  className="mt-10 rounded-3xl border p-10 shadow-xl"
+                  className={`rounded-3xl border p-10 shadow-xl ${showBankDetails ? "mt-10" : ""}`}
                   style={{
                     background: currentTheme.card,
                     borderColor: currentTheme.divider,
@@ -201,7 +230,7 @@ export default function Gift({ invitation }: TemplateProps) {
                     </>
                   )}
                 </div>
-              </div>
+              )}
             </MotionItem>
           </MotionGroup>
         </div>

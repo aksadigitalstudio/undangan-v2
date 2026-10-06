@@ -8,5 +8,7 @@ export const defaultSections = {
   gallery: true,
   rsvp: true,
   gift: true,
+  gift_bank: true,
+  gift_address: false,
   music: true,
 };

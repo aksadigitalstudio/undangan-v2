@@ -759,76 +759,54 @@ max_guest: maxGuest,
   Wedding Gift
 </h2>
 
-<div className="mb-6">
-  <label className="block text-black font-semibold mb-2">
-    Nama Bank
-  </label>
-
-  <input
-    type="text"
-    value={bankName}
-    onChange={(e) => setBankName(e.target.value)}
-    className="w-full border rounded-lg p-3 text-black"
-  />
+<div className="mb-6 grid gap-3 sm:grid-cols-2">
+  {([
+    ["gift_bank", "Transfer Rekening", "Nomor rekening dan QRIS"],
+    ["gift_address", "Kirim Hadiah ke Alamat", "Alamat pengiriman hadiah fisik"],
+  ] as const).map(([key, label, description]) => (
+    <button
+      key={key}
+      type="button"
+      onClick={() => setSections({ ...sections, [key]: !sections[key] })}
+      className={`rounded-xl border p-4 text-left transition ${sections[key] ? "border-[#19243a] bg-slate-50" : "border-gray-200 bg-white"}`}
+    >
+      <span className="block text-sm font-bold text-black">{label}</span>
+      <span className="mt-1 block text-xs text-gray-500">{description}</span>
+      <span className={`mt-3 inline-block text-xs font-bold ${sections[key] ? "text-emerald-600" : "text-gray-400"}`}>{sections[key] ? "DITAMPILKAN" : "DISEMBUNYIKAN"}</span>
+    </button>
+  ))}
 </div>
 
-<div className="mb-6">
-  <label className="block text-black font-semibold mb-2">
-    Nomor Rekening
-  </label>
+{sections.gift_bank && (
+  <div className="mb-6 space-y-6 rounded-xl bg-slate-50 p-5">
+    <div>
+      <label className="block text-black font-semibold mb-2">Nama Bank</label>
+      <input type="text" value={bankName} onChange={(e) => setBankName(e.target.value)} className="w-full border rounded-lg p-3 text-black" />
+    </div>
+    <div>
+      <label className="block text-black font-semibold mb-2">Nomor Rekening</label>
+      <input type="text" value={bankAccount} onChange={(e) => setBankAccount(e.target.value)} className="w-full border rounded-lg p-3 text-black" />
+    </div>
+    <div>
+      <label className="block text-black font-semibold mb-2">Nama Pemilik Rekening</label>
+      <input type="text" value={accountName} onChange={(e) => setAccountName(e.target.value)} className="w-full border rounded-lg p-3 text-black" />
+    </div>
+    <ImageUpload label="QRIS" value={qrisImage} onChange={setQrisImage} />
+  </div>
+)}
 
-  <input
-    type="text"
-    value={bankAccount}
-    onChange={(e) => setBankAccount(e.target.value)}
-    className="w-full border rounded-lg p-3 text-black"
-  />
-</div>
-
-<div className="mb-6">
-  <label className="block text-black font-semibold mb-2">
-    Nama Pemilik Rekening
-  </label>
-
-  <input
-    type="text"
-    value={accountName}
-    onChange={(e) => setAccountName(e.target.value)}
-    className="w-full border rounded-lg p-3 text-black"
-  />
-</div>
-
-<div className="mb-6">
-  <label className="block text-black font-semibold mb-2">
-    Alamat Pengiriman Kado
-  </label>
-
-  <textarea
-    rows={4}
-    value={giftAddress}
-    onChange={(e) => setGiftAddress(e.target.value)}
-    className="w-full border rounded-lg p-3 text-black"
-  />
-</div>
-
-<div className="mb-6">
-  <label className="block text-black font-semibold mb-2">
-    Catatan Kado
-  </label>
-
-  <textarea
-    rows={3}
-    value={giftNote}
-    onChange={(e) => setGiftNote(e.target.value)}
-    className="w-full border rounded-lg p-3 text-black"
-  />
-</div>
-
-<ImageUpload
-  label="QRIS"
-  value={qrisImage}
-  onChange={setQrisImage}
-/>
+{sections.gift_address && (
+  <div className="mb-6 space-y-6 rounded-xl bg-slate-50 p-5">
+    <div>
+      <label className="block text-black font-semibold mb-2">Alamat Pengiriman Kado</label>
+      <textarea rows={4} value={giftAddress} onChange={(e) => setGiftAddress(e.target.value)} className="w-full border rounded-lg p-3 text-black" />
+    </div>
+    <div>
+      <label className="block text-black font-semibold mb-2">Catatan Kado</label>
+      <textarea rows={3} value={giftNote} onChange={(e) => setGiftNote(e.target.value)} className="w-full border rounded-lg p-3 text-black" />
+    </div>
+  </div>
+)}
 
 <hr className="my-10" />
 
