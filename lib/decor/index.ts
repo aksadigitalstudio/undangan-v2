@@ -23,8 +23,8 @@ export const decor = {
     ],
   },
 
-  // Elegant Silver retains the refined floral composition while DecorLayer
-  // gives it a cool, desaturated silver finish at render time.
+  // Elegant Silver shares the original floral ornament, so only the
+  // invitation palette changes while the garden corners stay recognisable.
   "elegant-silver": {
     background: [
       "/decor/elegant-gold/background/luxury-paper.optimized.webp",

@@ -39,10 +39,6 @@ export default function DecorLayer({
   const currentDecor =
     decor[theme as keyof typeof decor] ??
     decor["elegant-gold"];
-  const ornamentTone =
-    theme === "elegant-silver"
-      ? "grayscale brightness-110 contrast-90 opacity-85"
-      : "";
   if (hidden || (templateId && templatesWithoutGlobalDecor.has(templateId))) {
     return null;
   }
@@ -59,7 +55,7 @@ className="fixed inset-0 z-0 pointer-events-none"
           alt=""
           width={450}
           height={450}
-          className={`absolute left-0 top-0 h-auto w-52 md:w-80 lg:w-[420px] ${ornamentTone}`}
+          className="absolute left-0 top-0 h-auto w-52 md:w-80 lg:w-[420px]"
           priority
         />
 
@@ -68,7 +64,7 @@ className="fixed inset-0 z-0 pointer-events-none"
           alt=""
           width={450}
           height={450}
-          className={`absolute right-0 top-0 h-auto w-52 md:w-80 lg:w-[420px] ${ornamentTone}`}
+          className="absolute right-0 top-0 h-auto w-52 md:w-80 lg:w-[420px]"
           priority
         />
 
@@ -77,7 +73,7 @@ className="fixed inset-0 z-0 pointer-events-none"
           alt=""
           width={450}
           height={450}
-          className={`absolute bottom-0 left-0 h-auto w-32 md:w-44 lg:w-56 ${ornamentTone}`}
+          className="absolute bottom-0 left-0 h-auto w-32 md:w-44 lg:w-56"
           priority
         />
 
@@ -86,7 +82,7 @@ className="fixed inset-0 z-0 pointer-events-none"
           alt=""
           width={450}
           height={450}
-          className={`absolute bottom-0 right-0 h-auto w-32 md:w-44 lg:w-56 ${ornamentTone}`}
+          className="absolute bottom-0 right-0 h-auto w-32 md:w-44 lg:w-56"
           priority
         />
       </div>
@@ -102,7 +98,7 @@ className="absolute inset-x-0 bottom-0 z-20 pointer-events-none"
           alt=""
           width={450}
           height={450}
-          className={`absolute bottom-0 left-0 h-auto w-32 md:w-44 lg:w-56 ${ornamentTone}`}
+          className="absolute bottom-0 left-0 h-auto w-32 md:w-44 lg:w-56"
           priority
         />
 
@@ -111,7 +107,7 @@ className="absolute inset-x-0 bottom-0 z-20 pointer-events-none"
           alt=""
           width={450}
           height={450}
-          className={`absolute bottom-0 right-0 h-auto w-32 md:w-44 lg:w-56 ${ornamentTone}`}
+          className="absolute bottom-0 right-0 h-auto w-32 md:w-44 lg:w-56"
           priority
         />
       </div>
