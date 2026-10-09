@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@supabase/supabase-js";
 import { getDisplayName } from "@/lib/displayNames";
 
 export const runtime = "nodejs";
@@ -9,6 +9,17 @@ export const contentType = "image/png";
 export const revalidate = 300;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
+
+function createPublicClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!url || !key) throw new Error("Supabase public credentials are not configured.");
+
+  return createClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
 
 function formatDate(value: string | null) {
   if (!value) return "A celebration to remember";
@@ -40,14 +51,10 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ slu
   } | null = null;
 
   try {
-    const { data } = await createAdminClient()
-      .from("invitations")
-      .select("groom_name, bride_name, wedding_date, hero_background, sections")
-      .eq("slug", slug)
-      .eq("status", "Published")
-      .single();
+    const { data } = await createPublicClient()
+      .rpc("get_opengraph_preview", { p_slug: slug });
 
-    invitation = data;
+    invitation = data?.[0] ?? null;
   } catch {
     invitation = null;
   }

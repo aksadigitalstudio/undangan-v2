@@ -289,7 +289,7 @@ function getInvitationLink(rsvpToken: string, freshPreview = false) {
   const shareNonce = freshPreview
     ? `&share=${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`
     : "";
-  return `${window.location.origin}/share/${rsvpToken}?v=${version ? version.slice(3) : "1"}${shareNonce}`;
+  return `${window.location.origin}/${invitation?.slug ?? "invitation"}/share/${rsvpToken}?v=${version ? version.slice(3) : "1"}${shareNonce}`;
 }
 
 function getShareMessage(guest: Guest, freshPreview = false) {

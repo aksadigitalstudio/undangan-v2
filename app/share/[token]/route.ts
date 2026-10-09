@@ -74,7 +74,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
 
   const { data: previews } = await createPublicClient()
-    .rpc("get_share_preview", { p_rsvp_token: token });
+    .rpc("get_share_preview_v2", { p_rsvp_token: token });
   const invitation = previews?.[0] ?? null;
 
   if (!invitation) {
@@ -100,8 +100,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   return new Response(page(title, description, image, destination, canonical), {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "no-store, max-age=0",
-      "X-Robots-Tag": "noindex, nofollow",
+      "Cache-Control": "public, max-age=300, s-maxage=300",
     },
   });
 }
