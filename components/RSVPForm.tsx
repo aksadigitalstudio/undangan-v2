@@ -18,7 +18,7 @@ interface RSVPFormProps {
 export default function RSVPForm({ invitationId, guest, onSuccess }: RSVPFormProps) {
   const guestName = guest?.guest_name ?? "";
   const [attendance, setAttendance] = useState("Attending");
-  const maxGuest = Math.min(5, Math.max(1, Number(guest?.max_guest ?? 1)));
+  const maxGuest = Math.min(10, Math.max(1, Number(guest?.max_guest ?? 1)));
   const [confirmedGuest, setConfirmedGuest] = useState(1);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);

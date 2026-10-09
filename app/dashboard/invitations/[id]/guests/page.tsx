@@ -217,8 +217,8 @@ async function importGuestFile(event: ChangeEvent<HTMLInputElement>) {
       return;
     }
 
-    if (!Number.isInteger(maxGuest) || maxGuest < 1 || maxGuest > 5) {
-      alert("Jumlah tamu per undangan harus antara 1 sampai 5 orang.");
+    if (!Number.isInteger(maxGuest) || maxGuest < 1 || maxGuest > 10) {
+      alert("Jumlah tamu per undangan harus antara 1 sampai 10 orang.");
       return;
     }
 
@@ -425,7 +425,7 @@ async function updateRSVP(
 }
 
 async function updateConfirmedGuest(guest: Guest, value: number) {
-  const confirmedGuest = Math.min(5, guest.max_guest, Math.max(0, value));
+  const confirmedGuest = Math.min(10, guest.max_guest, Math.max(0, value));
   const { error } = await supabase
     .from("guests")
     .update({ confirmed_guest: confirmedGuest })
@@ -831,6 +831,11 @@ const { error } = await supabase
             <option value={3}>3 Orang</option>
             <option value={4}>4 Orang</option>
             <option value={5}>5 Orang</option>
+            <option value={6}>6 Orang</option>
+            <option value={7}>7 Orang</option>
+            <option value={8}>8 Orang</option>
+            <option value={9}>9 Orang</option>
+            <option value={10}>10 Orang</option>
           </select>
 
 <button
@@ -978,7 +983,7 @@ onChange={(e) =>
     className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-black disabled:bg-gray-100 disabled:text-gray-400"
   >
     <option value={0}>0</option>
-    {Array.from({ length: Math.min(guest.max_guest, 5) }, (_, index) => index + 1).map((count) => (
+    {Array.from({ length: Math.min(guest.max_guest, 10) }, (_, index) => index + 1).map((count) => (
       <option key={count} value={count}>{count}</option>
     ))}
   </select>
