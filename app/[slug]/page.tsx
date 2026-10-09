@@ -14,6 +14,19 @@ interface Props {
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
 
+function toAbsoluteUrl(value: string | null | undefined) {
+  const source = value?.trim();
+
+  if (!source) return null;
+  if (/^https?:\/\//i.test(source)) return source;
+
+  return `${siteUrl}${source.startsWith("/") ? source : `/${source}`}`;
+}
+
+function withCacheVersion(url: string, version: string) {
+  return `${url}${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`;
+}
+
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params;
   const query = await searchParams;
@@ -24,7 +37,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     const publicInvitations = createAdminClient();
     const { data } = await publicInvitations
       .from("invitations")
-      .select("groom_name, bride_name, wedding_date, updated_at, sections")
+      .select("groom_name, bride_name, wedding_date, updated_at, hero_background, sections")
       .eq("slug", slug)
       .eq("status", "Published")
       .single();
@@ -41,7 +54,16 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     const sharePath = guestToken
       ? `/${slug}?to=${encodeURIComponent(guestToken)}${shareVersion ? `&v=${shareVersion}` : ""}`
       : `/${slug}`;
-    const image = `${siteUrl}/${slug}/opengraph-image?${shareParams.toString()}`;
+    // A direct, public cover image is the most reliable `og:image` source for
+    // WhatsApp. The generated card remains a fallback for invitations without
+    // an uploaded cover.
+    const generatedImage = `${siteUrl}/${slug}/opengraph-image?${shareParams.toString()}`;
+    const coverImage = toAbsoluteUrl(data.hero_background);
+    const versionedCoverImage = coverImage ? withCacheVersion(coverImage, String(version)) : null;
+    const image = versionedCoverImage ?? generatedImage;
+    const images = coverImage
+      ? [{ url: versionedCoverImage!, alt: `Wedding invitation for ${couple}` }]
+      : [{ url: generatedImage, width: 1200, height: 630, alt: `Wedding invitation for ${couple}` }];
 
     return {
       title,
@@ -54,7 +76,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
         siteName: "AKSA Digital Studio",
         locale: "id_ID",
         type: "website",
-        images: [{ url: image, width: 1200, height: 630, alt: `Wedding invitation for ${couple}` }],
+        images,
       },
       twitter: {
         card: "summary_large_image",
