@@ -48,6 +48,7 @@ type InvitationDetails = {
   groom_name: string | null;
   bride_name: string | null;
   wedding_date: string | null;
+  updated_at: string | null;
   sections: Record<string, unknown> | null;
 };
 
@@ -93,7 +94,7 @@ setInvitationId(invitationId);
 
 const { data } = await supabase
   .from("invitations")
-  .select("slug, groom_name, bride_name, wedding_date, sections")
+  .select("slug, groom_name, bride_name, wedding_date, updated_at, sections")
   .eq("id", invitationId)
   .single();
 
@@ -283,7 +284,11 @@ setShowForm(false);
 loadGuests(invitationId);
   }
 function getInvitationLink(rsvpToken: string) {
-  return `${window.location.origin}/${invitationSlug}?to=${rsvpToken}`;
+  const revision = invitation?.updated_at
+    ? new Date(invitation.updated_at).getTime()
+    : NaN;
+  const version = Number.isFinite(revision) ? `&v=${revision}` : "";
+  return `${window.location.origin}/${invitationSlug}?to=${rsvpToken}${version}`;
 }
 
 function getShareMessage(guest: Guest) {
@@ -934,7 +939,7 @@ className="border-t"
 
 <td className="p-4">
   <span className="text-sm text-gray-700 break-all">
-    {`/${invitationSlug}?to=${guest.rsvp_token}`}
+    {getInvitationLink(guest.rsvp_token).replace(window.location.origin, "")}
   </span>
 </td>
 <td className="p-4">

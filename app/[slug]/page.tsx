@@ -9,7 +9,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ to?: string }>;
+  searchParams: Promise<{ to?: string; v?: string }>;
 }
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
@@ -18,6 +18,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const { slug } = await params;
   const query = await searchParams;
   const guestToken = /^[0-9a-f-]{36}$/i.test(query.to ?? "") ? query.to : null;
+  const shareVersion = /^\d{10,}$/.test(query.v ?? "") ? query.v : null;
 
   try {
     const publicInvitations = createAdminClient();
@@ -35,9 +36,11 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     const description = `With joy, we invite you to celebrate ${couple}. Open the invitation for event details and RSVP.`;
     const version = data.updated_at ? new Date(data.updated_at).getTime() : "1";
     const shareParams = new URLSearchParams({ v: String(version) });
-    if (guestToken) shareParams.set("guest", guestToken);
+    if (shareVersion) shareParams.set("share", shareVersion);
 
-    const sharePath = guestToken ? `/${slug}?to=${encodeURIComponent(guestToken)}` : `/${slug}`;
+    const sharePath = guestToken
+      ? `/${slug}?to=${encodeURIComponent(guestToken)}${shareVersion ? `&v=${shareVersion}` : ""}`
+      : `/${slug}`;
     const image = `${siteUrl}/${slug}/opengraph-image?${shareParams.toString()}`;
 
     return {
