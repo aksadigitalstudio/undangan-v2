@@ -54,7 +54,6 @@ type InvitationDetails = {
 
 export default function GuestsPage({ params }: Props) {
 const [invitationId, setInvitationId] = useState(0);
-const [invitationSlug, setInvitationSlug] = useState("");
 const [invitation, setInvitation] = useState<InvitationDetails | null>(null);
 const [shareTemplateId, setShareTemplateId] = useState<ShareTemplateId>("aksa-signature");
 const [isSavingShareTemplate, setIsSavingShareTemplate] = useState(false);
@@ -99,7 +98,6 @@ const { data } = await supabase
   .single();
 
 if (data) {
-  setInvitationSlug(data.slug);
   const invitationData = data as InvitationDetails;
   setInvitation(invitationData);
 
@@ -291,7 +289,7 @@ function getInvitationLink(rsvpToken: string, freshPreview = false) {
   const shareNonce = freshPreview
     ? `&share=${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`
     : "";
-  return `${window.location.origin}/${invitationSlug}?to=${rsvpToken}${version}${shareNonce}`;
+  return `${window.location.origin}/share/${rsvpToken}?v=${version ? version.slice(3) : "1"}${shareNonce}`;
 }
 
 function getShareMessage(guest: Guest, freshPreview = false) {
