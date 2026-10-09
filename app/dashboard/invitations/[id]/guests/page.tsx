@@ -283,37 +283,40 @@ setShowForm(false);
 
 loadGuests(invitationId);
   }
-function getInvitationLink(rsvpToken: string) {
+function getInvitationLink(rsvpToken: string, freshPreview = false) {
   const revision = invitation?.updated_at
     ? new Date(invitation.updated_at).getTime()
     : NaN;
   const version = Number.isFinite(revision) ? `&v=${revision}` : "";
-  return `${window.location.origin}/${invitationSlug}?to=${rsvpToken}${version}`;
+  const shareNonce = freshPreview
+    ? `&share=${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`
+    : "";
+  return `${window.location.origin}/${invitationSlug}?to=${rsvpToken}${version}${shareNonce}`;
 }
 
-function getShareMessage(guest: Guest) {
+function getShareMessage(guest: Guest, freshPreview = false) {
   return buildWhatsAppShareMessage(shareTemplateId, {
     guestName: guest.guest_name,
     groomName: displayGroomName,
     brideName: displayBrideName,
     weddingDate: invitation?.wedding_date ?? null,
-    invitationLink: getInvitationLink(guest.rsvp_token),
+    invitationLink: getInvitationLink(guest.rsvp_token, freshPreview),
   });
 }
 
 async function copyShareMessage(guest: Guest) {
-  await navigator.clipboard.writeText(getShareMessage(guest));
+  await navigator.clipboard.writeText(getShareMessage(guest, true));
   alert("Pesan undangan berhasil disalin.");
 }
 
 async function copyInvitationLink(guest: Guest) {
-  await navigator.clipboard.writeText(getInvitationLink(guest.rsvp_token));
+  await navigator.clipboard.writeText(getInvitationLink(guest.rsvp_token, true));
   alert("Link undangan berhasil disalin.");
 }
 
 function openWhatsApp(guest: Guest) {
   window.open(
-    `https://wa.me/?text=${encodeURIComponent(getShareMessage(guest))}`,
+    `https://wa.me/?text=${encodeURIComponent(getShareMessage(guest, true))}`,
     "_blank"
   );
 }

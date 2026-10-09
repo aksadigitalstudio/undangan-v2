@@ -9,7 +9,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ to?: string; v?: string }>;
+  searchParams: Promise<{ to?: string; v?: string; share?: string }>;
 }
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
@@ -32,6 +32,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const query = await searchParams;
   const guestToken = /^[0-9a-f-]{36}$/i.test(query.to ?? "") ? query.to : null;
   const shareVersion = /^\d{10,}$/.test(query.v ?? "") ? query.v : null;
+  const shareNonce = /^[a-z0-9_-]{8,}$/i.test(query.share ?? "") ? query.share : null;
 
   try {
     const publicInvitations = createAdminClient();
@@ -50,16 +51,18 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     const version = data.updated_at ? new Date(data.updated_at).getTime() : "1";
     const shareParams = new URLSearchParams({ v: String(version) });
     if (shareVersion) shareParams.set("share", shareVersion);
+    if (shareNonce) shareParams.set("nonce", shareNonce);
 
     const sharePath = guestToken
-      ? `/${slug}?to=${encodeURIComponent(guestToken)}${shareVersion ? `&v=${shareVersion}` : ""}`
+      ? `/${slug}?to=${encodeURIComponent(guestToken)}${shareVersion ? `&v=${shareVersion}` : ""}${shareNonce ? `&share=${shareNonce}` : ""}`
       : `/${slug}`;
     // A direct, public cover image is the most reliable `og:image` source for
     // WhatsApp. The generated card remains a fallback for invitations without
     // an uploaded cover.
     const generatedImage = `${siteUrl}/${slug}/opengraph-image?${shareParams.toString()}`;
     const coverImage = toAbsoluteUrl(data.hero_background);
-    const versionedCoverImage = coverImage ? withCacheVersion(coverImage, String(version)) : null;
+    const imageVersion = shareNonce ? `${version}-${shareNonce}` : String(version);
+    const versionedCoverImage = coverImage ? withCacheVersion(coverImage, imageVersion) : null;
     const image = versionedCoverImage ?? generatedImage;
     const images = coverImage
       ? [{ url: versionedCoverImage!, alt: `Wedding invitation for ${couple}` }]
