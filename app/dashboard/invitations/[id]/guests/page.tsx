@@ -301,6 +301,11 @@ async function copyShareMessage(guest: Guest) {
   alert("Pesan undangan berhasil disalin.");
 }
 
+async function copyInvitationLink(guest: Guest) {
+  await navigator.clipboard.writeText(getInvitationLink(guest.rsvp_token));
+  alert("Link undangan berhasil disalin.");
+}
+
 function openWhatsApp(guest: Guest) {
   window.open(
     `https://wa.me/?text=${encodeURIComponent(getShareMessage(guest))}`,
@@ -979,6 +984,12 @@ onChange={(e) =>
       className="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
     >
       Copy pesan
+    </button>
+    <button
+      onClick={() => copyInvitationLink(guest)}
+      className="rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+    >
+      Copy link
     </button>
 
     <button

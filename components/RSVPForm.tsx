@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 interface Guest {
   guest_name: string;
   rsvp_token: string;
+  max_guest: number;
 }
 
 interface RSVPFormProps {
@@ -17,6 +18,8 @@ interface RSVPFormProps {
 export default function RSVPForm({ invitationId, guest, onSuccess }: RSVPFormProps) {
   const guestName = guest?.guest_name ?? "";
   const [attendance, setAttendance] = useState("Attending");
+  const maxGuest = Math.min(5, Math.max(1, Number(guest?.max_guest ?? 1)));
+  const [confirmedGuest, setConfirmedGuest] = useState(1);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +35,7 @@ export default function RSVPForm({ invitationId, guest, onSuccess }: RSVPFormPro
       p_invitation_id: invitationId,
       p_rsvp_token: guest.rsvp_token,
       p_rsvp_status: attendance === "Attending" ? "attending" : "declined",
+      p_confirmed_guest: attendance === "Attending" ? Math.min(confirmedGuest, maxGuest) : 0,
       p_message: message,
     });
 
@@ -67,6 +71,24 @@ export default function RSVPForm({ invitationId, guest, onSuccess }: RSVPFormPro
         <option>Attending</option>
         <option>Unable to Attend</option>
       </select>
+
+      {attendance === "Attending" && (
+        <label className="block text-sm font-semibold text-gray-800">
+          Number of guests attending
+          <select
+            value={Math.min(confirmedGuest, maxGuest)}
+            onChange={(event) => setConfirmedGuest(Number(event.target.value))}
+            disabled={!guest?.rsvp_token}
+            className="mt-2 w-full rounded-xl border bg-white p-4 text-gray-900 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {Array.from({ length: maxGuest }, (_, index) => index + 1).map((count) => (
+              <option key={count} value={count}>
+                {count} {count === 1 ? "person" : "people"}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
       <textarea
         rows={5}
