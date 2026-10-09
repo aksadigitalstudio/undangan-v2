@@ -1,11 +1,22 @@
 import { NextRequest } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import { getDisplayName } from "@/lib/displayNames";
-import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
+
+function createPublicClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+  if (!url || !key) throw new Error("Supabase public credentials are not configured.");
+
+  return createClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
 
 function escapeHtml(value: string) {
   return value
@@ -62,23 +73,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return new Response("Not found", { status: 404 });
   }
 
-  const admin = createAdminClient();
-  const { data: guest } = await admin
-    .from("guests")
-    .select("invitation_id")
-    .eq("rsvp_token", token)
-    .maybeSingle();
-
-  if (!guest) {
-    return new Response("Not found", { status: 404 });
-  }
-
-  const { data: invitation } = await admin
-    .from("invitations")
-    .select("slug, groom_name, bride_name, updated_at, sections")
-    .eq("id", guest.invitation_id)
-    .eq("status", "Published")
-    .maybeSingle();
+  const { data: previews } = await createPublicClient()
+    .rpc("get_share_preview", { p_rsvp_token: token });
+  const invitation = previews?.[0] ?? null;
 
   if (!invitation) {
     return new Response("Not found", { status: 404 });
@@ -89,7 +86,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const couple = `${groom} & ${bride}`.trim();
   const title = `The Wedding of ${couple} | AKSA Digital Studio`;
   const description = `With joy, we invite you to celebrate ${couple}. Open the invitation for event details and RSVP.`;
-  const imageVersion = version ?? (invitation.updated_at ? String(new Date(invitation.updated_at).getTime()) : "1");
+  const imageVersion = version && /^\d{1,16}$/.test(version) ? version : "1";
   const imageParams = new URLSearchParams({ v: imageVersion });
   if (nonce && /^[a-z0-9_-]{8,}$/i.test(nonce)) imageParams.set("nonce", nonce);
 
