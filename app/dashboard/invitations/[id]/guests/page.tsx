@@ -218,6 +218,11 @@ async function importGuestFile(event: ChangeEvent<HTMLInputElement>) {
       return;
     }
 
+    if (!Number.isInteger(maxGuest) || maxGuest < 1 || maxGuest > 5) {
+      alert("Jumlah tamu per undangan harus antara 1 sampai 5 orang.");
+      return;
+    }
+
     const slug = guestName
       .toLowerCase()
       .replace(/\s+/g, "-");
@@ -407,6 +412,22 @@ async function updateRSVP(
 
   loadGuests(invitationId);
 }
+
+async function updateConfirmedGuest(guest: Guest, value: number) {
+  const confirmedGuest = Math.min(5, guest.max_guest, Math.max(0, value));
+  const { error } = await supabase
+    .from("guests")
+    .update({ confirmed_guest: confirmedGuest })
+    .eq("id", guest.id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadGuests(invitationId);
+}
+
 const filteredGuests = guests.filter((guest) =>
   guest.guest_name
     .toLowerCase()
@@ -796,6 +817,9 @@ const { error } = await supabase
 >
             <option value={1}>1 Orang</option>
             <option value={2}>2 Orang</option>
+            <option value={3}>3 Orang</option>
+            <option value={4}>4 Orang</option>
+            <option value={5}>5 Orang</option>
           </select>
 
 <button
@@ -937,17 +961,15 @@ onChange={(e) =>
 </td>
 <td className="p-4">
 <select
-  defaultValue={guest.confirmed_guest}
+  value={guest.confirmed_guest}
+  onChange={(event) => void updateConfirmedGuest(guest, Number(event.target.value))}
     disabled={guest.rsvp_status !== "attending"}
     className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-black disabled:bg-gray-100 disabled:text-gray-400"
   >
     <option value={0}>0</option>
-
-    <option value={1}>1</option>
-
-    {guest.max_guest >= 2 && (
-      <option value={2}>2</option>
-    )}
+    {Array.from({ length: Math.min(guest.max_guest, 5) }, (_, index) => index + 1).map((count) => (
+      <option key={count} value={count}>{count}</option>
+    ))}
   </select>
 </td>
 <td className="p-4">

@@ -96,8 +96,8 @@ export function prepareGuestImport(
     }
 
     const maxGuest = guestCountValue ? Number(guestCountValue) : 1;
-    if (!Number.isInteger(maxGuest) || maxGuest < 1 || maxGuest > 10) {
-      issues.push({ rowNumber, message: "Jumlah tamu harus berupa angka 1 sampai 10." });
+    if (!Number.isInteger(maxGuest) || maxGuest < 1 || maxGuest > 5) {
+      issues.push({ rowNumber, message: "Jumlah tamu harus berupa angka 1 sampai 5." });
       return;
     }
 
