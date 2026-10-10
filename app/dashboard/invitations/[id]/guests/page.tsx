@@ -33,6 +33,7 @@ interface Guest {
   max_guest: number;
   slug: string;
   rsvp_token: string;
+  share_code: string;
   check_in_token: string | null;
   checked_in_at: string | null;
   checked_in_guest_count: number | null;
@@ -281,40 +282,38 @@ setShowForm(false);
 
 loadGuests(invitationId);
   }
-function getInvitationLink(rsvpToken: string, freshPreview = false) {
-  const revision = invitation?.updated_at
-    ? new Date(invitation.updated_at).getTime()
-    : NaN;
-  const version = Number.isFinite(revision) ? `&v=${revision}` : "";
-  const shareNonce = freshPreview
-    ? `&share=${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`
-    : "";
-  return `${window.location.origin}/${invitation?.slug ?? "invitation"}/share/${rsvpToken}?v=${version ? version.slice(3) : "1"}${shareNonce}`;
+function getInvitationLink(rsvpToken: string) {
+  const guest = guests.find((item) => item.rsvp_token === rsvpToken);
+  const code = guest?.share_code;
+
+  if (!code || !invitation?.slug) return "";
+
+  return `${window.location.origin}/${invitation.slug}/g/${code}`;
 }
 
-function getShareMessage(guest: Guest, freshPreview = false) {
+function getShareMessage(guest: Guest) {
   return buildWhatsAppShareMessage(shareTemplateId, {
     guestName: guest.guest_name,
     groomName: displayGroomName,
     brideName: displayBrideName,
     weddingDate: invitation?.wedding_date ?? null,
-    invitationLink: getInvitationLink(guest.rsvp_token, freshPreview),
+    invitationLink: getInvitationLink(guest.rsvp_token),
   });
 }
 
 async function copyShareMessage(guest: Guest) {
-  await navigator.clipboard.writeText(getShareMessage(guest, true));
+  await navigator.clipboard.writeText(getShareMessage(guest));
   alert("Pesan undangan berhasil disalin.");
 }
 
 async function copyInvitationLink(guest: Guest) {
-  await navigator.clipboard.writeText(getInvitationLink(guest.rsvp_token, true));
+  await navigator.clipboard.writeText(getInvitationLink(guest.rsvp_token));
   alert("Link undangan berhasil disalin.");
 }
 
 function openWhatsApp(guest: Guest) {
   window.open(
-    `https://wa.me/?text=${encodeURIComponent(getShareMessage(guest, true))}`,
+    `https://wa.me/?text=${encodeURIComponent(getShareMessage(guest))}`,
     "_blank"
   );
 }
