@@ -27,6 +27,16 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#039;");
 }
 
+function getSocialImage(value: string | null | undefined, fallback: string, version: string, nonce: string | null) {
+  const source = value?.trim();
+  if (!source || !/^https?:\/\//i.test(source)) return fallback;
+
+  const image = new URL(source);
+  image.searchParams.set("og", version);
+  if (nonce) image.searchParams.set("share", nonce);
+  return image.toString();
+}
+
 function page(title: string, description: string, image: string, destination: string, canonical: string) {
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
@@ -56,7 +66,7 @@ function page(title: string, description: string, image: string, destination: st
     <meta name="twitter:title" content="${safeTitle}" />
     <meta name="twitter:description" content="${safeDescription}" />
     <meta name="twitter:image" content="${safeImage}" />
-    <meta http-equiv="refresh" content="0;url=${safeDestination}" />
+    <script>window.location.replace(${JSON.stringify(destination).replace(/</g, "\\u003c")});</script>
   </head>
   <body>
     <p>Opening invitation… <a href="${safeDestination}">Continue</a></p>
@@ -95,7 +105,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
   const canonical = `${siteUrl}/share/${token}?${shareParams.toString()}`;
   const destination = `${siteUrl}/${invitation.slug}?to=${token}&${shareParams.toString()}`;
-  const image = `${siteUrl}/${invitation.slug}/opengraph-image?${imageParams.toString()}`;
+  const imageFallback = `${siteUrl}/${invitation.slug}/opengraph-image?${imageParams.toString()}`;
+  const image = getSocialImage(invitation.hero_background, imageFallback, imageVersion, nonce);
 
   return new Response(page(title, description, image, destination, canonical), {
     headers: {
