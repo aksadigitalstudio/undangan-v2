@@ -69,7 +69,7 @@ export async function GET(
   const previewVersion = /^\d{1,16}$/.test(request.nextUrl.searchParams.get("p") ?? "")
     ? request.nextUrl.searchParams.get("p")!
     : "1";
-  const canonical = `${siteUrl}/${slug}/g/${code}?p=${previewVersion}`;
+  const canonical = `${siteUrl}${request.nextUrl.pathname}?p=${previewVersion}`;
   const destination = `${siteUrl}/${slug}?guest=${encodeURIComponent(code)}`;
 
   return new Response(`<!doctype html>

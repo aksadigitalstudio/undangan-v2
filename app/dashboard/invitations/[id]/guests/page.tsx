@@ -294,7 +294,7 @@ function getInvitationLink(rsvpToken: string) {
     ? new Date(invitation.updated_at).getTime() + 1
     : 2;
 
-  return `${window.location.origin}/${invitation.slug}/g/${code}?p=${previewVersion}`;
+  return `${window.location.origin}/${invitation.slug}/i/${code}?p=${previewVersion}`;
 }
 
 function getShareMessage(guest: Guest) {
