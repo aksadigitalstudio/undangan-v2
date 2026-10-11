@@ -1,6 +1,7 @@
 import TemplateRenderer from "@/components/templates/TemplateRenderer";
 import DecorLayer from "@/components/DecorLayer";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { getDisplayName } from "@/lib/displayNames";
@@ -76,6 +77,10 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default async function InvitationPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const query = await searchParams;
+  const cookieStore = await cookies();
+  const tokenFromUrl = /^[0-9a-f-]{36}$/i.test(query.to ?? "") ? query.to : null;
+  const tokenFromShortLink = cookieStore.get(`aksa_guest_${slug}`)?.value ?? null;
+  const guestToken = tokenFromUrl ?? (/^[0-9a-f-]{36}$/i.test(tokenFromShortLink) ? tokenFromShortLink : null);
   const supabase = await createClient();
   const publicInvitations = createAdminClient();
 
@@ -96,16 +101,16 @@ export default async function InvitationPage({ params, searchParams }: Props) {
 
   let guest = null;
 
-  if (query.to) {
+  if (guestToken) {
     const { data: guestData } = await supabase.rpc("get_guest_rsvp", {
       p_invitation_id: data.id,
-      p_rsvp_token: query.to,
+      p_rsvp_token: guestToken,
     });
 
     const matchedGuest = guestData?.[0];
 
     if (matchedGuest) {
-      guest = { ...matchedGuest, rsvp_token: query.to };
+      guest = { ...matchedGuest, rsvp_token: guestToken };
     }
   }
 

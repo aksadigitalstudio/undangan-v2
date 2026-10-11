@@ -67,14 +67,21 @@ export async function GET(
   const title = `The Wedding of ${couple}${date ? ` · ${date}` : ""}`;
   const description = "Digital Invitation by AKSA Digital Studio";
   const canonical = `${siteUrl}/${slug}/g/${code}`;
-  const destination = `${siteUrl}/${slug}?to=${invitation.rsvp_token}`;
   const userAgent = request.headers.get("user-agent") ?? "";
   const isPreviewCrawler = /facebookexternalhit|facebot|meta-externalagent|meta-externalfetcher/i.test(userAgent);
 
   // Browsers receive a real HTTP redirect, so the RSVP token always reaches
   // the invitation. Preview bots receive only this small metadata document.
   if (!isPreviewCrawler) {
-    return NextResponse.redirect(destination, 307);
+    const response = NextResponse.redirect(new URL(`/${slug}`, request.url), 307);
+    response.cookies.set(`aksa_guest_${slug}`, invitation.rsvp_token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 30,
+      path: `/${slug}`,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    return response;
   }
 
   return new Response(`<!doctype html>
@@ -94,7 +101,7 @@ export async function GET(
     <meta name="twitter:description" content="${description}" />
   </head>
   <body>
-    <p>Opening invitation… <a href="${escapeHtml(destination)}">Continue</a></p>
+    <p>Open this personal invitation in a browser to continue.</p>
   </body>
 </html>`, {
     headers: {
