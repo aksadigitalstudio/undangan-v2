@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getDisplayName } from "@/lib/displayNames";
 
@@ -68,7 +68,14 @@ export async function GET(
   const description = "Digital Invitation by AKSA Digital Studio";
   const canonical = `${siteUrl}/${slug}/g/${code}`;
   const destination = `${siteUrl}/${slug}?to=${invitation.rsvp_token}`;
-  const redirectScript = JSON.stringify(destination).replace(/</g, "\\u003c");
+  const userAgent = request.headers.get("user-agent") ?? "";
+  const isPreviewCrawler = /facebookexternalhit|facebot|meta-externalagent|meta-externalfetcher/i.test(userAgent);
+
+  // Browsers receive a real HTTP redirect, so the RSVP token always reaches
+  // the invitation. Preview bots receive only this small metadata document.
+  if (!isPreviewCrawler) {
+    return NextResponse.redirect(destination, 307);
+  }
 
   return new Response(`<!doctype html>
 <html lang="en">
@@ -85,7 +92,6 @@ export async function GET(
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${description}" />
-    <script>window.location.replace(${redirectScript});</script>
   </head>
   <body>
     <p>Opening invitation… <a href="${escapeHtml(destination)}">Continue</a></p>
