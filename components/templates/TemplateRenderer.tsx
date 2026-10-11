@@ -28,6 +28,13 @@ export default function TemplateRenderer({
   // and closing). The formal introduction and event details retain full names.
   const invitationForContent = withParentTitles(invitation, sections);
   const invitationForDisplay = withDisplayNames(invitationForContent, sections);
+  // A personal guest name belongs to the cover only. The rest of the
+  // invitation keeps using the invitation data so formal names and content
+  // are not altered by a recipient-specific link.
+  const invitationForCover = {
+    ...invitationForDisplay,
+    guest_name: guest?.guest_name ?? invitationForDisplay.guest_name,
+  };
   // Keep the gift choices independent. Templates that only support a bank
   // transfer receive empty bank data when it is turned off, while templates
   // with an address option can still render the delivery details.
@@ -63,7 +70,7 @@ export default function TemplateRenderer({
 
 return (
   <>
-    {showCover && (canvasDocument ? <InvitationCanvasCover document={canvasDocument} /> : <template.Cover invitation={invitationForDisplay} />)}
+    {showCover && (canvasDocument ? <InvitationCanvasCover document={canvasDocument} /> : <template.Cover invitation={invitationForCover} />)}
 
 {sections?.hero !== false && (
   <template.Hero invitation={invitationForDisplay} />
