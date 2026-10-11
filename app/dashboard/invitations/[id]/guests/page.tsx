@@ -288,7 +288,13 @@ function getInvitationLink(rsvpToken: string) {
 
   if (!code || !invitation?.slug) return "";
 
-  return `${window.location.origin}/${invitation.slug}/g/${code}`;
+  // A versioned, compact query gives social apps a new preview cache entry
+  // whenever the invitation is edited, while the personal URL stays concise.
+  const previewVersion = invitation.updated_at
+    ? new Date(invitation.updated_at).getTime()
+    : 1;
+
+  return `${window.location.origin}/${invitation.slug}/g/${code}?p=${previewVersion}`;
 }
 
 function getShareMessage(guest: Guest) {
