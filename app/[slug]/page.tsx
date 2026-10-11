@@ -1,7 +1,6 @@
 import TemplateRenderer from "@/components/templates/TemplateRenderer";
 import DecorLayer from "@/components/DecorLayer";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { defaultSections } from "@/lib/defaultSections";
 import { themes } from "@/lib/themes";
 import { getDisplayName } from "@/lib/displayNames";
@@ -10,7 +9,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ to?: string; v?: string; share?: string }>;
+  searchParams: Promise<{ to?: string; guest?: string; v?: string; share?: string }>;
 }
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aksadigitalstudio.com";
@@ -77,14 +76,8 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default async function InvitationPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const query = await searchParams;
-  const cookieStore = await cookies();
   const tokenFromUrl = /^[0-9a-f-]{36}$/i.test(query.to ?? "") ? query.to : null;
-  const tokenFromShortLink = cookieStore.get(`aksa_guest_${slug}`)?.value;
-  const guestToken = tokenFromUrl ?? (
-    tokenFromShortLink && /^[0-9a-f-]{36}$/i.test(tokenFromShortLink)
-      ? tokenFromShortLink
-      : null
-  );
+  const shortGuestCode = /^[a-z0-9]{10}$/i.test(query.guest ?? "") ? query.guest : null;
   const supabase = await createClient();
   const publicInvitations = createAdminClient();
 
@@ -101,6 +94,18 @@ export default async function InvitationPage({ params, searchParams }: Props) {
         <h1 className="text-2xl font-bold">Undangan tidak ditemukan</h1>
       </main>
     );
+  }
+
+  let guestToken = tokenFromUrl;
+
+  if (!guestToken && shortGuestCode) {
+    const { data: shortLinkData } = await supabase.rpc("get_guest_short_share_preview", {
+      p_slug: slug,
+      p_share_code: shortGuestCode,
+    });
+
+    const token = shortLinkData?.[0]?.rsvp_token;
+    guestToken = typeof token === "string" && /^[0-9a-f-]{36}$/i.test(token) ? token : null;
   }
 
   let guest = null;

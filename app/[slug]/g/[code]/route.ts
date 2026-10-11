@@ -70,18 +70,12 @@ export async function GET(
   const userAgent = request.headers.get("user-agent") ?? "";
   const isPreviewCrawler = /facebookexternalhit|facebot|meta-externalagent|meta-externalfetcher/i.test(userAgent);
 
-  // Browsers receive a real HTTP redirect, so the RSVP token always reaches
-  // the invitation. Preview bots receive only this small metadata document.
+  // Browsers receive a real HTTP redirect with the same compact code. The
+  // invitation page resolves it on the server before rendering the cover,
+  // so the guest name is reliable even when cookies are blocked by an in-app
+  // browser. Preview bots receive only this small metadata document.
   if (!isPreviewCrawler) {
-    const response = NextResponse.redirect(new URL(`/${slug}`, request.url), 307);
-    response.cookies.set(`aksa_guest_${slug}`, invitation.rsvp_token, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 30,
-      path: `/${slug}`,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
-    return response;
+    return NextResponse.redirect(new URL(`/${slug}?guest=${encodeURIComponent(code)}`, request.url), 307);
   }
 
   return new Response(`<!doctype html>
