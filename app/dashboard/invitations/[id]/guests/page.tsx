@@ -291,8 +291,8 @@ function getInvitationLink(rsvpToken: string) {
   // A versioned, compact query gives social apps a new preview cache entry
   // whenever the invitation is edited, while the personal URL stays concise.
   const previewVersion = invitation.updated_at
-    ? new Date(invitation.updated_at).getTime()
-    : 1;
+    ? new Date(invitation.updated_at).getTime() + 1
+    : 2;
 
   return `${window.location.origin}/${invitation.slug}/g/${code}?p=${previewVersion}`;
 }

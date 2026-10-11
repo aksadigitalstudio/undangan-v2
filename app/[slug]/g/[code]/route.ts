@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getDisplayName } from "@/lib/displayNames";
 
@@ -66,21 +66,11 @@ export async function GET(
   const date = formatDate(invitation.wedding_date);
   const title = `The Wedding of ${couple}${date ? ` · ${date}` : ""}`;
   const description = "Digital Invitation by AKSA Digital Studio";
-  const canonical = `${siteUrl}/${slug}/g/${code}`;
   const previewVersion = /^\d{1,16}$/.test(request.nextUrl.searchParams.get("p") ?? "")
     ? request.nextUrl.searchParams.get("p")!
     : "1";
-  const image = `${siteUrl}/${slug}/opengraph-image?v=${encodeURIComponent(previewVersion)}`;
-  const userAgent = request.headers.get("user-agent") ?? "";
-  const isPreviewCrawler = /facebookexternalhit|facebot|meta-externalagent|meta-externalfetcher/i.test(userAgent);
-
-  // Browsers receive a real HTTP redirect with the same compact code. The
-  // invitation page resolves it on the server before rendering the cover,
-  // so the guest name is reliable even when cookies are blocked by an in-app
-  // browser. Preview bots receive only this small metadata document.
-  if (!isPreviewCrawler) {
-    return NextResponse.redirect(new URL(`/${slug}?guest=${encodeURIComponent(code)}`, request.url), 307);
-  }
+  const canonical = `${siteUrl}/${slug}/g/${code}?p=${previewVersion}`;
+  const destination = `${siteUrl}/${slug}?guest=${encodeURIComponent(code)}`;
 
   return new Response(`<!doctype html>
 <html lang="en">
@@ -94,19 +84,13 @@ export async function GET(
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${description}" />
     <meta property="og:url" content="${escapeHtml(canonical)}" />
-    <meta property="og:image" content="${escapeHtml(image)}" />
-    <meta property="og:image:secure_url" content="${escapeHtml(image)}" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${escapeHtml(title)}" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${description}" />
-    <meta name="twitter:image" content="${escapeHtml(image)}" />
+    <script>window.location.replace(${JSON.stringify(destination).replace(/</g, "\\u003c")});</script>
   </head>
   <body>
-    <p>Open this personal invitation in a browser to continue.</p>
+    <p>Opening invitation… <a href="${escapeHtml(destination)}">Continue</a></p>
   </body>
 </html>`, {
     headers: {
