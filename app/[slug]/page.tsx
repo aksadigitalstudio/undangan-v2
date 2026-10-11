@@ -79,8 +79,12 @@ export default async function InvitationPage({ params, searchParams }: Props) {
   const query = await searchParams;
   const cookieStore = await cookies();
   const tokenFromUrl = /^[0-9a-f-]{36}$/i.test(query.to ?? "") ? query.to : null;
-  const tokenFromShortLink = cookieStore.get(`aksa_guest_${slug}`)?.value ?? null;
-  const guestToken = tokenFromUrl ?? (/^[0-9a-f-]{36}$/i.test(tokenFromShortLink) ? tokenFromShortLink : null);
+  const tokenFromShortLink = cookieStore.get(`aksa_guest_${slug}`)?.value;
+  const guestToken = tokenFromUrl ?? (
+    tokenFromShortLink && /^[0-9a-f-]{36}$/i.test(tokenFromShortLink)
+      ? tokenFromShortLink
+      : null
+  );
   const supabase = await createClient();
   const publicInvitations = createAdminClient();
 
@@ -101,7 +105,7 @@ export default async function InvitationPage({ params, searchParams }: Props) {
 
   let guest = null;
 
-  if (guestToken) {
+  if (guestToken !== null) {
     const { data: guestData } = await supabase.rpc("get_guest_rsvp", {
       p_invitation_id: data.id,
       p_rsvp_token: guestToken,
